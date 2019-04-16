@@ -31,7 +31,7 @@ export default class HomePage extends React.PureComponent {
         {
           background: '#e37898',
           color: '#ffffff',
-          link: '/',
+          link: '/brand',
           date: 'UPDATED 3 DAYS AGO',
           title: 'BrandBox',
           description:
