@@ -243,7 +243,7 @@ Addressed here https://github.com/imagemin/imagemin-pngquant/issues/32 **_Needs 
 
   Addressed here https://github.com/imagemin/imagemin-pngquant/issues/32, but throws warnings (below)
 
-  In ./app/components/Header/banner.jpg
+  In ./app/components/Index/banner.jpg
   Module build failed: Error: dyld: Library not loaded: /usr/local/opt/libpng/lib/libpng16.16.dylib
   Referenced from: ~/react-boilerplate/node_modules/mozjpeg/vendor/cjpeg
   Reason: image not found
@@ -253,15 +253,15 @@ Addressed here https://github.com/imagemin/imagemin-pngquant/issues/32 **_Needs 
 
 - Warning: Observed on `npm start`
 
-  WARNING in ./app/components/Header/banner.jpg
+  WARNING in ./app/components/Index/banner.jpg
   DEPRECATED. Configure gifsicle's interlaced option in it's own options. (gifsicle.interlaced)
-  @ ./app/components/Header/index.js 47:0-34
+  @ ./app/components/Index/index.js 47:0-34
   @ ./app/containers/App/index.js
   @ ./app/app.js
   @ multi eventsource-polyfill webpack-hot-middleware/client?reload=true ./app/app.js
-  WARNING in ./app/components/Header/banner.jpg
+  WARNING in ./app/components/Index/banner.jpg
   DEPRECATED. Configure optipng's optimizationLevel option in it's own options. (optipng.optimizationLevel)
-  @ ./app/components/Header/index.js 47:0-34
+  @ ./app/components/Index/index.js 47:0-34
   @ ./app/containers/App/index.js
   @ ./app/app.js
   @ multi eventsource-polyfill webpack-hot-middleware/client?reload=true ./app/app.js

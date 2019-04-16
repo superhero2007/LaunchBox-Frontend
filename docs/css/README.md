@@ -48,7 +48,7 @@ However, you can integrate the following by using the guides below:
 ## styled-components
 
 Below creates two styled react components (`<Title>`, `<Wrapper>`) and renders them
-as children of the `<Header>` component:
+as children of the `<Index>` component:
 
 ```jsx
 import React from 'react';
