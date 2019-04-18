@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SubHeader = styled.div`
+const Title = styled.div`
   font-family: Muli;
   font-style: normal;
   font-weight: 800;
@@ -9,4 +9,4 @@ const SubHeader = styled.div`
   color: #3d2f3d;
 `;
 
-export default SubHeader;
+export default Title;

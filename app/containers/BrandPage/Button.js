@@ -10,7 +10,7 @@ const Button = props => (
 );
 
 Button.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.any,
   value: PropTypes.string,
   color: PropTypes.string,
 };

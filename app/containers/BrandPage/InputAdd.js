@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 const InputAdd = styled.button`
+  padding-top: 0;
   border: 2px solid #3166ed;
   box-sizing: border-box;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
-  margin-left: 24px;
+  margin-left: 16px;
   font-family: Muli;
   font-style: normal;
   font-weight: ${props => props.weight};

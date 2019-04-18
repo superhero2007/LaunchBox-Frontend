@@ -8,7 +8,7 @@ const InputWrapper = styled.div`
   height: 56px;
 
   & + & {
-    margin-left: 24px;
+    margin-left: 16px;
   }
 `;
 
