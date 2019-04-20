@@ -8,7 +8,7 @@ import DropdownSearchWrapper from './DropdownSearchWrapper';
 import DropdownSearchIcon from './DropdownSearchIcon';
 import DropdownSearch from './DropdownSearch';
 
-class Currency extends React.Component {
+class Vat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +26,7 @@ class Currency extends React.Component {
     return (
       <Wrapper>
         <DropdownButton opened={this.state.opened} onClick={this.toggleMenu}>
-          USD $
+          VAT 24%
         </DropdownButton>
         {this.state.opened && (
           <DropdownContent>
@@ -48,4 +48,4 @@ class Currency extends React.Component {
   }
 }
 
-export default Currency;
+export default Vat;

@@ -10,12 +10,17 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import SubHeader from 'components/SubHeader';
 import Table from 'components/Table';
+import Header from 'components/Header';
 import Footer from 'components/Footer';
+import Wrapper from './Wrapper';
+import Add from './Add';
+import AddWrapper from './AddWrapper';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class BizPage extends React.PureComponent {
+class BizPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -178,29 +183,78 @@ export default class BizPage extends React.PureComponent {
           },
         ],
       },
+      subHeader: [
+        {
+          title: 'Employees',
+          value: '-$29,350.00',
+          color: '#e37898',
+          opened: true,
+        },
+        {
+          title: 'Contractors',
+          value: '-$29,350.00',
+          color: '#e37898',
+          opened: false,
+        },
+        {
+          title: 'Recurring Payments',
+          value: '-$29,350.00',
+          color: '#27C478',
+          opened: false,
+        },
+        {
+          title: 'VAT',
+          value: '-$29,350.00',
+          color: '#e37898',
+          opened: false,
+        },
+      ],
     };
   }
+
+  toggleElement = selected => {
+    this.setState(state => {
+      const subHeader = state.subHeader.slice(0);
+      const filterItem = subHeader.find(
+        element => element.title === selected.title,
+      );
+      filterItem.opened = !filterItem.opened;
+      return { subHeader };
+    });
+  };
+
+  tableList = () =>
+    this.state.subHeader.map(element => (
+      <div key={element.title}>
+        <SubHeader
+          title={element.title}
+          value={element.value}
+          color={element.color}
+          opened={element.opened}
+          toggle={() => this.toggleElement(element)}
+        />
+        {element.opened && <Table data={this.state.table} />}
+      </div>
+    ));
 
   render() {
     return (
       <div>
-        <SubHeader
-          title="Employees"
-          value="-$29,350.00"
-          color="#e37898"
-          opened
-        />
-        <Table data={this.state.table} />
-        <SubHeader title="Contractors" value="-$29,350.00" color="#e37898" />
-        <SubHeader
-          title="Recurring Payments"
-          value="-$29,350.00"
-          color="#27C478"
-        />
-        <SubHeader title="VAT" value="-$29,350.00" color="#e37898" />
-        <SubHeader new />
+        <Header route={this.props.location.pathname} />
+        <Wrapper>
+          {this.tableList()}
+          <AddWrapper>
+            <Add>Add category</Add>
+          </AddWrapper>
+        </Wrapper>
         <Footer />
       </div>
     );
   }
 }
+
+BizPage.propTypes = {
+  location: PropTypes.object,
+};
+
+export default BizPage;

@@ -8,6 +8,7 @@ const Title = styled.div`
   line-height: normal;
   color: #58454b;
   position: relative;
+  cursor: pointer;
 
   &::before {
     content: '';

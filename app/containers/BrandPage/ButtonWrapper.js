@@ -11,6 +11,7 @@ const ButtonWrapper = styled.button`
   color: #ffffff;
   padding: 15px;
   cursor: pointer;
+  position: relative;
 
   span + span {
     margin-left: 12px;
@@ -18,6 +19,12 @@ const ButtonWrapper = styled.button`
 
   & + & {
     margin-left: 16px;
+  }
+
+  &:hover {
+    .button__closer {
+      display: flex;
+    }
   }
 `;
 

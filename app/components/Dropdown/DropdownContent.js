@@ -7,7 +7,7 @@ const DropdownContent = styled.div`
   min-width: 150px;
   z-index: 1;
   right: 0;
-  padding: 10px 23px;
+  padding: 10px 0;
 
   .dropdown:hover & {
     display: block;

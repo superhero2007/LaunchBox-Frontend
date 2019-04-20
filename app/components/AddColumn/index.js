@@ -26,7 +26,7 @@ class AddColumn extends React.Component {
   };
 
   addColumn = () => {
-    if (this.state.addingStatus) {
+    if (!this.state.addingStatus) {
       return (
         <AddNewButton onClick={this.updateAddingStatus}>ADD NEW +</AddNewButton>
       );

@@ -10,11 +10,13 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import Header from 'components/Header';
 import Panel from 'components/Panel';
 import Panels from './Panels';
 
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
+class HomePage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,9 +76,18 @@ export default class HomePage extends React.PureComponent {
   render() {
     const { list } = this.state;
     return (
-      <Panels id="panels" className="panels">
-        {this.panelList(list)}
-      </Panels>
+      <div>
+        <Header route={this.props.location.pathname} />
+        <Panels id="panels" className="panels">
+          {this.panelList(list)}
+        </Panels>
+      </div>
     );
   }
 }
+
+HomePage.propTypes = {
+  location: PropTypes.object,
+};
+
+export default HomePage;

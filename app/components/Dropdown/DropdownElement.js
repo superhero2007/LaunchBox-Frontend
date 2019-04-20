@@ -7,10 +7,14 @@ const DropdownElement = styled.div`
   font-size: 15px;
   line-height: normal;
   color: #58454b;
-  padding: 10px 0;
+  padding: 10px 23px;
   display: block;
   text-align: left;
   cursor: pointer;
+
+  &:hover {
+    background: #f0edee;
+  }
 `;
 
 export default DropdownElement;
