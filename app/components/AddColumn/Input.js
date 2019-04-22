@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Input = styled.input`
-  padding: 9px ${props => props.paddingLeft}px 7px;
+  padding: 9px 8px 7px ${props => props.paddingLeft}px;
   width: 100%;
   text-align: ${props => props.align};
   border: 1px solid rgba(152, 178, 246, 0.2);

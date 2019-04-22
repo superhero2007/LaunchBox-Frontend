@@ -14,6 +14,7 @@ import Td from './Td';
 import Tf from './Tf';
 import Dropdown from './Dropdown';
 import Input from './Input';
+import Static from './Static';
 import ModalDialog from './ModalDialog';
 
 class Table extends React.Component {
@@ -35,20 +36,46 @@ class Table extends React.Component {
       </Th>
     ));
 
+  format = (defaultValue, header) => {
+    if (defaultValue === 0) {
+      return '$0';
+    }
+    let value = defaultValue;
+    if (header === 'salary' || header === 'total' || header === 'other') {
+      const staticValue = Math.abs(value)
+        .toFixed(2)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      value = value > 0 ? `$${staticValue}` : `-$${staticValue}`;
+    }
+    return value;
+  };
+
   body = () =>
     this.state.body.map(bodyElement => (
-      <Tr paddingLeft={38} key={bodyElement.id}>
+      <Tr paddingLeft={38} key={bodyElement.id} className="table__tr">
         {this.state.header.map(element => (
           <Td
             align={element.align}
             key={element.name + bodyElement.id}
             width={element.width}
           >
+            {element.type === 'static' && (
+              <Static align={element.align}>
+                {this.format(
+                  bodyElement.salary + bodyElement.other,
+                  element.name,
+                )}
+              </Static>
+            )}
             {(element.type === 'text' || element.type === 'date') && (
               <Input
-                defaultValue={bodyElement[element.name]}
+                value={this.format(bodyElement[element.name], element.name)}
                 type="text"
                 align={element.align}
+                onChange={evt =>
+                  this.props.changeValue(bodyElement.id, evt, element.name)
+                }
               />
             )}
             {element.type === 'image' && (
@@ -62,10 +89,31 @@ class Table extends React.Component {
       </Tr>
     ));
 
+  footer = type => {
+    if (type === 'name') {
+      return 'Total';
+    }
+    if (type === 'salary' || type === 'other') {
+      let value = 0;
+      for (let i = 0; i < this.state.body.length; i += 1) {
+        value += this.state.body[i][type];
+      }
+      return this.format(value, type);
+    }
+    if (type === 'total') {
+      let value = 0;
+      for (let i = 0; i < this.state.body.length; i += 1) {
+        value += this.state.body[i].salary + this.state.body[i].other;
+      }
+      return this.format(value, type);
+    }
+    return '';
+  };
+
   footerContent = () =>
     this.state.header.map(element => (
       <Tf align={element.align} key={element.name} width={element.width}>
-        {element.footer && element.footer}
+        {this.footer(element.name)}
       </Tf>
     ));
 
@@ -123,6 +171,7 @@ class Table extends React.Component {
 
 Table.propTypes = {
   data: PropTypes.object,
+  changeValue: PropTypes.func,
 };
 
 export default Table;

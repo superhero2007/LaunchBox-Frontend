@@ -15,6 +15,10 @@ const Th = styled.div`
   display: flex;
   align-items: center;
   padding: 0 4px;
+
+  &:hover {
+    color: #3166ed;
+  }
 `;
 
 export default Th;

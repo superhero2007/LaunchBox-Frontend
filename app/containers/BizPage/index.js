@@ -32,7 +32,6 @@ class BizPage extends React.PureComponent {
             type: 'text',
             sort: 1,
             width: '20%',
-            footer: 'Total',
             placeholder: 'Name',
           },
           {
@@ -41,7 +40,6 @@ class BizPage extends React.PureComponent {
             type: 'text',
             sort: -1,
             width: '10%',
-            footer: '-$29,350.00',
             placeholder: 'Salary, $',
           },
           {
@@ -50,16 +48,14 @@ class BizPage extends React.PureComponent {
             type: 'text',
             sort: 0,
             width: '10%',
-            footer: '$0',
             placeholder: 'Other, $',
           },
           {
             name: 'total',
             align: 'right',
-            type: 'text',
+            type: 'static',
             sort: 0,
             width: '10%',
-            footer: '-$29,350.00',
             placeholder: 'Total, $',
           },
           {
@@ -68,7 +64,6 @@ class BizPage extends React.PureComponent {
             type: 'image',
             sort: 0,
             width: '10%',
-            footer: false,
             placeholder: '',
           },
           {
@@ -77,7 +72,6 @@ class BizPage extends React.PureComponent {
             type: 'date',
             sort: 0,
             width: '10%',
-            footer: false,
             placeholder: 'Due Date',
           },
           {
@@ -86,7 +80,6 @@ class BizPage extends React.PureComponent {
             type: 'image',
             sort: 0,
             width: '10%',
-            footer: false,
             placeholder: '',
           },
           {
@@ -95,7 +88,6 @@ class BizPage extends React.PureComponent {
             type: 'image',
             sort: 0,
             width: '10%',
-            footer: false,
             placeholder: '',
           },
           {
@@ -104,7 +96,6 @@ class BizPage extends React.PureComponent {
             type: 'action',
             sort: 0,
             width: '10%',
-            footer: false,
             placeholder: '',
           },
         ],
@@ -112,9 +103,8 @@ class BizPage extends React.PureComponent {
           {
             id: 1,
             name: 'Alberto Conti',
-            salary: '-$4,500.00',
-            other: '$0',
-            total: '-$4,500.00',
+            salary: -4500,
+            other: 0,
             vat: true,
             'due date': '25.05.2019',
             billed: true,
@@ -124,9 +114,8 @@ class BizPage extends React.PureComponent {
           {
             id: 2,
             name: 'Roma Melnik',
-            salary: '-$5,600.00',
-            other: '$0',
-            total: '-$5,600.00',
+            salary: -5600,
+            other: 0,
             vat: true,
             'due date': '25.05.2019',
             billed: true,
@@ -136,9 +125,8 @@ class BizPage extends React.PureComponent {
           {
             id: 3,
             name: 'Cristian Dragos',
-            salary: '-$6,750.00',
-            other: '$0',
-            total: '-$6,750.00',
+            salary: -6750,
+            other: 0,
             vat: true,
             'due date': '25.05.2019',
             billed: true,
@@ -148,9 +136,8 @@ class BizPage extends React.PureComponent {
           {
             id: 4,
             name: 'Eugen Ciachir',
-            salary: '-$4,500.00',
-            other: '$0',
-            total: '-$4,500.00',
+            salary: -4500,
+            other: 0,
             vat: false,
             'due date': '25.05.2019',
             billed: true,
@@ -160,9 +147,8 @@ class BizPage extends React.PureComponent {
           {
             id: 5,
             name: 'Blane Fraser',
-            salary: '-$3,500.00',
-            other: '$0',
-            total: '-$3,500.00',
+            salary: -3500,
+            other: 0,
             vat: true,
             'due date': '25.05.2019',
             billed: true,
@@ -172,9 +158,9 @@ class BizPage extends React.PureComponent {
           {
             id: 6,
             name: 'Jay Fletcher',
-            salary: '-$4,500.00',
-            other: '$0',
-            total: '-$4,500.00',
+            salary: -4500,
+            other: 0,
+            total: -4500,
             vat: true,
             'due date': '25.05.2019',
             billed: true,
@@ -212,6 +198,27 @@ class BizPage extends React.PureComponent {
     };
   }
 
+  total = () => {
+    let value = 0;
+    for (let i = 0; i < this.state.table.body.length; i += 1) {
+      value += this.state.table.body[i].salary + this.state.table.body[i].other;
+    }
+    return this.format(value);
+  };
+
+  format = defaultValue => {
+    if (defaultValue === 0) {
+      return '$0';
+    }
+    let value = defaultValue;
+    const staticValue = Math.abs(value)
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    value = value > 0 ? `$${staticValue}` : `-$${staticValue}`;
+    return value;
+  };
+
   toggleElement = selected => {
     this.setState(state => {
       const subHeader = state.subHeader.slice(0);
@@ -223,17 +230,34 @@ class BizPage extends React.PureComponent {
     });
   };
 
+  updateValue = (id, value, column) => {
+    const updatedValue = value.target.value.replace(/[,$]+/g, '');
+    this.setState(state => {
+      const tableBody = state.table.body.slice(0);
+      const filterItem = tableBody.find(element => element.id === id);
+      filterItem[column] = parseFloat(updatedValue);
+      return {
+        table: {
+          head: state.table.head,
+          body: tableBody,
+        },
+      };
+    });
+  };
+
   tableList = () =>
     this.state.subHeader.map(element => (
       <div key={element.title}>
         <SubHeader
           title={element.title}
-          value={element.value}
+          value={this.total()}
           color={element.color}
           opened={element.opened}
           toggle={() => this.toggleElement(element)}
         />
-        {element.opened && <Table data={this.state.table} />}
+        {element.opened && (
+          <Table data={this.state.table} changeValue={this.updateValue} />
+        )}
       </div>
     ));
 

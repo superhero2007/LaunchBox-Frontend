@@ -13,6 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'components/Modal';
 import Header from 'components/Header';
+import IconElement from 'components/IconElement';
 import Wrapper from './Wrapper';
 import Title from './Title';
 import SubTitle from './SubTitle';
@@ -20,7 +21,6 @@ import ElementContainer from './ElementContainer';
 import SubContainer from './SubContainer';
 import Row from './Row';
 import Icon from './Icon';
-import IconElement from './IconElement';
 
 import Input from './Input';
 import InputAdd from './InputAdd';
@@ -53,6 +53,10 @@ class BrandPage extends React.PureComponent {
     this.setState({ type: null });
   };
 
+  closeModal = () => {
+    this.setState({ type: null });
+  };
+
   render() {
     return (
       <div>
@@ -61,7 +65,7 @@ class BrandPage extends React.PureComponent {
             <ModalDialog
               type={this.state.type}
               onAdd={this.addElement}
-              onClose={this.addElement}
+              onClose={this.closeModal}
             />
           </Modal>
         )}

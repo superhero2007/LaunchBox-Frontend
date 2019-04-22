@@ -5,7 +5,7 @@ const Tr = styled.div`
   display: flex;
   color: #58454b;
 
-  &:hover {
+  &.table__tr:hover {
     color: #3166ed;
   }
 `;
