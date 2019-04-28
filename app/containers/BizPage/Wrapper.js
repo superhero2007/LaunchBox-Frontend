@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  margin-top: 100px;
-  margin-bottom: 84px;
+  padding-top: 100px;
+  padding-bottom: 84px;
 `;
 
 export default Wrapper;

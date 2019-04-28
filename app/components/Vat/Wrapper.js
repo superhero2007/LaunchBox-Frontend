@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 136px;
+  width: 138px;
   position: relative;
   &:hover {
     background: #f0edee;

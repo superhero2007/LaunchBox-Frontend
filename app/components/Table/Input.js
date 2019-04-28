@@ -1,6 +1,8 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Input = styled.input`
+const InputElement = styled.input`
   padding: 9px 12px 7px;
   width: 100%;
   text-align: ${props => props.align};
@@ -15,5 +17,37 @@ const Input = styled.input`
     text-transform: capitalize;
   }
 `;
+
+class Input extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value });
+  }
+
+  handleChange = e => {
+    this.setState({ value: e.target.value });
+  };
+
+  render() {
+    return (
+      <InputElement
+        value={this.state.value}
+        onChange={this.handleChange}
+        onBlur={() => this.props.onChange(this.state.value)}
+      />
+    );
+  }
+}
+
+Input.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
 
 export default Input;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CheckImage from '../../images/check.png';
 import UncheckImage from '../../images/uncheck.png';
 import CheckWrapper from './CheckWrapper';
@@ -8,12 +9,13 @@ class Check extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: 0,
+      active: props.value,
     };
   }
 
   setActive = active => {
     this.setState({ active });
+    this.props.onClick(active);
   };
 
   render() {
@@ -22,16 +24,16 @@ class Check extends React.Component {
         <ImageWrapper
           color="rgba(49, 102, 237, 0.1)"
           hover="#3166ed"
-          onClick={() => this.setActive(1)}
-          className={this.state.active === 1 ? 'active' : ''}
+          onClick={() => this.setActive(true)}
+          className={this.state.active === true ? 'active' : ''}
         >
           <img src={CheckImage} alt="Check" />
         </ImageWrapper>
         <ImageWrapper
           color="rgba(227, 120, 152, 0.1)"
           hover="#e37898"
-          onClick={() => this.setActive(2)}
-          className={this.state.active === 2 ? 'active' : ''}
+          onClick={() => this.setActive(false)}
+          className={this.state.active === false ? 'active' : ''}
         >
           <img src={UncheckImage} alt="Check" />
         </ImageWrapper>
@@ -39,5 +41,10 @@ class Check extends React.Component {
     );
   }
 }
+
+Check.propTypes = {
+  value: PropTypes.bool,
+  onClick: PropTypes.func,
+};
 
 export default Check;

@@ -8,6 +8,13 @@ const Panels = styled.div`
   position: absolute;
   top: 100px;
   bottom: 0;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.9);
+    .panel {
+      opacity: 0.4;
+    }
+  }
 `;
 
 export default Panels;

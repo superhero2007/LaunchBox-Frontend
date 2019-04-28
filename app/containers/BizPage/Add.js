@@ -10,6 +10,7 @@ const Add = styled.div`
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #3166ed;
+  padding: 20px;
 
   &:hover {
     color: #ffffff;

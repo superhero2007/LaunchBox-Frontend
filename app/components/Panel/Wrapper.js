@@ -13,6 +13,10 @@ const Wrapper = styled(Link)`
   color: ${props => props.color};
   display: block;
   padding: 28px 38px 28px 24px;
+
+  &:hover {
+    opacity: 1 !important;
+  }
 `;
 
 export default Wrapper;

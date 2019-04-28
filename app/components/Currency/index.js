@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Wrapper from './Wrapper';
 import DropdownButton from './DropdownButton';
 import DropdownContent from './DropdownContent';
@@ -13,6 +14,8 @@ class Currency extends React.Component {
     super(props);
     this.state = {
       opened: false,
+      selectedCash: props.selectedCash,
+      currencyList: props.currencyList,
     };
   }
 
@@ -22,11 +25,33 @@ class Currency extends React.Component {
     }));
   };
 
+  selectCurrency = id => {
+    this.setState(state => ({
+      opened: !state.opened,
+      selectedCash: id,
+    }));
+    this.props.onSelectCurrency(id);
+  };
+
+  showCurrencies = () =>
+    this.state.currencyList.map(element => (
+      <DropdownElement
+        key={element.value}
+        onClick={() => this.selectCurrency(element.id)}
+      >
+        {element.label}
+      </DropdownElement>
+    ));
+
   render() {
     return (
       <Wrapper>
         <DropdownButton opened={this.state.opened} onClick={this.toggleMenu}>
-          USD $
+          {
+            this.state.currencyList.find(
+              value => value.id === this.state.selectedCash,
+            ).value
+          }
         </DropdownButton>
         {this.state.opened && (
           <DropdownContent>
@@ -35,11 +60,7 @@ class Currency extends React.Component {
               <DropdownSearch placeholder="Search" />
             </DropdownSearchWrapper>
             <DropdownElementWrapper>
-              <DropdownElement>USD, US Dollar, $</DropdownElement>
-              <DropdownElement>EUR, Euro, €</DropdownElement>
-              <DropdownElement>GBP, British Pound, £</DropdownElement>
-              <DropdownElement>AUD, Australian Dollar, $</DropdownElement>
-              <DropdownElement>CAD, Canadian Dollar, $</DropdownElement>
+              {this.showCurrencies()}
             </DropdownElementWrapper>
           </DropdownContent>
         )}
@@ -47,5 +68,11 @@ class Currency extends React.Component {
     );
   }
 }
+
+Currency.propTypes = {
+  selectedCash: PropTypes.number,
+  currencyList: PropTypes.array,
+  onSelectCurrency: PropTypes.func,
+};
 
 export default Currency;

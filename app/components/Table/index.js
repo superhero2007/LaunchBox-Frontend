@@ -1,9 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import {
+  createRecord,
+  updateRecord,
+  deleteRecord,
+} from 'containers/BizPage/actions';
 import Sort from 'components/Sort';
 import AddColumn from 'components/AddColumn';
 import Check from 'components/Check';
 import Modal from 'components/Modal';
+import Dropdown from 'components/Dropdown';
 import Wrapper from './Wrapper';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
@@ -12,7 +20,6 @@ import Tr from './Tr';
 import Th from './Th';
 import Td from './Td';
 import Tf from './Tf';
-import Dropdown from './Dropdown';
 import Input from './Input';
 import Static from './Static';
 import ModalDialog from './ModalDialog';
@@ -21,11 +28,18 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      header: props.data.header,
-      body: props.data.body,
+      header: props.header,
+      body: props.body,
       modal: false,
       selectedItem: null,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      header: nextProps.header,
+      body: nextProps.body,
+    });
   }
 
   header = () =>
@@ -38,7 +52,7 @@ class Table extends React.Component {
 
   format = (defaultValue, header) => {
     if (defaultValue === 0) {
-      return '$0';
+      return this.props.currencyLabel + 0;
     }
     let value = defaultValue;
     if (header === 'salary' || header === 'total' || header === 'other') {
@@ -46,18 +60,21 @@ class Table extends React.Component {
         .toFixed(2)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      value = value > 0 ? `$${staticValue}` : `-$${staticValue}`;
+      value =
+        value > 0
+          ? `${this.props.currencyLabel}${staticValue}`
+          : `-${this.props.currencyLabel}${staticValue}`;
     }
     return value;
   };
 
   body = () =>
     this.state.body.map(bodyElement => (
-      <Tr paddingLeft={38} key={bodyElement.id} className="table__tr">
+      <Tr paddingLeft={38} key={`tr${bodyElement.id}`} className="table__tr">
         {this.state.header.map(element => (
           <Td
             align={element.align}
-            key={element.name + bodyElement.id}
+            key={`td${element.name}${bodyElement.id}`}
             width={element.width}
           >
             {element.type === 'static' && (
@@ -73,16 +90,37 @@ class Table extends React.Component {
                 value={this.format(bodyElement[element.name], element.name)}
                 type="text"
                 align={element.align}
-                onChange={evt =>
-                  this.props.changeValue(bodyElement.id, evt, element.name)
+                onChange={value =>
+                  this.changeValue(bodyElement.id, value, element.name)
                 }
               />
             )}
             {element.type === 'image' && (
-              <Check value={bodyElement[element.name]} />
+              <Check
+                value={bodyElement[element.name]}
+                onClick={() =>
+                  this.changeValue(
+                    bodyElement.id,
+                    !bodyElement[element.name],
+                    element.name,
+                  )
+                }
+              />
             )}
             {element.type === 'action' && (
-              <Dropdown value="" onDelete={() => this.showModal(bodyElement)} />
+              <Dropdown
+                value=""
+                dropdownList={[
+                  {
+                    label: 'Duplicate',
+                    func: () => this.props.onCreateRecord(bodyElement),
+                  },
+                  {
+                    label: 'Delete',
+                    func: () => this.showModal(bodyElement),
+                  },
+                ]}
+              />
             )}
           </Td>
         ))}
@@ -131,16 +169,28 @@ class Table extends React.Component {
     });
   };
 
-  deleteItem = () => {
-    this.setState(state => {
-      const filterBody = state.body.filter(
-        element => element.id !== state.selectedItem.id,
-      );
-      return {
-        body: filterBody,
-        modal: false,
-        selectedItem: null,
-      };
+  changeValue = (id, value, name) => {
+    const element = this.state.body.find(record => record.id === id);
+    let updatedValue = value;
+    if (name === 'salary' || name === 'other') {
+      updatedValue = updatedValue.replace(this.props.currencyLabel, '');
+      updatedValue = parseFloat(updatedValue.replace(',', ''));
+    }
+    element[name] = updatedValue;
+    this.props.onUpdateRecord(element);
+  };
+
+  handleCreateRecord = element => {
+    const record = Object.assign({}, element);
+    record.category_id = this.props.categoryId;
+    this.props.onCreateRecord(record);
+  };
+
+  deleteRecord = () => {
+    this.props.onDeleteRecord(this.state.selectedItem.id);
+    this.setState({
+      modal: false,
+      selectedItem: null,
     });
   };
 
@@ -151,7 +201,7 @@ class Table extends React.Component {
           <Modal onClose={this.closeModal}>
             <ModalDialog
               element={this.state.selectedItem}
-              onDelete={this.deleteItem}
+              onDelete={this.deleteRecord}
               onClose={this.closeModal}
             />
           </Modal>
@@ -160,7 +210,10 @@ class Table extends React.Component {
           <Tr paddingLeft={50}>{this.header()}</Tr>
         </TableHeader>
         <TableBody>{this.body()}</TableBody>
-        <AddColumn data={this.state.header} />
+        <AddColumn
+          data={this.state.header}
+          onCreate={this.handleCreateRecord}
+        />
         <TableFooter>
           <Tr paddingLeft={50}>{this.footerContent()}</Tr>
         </TableFooter>
@@ -170,8 +223,26 @@ class Table extends React.Component {
 }
 
 Table.propTypes = {
-  data: PropTypes.object,
-  changeValue: PropTypes.func,
+  header: PropTypes.array,
+  body: PropTypes.array,
+  categoryId: PropTypes.number,
+  currencyLabel: PropTypes.string,
+  onCreateRecord: PropTypes.func,
+  onUpdateRecord: PropTypes.func,
+  onDeleteRecord: PropTypes.func,
 };
 
-export default Table;
+export function mapDispatchToProps(dispatch) {
+  return {
+    onCreateRecord: record => dispatch(createRecord.request(record)),
+    onUpdateRecord: record => dispatch(updateRecord.request(record)),
+    onDeleteRecord: id => dispatch(deleteRecord.request(id)),
+  };
+}
+
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(Table);

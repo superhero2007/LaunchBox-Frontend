@@ -4,7 +4,7 @@ const AddWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 47px;
+  padding: 20px 27px;
   border: 1px solid #ececf7;
 `;
 

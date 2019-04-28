@@ -8,7 +8,7 @@ const DropdownButton = styled.div`
   font-size: 15px;
   line-height: normal;
   display: flex;
-  padding-left: 26px;
+  padding-left: 22px;
   align-items: center;
   height: 84px;
   position: relative;

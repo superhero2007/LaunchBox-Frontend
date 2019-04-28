@@ -6,10 +6,11 @@ const DropdownContent = styled.div`
   background-color: #ffffff;
   z-index: 1;
   bottom: 100%;
-  padding: 0 5px;
-  width: 232px;
-  height: 221px;
+  padding: 17px 10px 8px;
+  width: 204px;
+  height: 144px;
   margin-bottom: 10px;
+  text-align: center;
 `;
 
 export default DropdownContent;

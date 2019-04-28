@@ -6,7 +6,7 @@ import Wrapper from './Wrapper';
 import Hover from './Hover';
 
 const Check = props => (
-  <Wrapper>
+  <Wrapper onClick={props.onClick}>
     <img
       src={props.value ? CheckImage : UncheckImage}
       alt="Check"
@@ -20,6 +20,7 @@ const Check = props => (
 
 Check.propTypes = {
   value: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default Check;
