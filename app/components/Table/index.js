@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {
   createRecord,
   updateRecord,
   deleteRecord,
 } from 'containers/BizPage/actions';
+import { makeSelectVAT } from 'containers/BizPage/selectors';
 import Sort from 'components/Sort';
 import AddColumn from 'components/AddColumn';
 import Check from 'components/Check';
@@ -27,8 +29,82 @@ import ModalDialog from './ModalDialog';
 class Table extends React.Component {
   constructor(props) {
     super(props);
+    const header = [
+      {
+        name: 'name',
+        align: 'left',
+        type: 'text',
+        sort: 0,
+        width: '20%',
+        placeholder: 'Name',
+      },
+      {
+        name: 'salary',
+        align: 'right',
+        type: 'text',
+        sort: 0,
+        width: '10%',
+        placeholder: 'Salary, $',
+      },
+      {
+        name: 'other',
+        align: 'right',
+        type: 'text',
+        sort: 0,
+        width: '10%',
+        placeholder: 'Other, $',
+      },
+      {
+        name: 'total',
+        align: 'right',
+        type: 'static',
+        sort: 0,
+        width: '10%',
+        placeholder: 'Total, $',
+      },
+      {
+        name: 'vat',
+        align: 'center',
+        type: 'image',
+        sort: 0,
+        width: '10%',
+        placeholder: '',
+      },
+      {
+        name: 'due_date',
+        align: 'left',
+        type: 'date',
+        sort: 0,
+        width: '10%',
+        placeholder: 'Due Date',
+      },
+      {
+        name: 'billed',
+        align: 'center',
+        type: 'image',
+        sort: 0,
+        width: '10%',
+        placeholder: '',
+      },
+      {
+        name: 'paid',
+        align: 'center',
+        type: 'image',
+        sort: 0,
+        width: '10%',
+        placeholder: '',
+      },
+      {
+        name: 'action',
+        align: 'right',
+        type: 'action',
+        sort: 0,
+        width: '10%',
+        placeholder: '',
+      },
+    ];
     this.state = {
-      header: props.header,
+      header,
       body: props.body,
       modal: false,
       selectedItem: null,
@@ -37,15 +113,31 @@ class Table extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      header: nextProps.header,
       body: nextProps.body,
     });
   }
 
+  isIncome = props =>
+    props.category.title === 'Recurring Payments' ||
+    props.category.title === 'Project Based';
+
+  thName = name => {
+    if (name === 'name' && this.isIncome(this.props)) {
+      return 'client';
+    }
+    if (name === 'salary' && this.isIncome(this.props)) {
+      return 'income';
+    }
+    if (name === 'other' && this.isIncome(this.props)) {
+      return 'vat';
+    }
+    return name;
+  };
+
   header = () =>
     this.state.header.map(element => (
       <Th align={element.align} key={element.name} width={element.width}>
-        {element.name}
+        {this.thName(element.name)}
         <Sort value={element.sort} />
       </Th>
     ));
@@ -68,6 +160,12 @@ class Table extends React.Component {
     return value;
   };
 
+  isInput = element =>
+    (element.type === 'text' || element.type === 'date') &&
+    (!this.isIncome(this.props) || element.name !== 'other');
+
+  isNotInput = element => this.isIncome(this.props) && element.name === 'other';
+
   body = () =>
     this.state.body.map(bodyElement => (
       <Tr paddingLeft={38} key={`tr${bodyElement.id}`} className="table__tr">
@@ -80,12 +178,22 @@ class Table extends React.Component {
             {element.type === 'static' && (
               <Static align={element.align}>
                 {this.format(
-                  bodyElement.salary + bodyElement.other,
+                  this.isIncome(this.props)
+                    ? bodyElement.salary * (1 + this.props.vat / 100)
+                    : bodyElement.salary + bodyElement.other,
                   element.name,
                 )}
               </Static>
             )}
-            {(element.type === 'text' || element.type === 'date') && (
+            {this.isNotInput(element) && (
+              <Static align={element.align}>
+                {this.format(
+                  (bodyElement.salary * this.props.vat) / 100,
+                  element.name,
+                )}
+              </Static>
+            )}
+            {this.isInput(element) && (
               <Input
                 value={this.format(bodyElement[element.name], element.name)}
                 type="text"
@@ -182,7 +290,7 @@ class Table extends React.Component {
 
   handleCreateRecord = element => {
     const record = Object.assign({}, element);
-    record.category_id = this.props.categoryId;
+    record.category_id = this.props.category.id;
     this.props.onCreateRecord(record);
   };
 
@@ -212,6 +320,7 @@ class Table extends React.Component {
         <TableBody>{this.body()}</TableBody>
         <AddColumn
           data={this.state.header}
+          category={this.isIncome(this.props)}
           onCreate={this.handleCreateRecord}
         />
         <TableFooter>
@@ -223,14 +332,18 @@ class Table extends React.Component {
 }
 
 Table.propTypes = {
-  header: PropTypes.array,
   body: PropTypes.array,
-  categoryId: PropTypes.number,
+  vat: PropTypes.number,
+  category: PropTypes.object,
   currencyLabel: PropTypes.string,
   onCreateRecord: PropTypes.func,
   onUpdateRecord: PropTypes.func,
   onDeleteRecord: PropTypes.func,
 };
+
+const mapStateToProps = createStructuredSelector({
+  vat: makeSelectVAT(),
+});
 
 export function mapDispatchToProps(dispatch) {
   return {
@@ -241,7 +354,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 

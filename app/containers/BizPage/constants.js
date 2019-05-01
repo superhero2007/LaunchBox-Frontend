@@ -18,6 +18,8 @@ export const CREATE_CATEGORY_REQUEST = createRequestTypes('CREATE_CATEGORY');
 export const UPDATE_CATEGORY_REQUEST = createRequestTypes('UPDATE_CATEGORY');
 export const DELETE_CATEGORY_REQUEST = createRequestTypes('DELETE_CATEGORY');
 
+export const CREATE_MONTH_REQUEST = createRequestTypes('CREATE_MONTH');
+
 export const SELECT_MONTH = 'app/App/SELECT_MONTH';
 export const SELECT_CURRENCY = 'app/App/SELECT_CURRENCY';
 export const UPDATE_VAT = 'app/App/UPDATE_VAT';

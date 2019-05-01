@@ -7,6 +7,7 @@ import {
   CREATE_CATEGORY_REQUEST,
   UPDATE_CATEGORY_REQUEST,
   DELETE_CATEGORY_REQUEST,
+  CREATE_MONTH_REQUEST,
   SELECT_MONTH,
   SELECT_CURRENCY,
   UPDATE_VAT,
@@ -97,6 +98,16 @@ export const deleteCategory = {
   request: id => action(DELETE_CATEGORY_REQUEST.REQUEST, { id }),
   success: response => action(DELETE_CATEGORY_REQUEST.SUCCESS, { response }),
   failure: error => action(DELETE_CATEGORY_REQUEST.FAILURE, { error }),
+};
+
+/*
+* Create Month
+*/
+
+export const createMonth = {
+  request: month => action(CREATE_MONTH_REQUEST.REQUEST, { month }),
+  success: response => action(CREATE_MONTH_REQUEST.SUCCESS, { response }),
+  failure: error => action(CREATE_MONTH_REQUEST.FAILURE, { error }),
 };
 
 /*

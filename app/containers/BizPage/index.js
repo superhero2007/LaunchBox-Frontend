@@ -22,17 +22,26 @@ import Footer from 'components/Footer';
 import Wrapper from './Wrapper';
 import Add from './Add';
 import AddWrapper from './AddWrapper';
-import { getRecords, getCategories, createCategory } from './actions';
+import {
+  getRecords,
+  getCategories,
+  createCategory,
+  createMonth,
+} from './actions';
 import {
   makeSelectRecords,
   makeSelectCategories,
   makeSelectMonth,
   makeSelectCurrencies,
   makeSelectCurrency,
+  makeSelectVAT,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import ModalDialog from './ModalDialog';
+import MonthWrapper from './MonthWrapper';
+import NewMonth from './NewMonth';
+import DuplicateMonth from './DuplicateMonth';
 
 /* eslint-disable react/prefer-stateless-function */
 class BizPage extends React.PureComponent {
@@ -42,87 +51,19 @@ class BizPage extends React.PureComponent {
       element => element.id === props.currency,
     );
     const currencyLabel = currency.label.slice(-1);
+    const categories = props.categories.filter(
+      category => category.month === props.month,
+    );
+    let emptyDialog = false;
+    if (!categories.length) {
+      emptyDialog = true;
+    }
     this.state = {
-      header: [
-        {
-          name: 'name',
-          align: 'left',
-          type: 'text',
-          sort: 0,
-          width: '20%',
-          placeholder: 'Name',
-        },
-        {
-          name: 'salary',
-          align: 'right',
-          type: 'text',
-          sort: 0,
-          width: '10%',
-          placeholder: 'Salary, $',
-        },
-        {
-          name: 'other',
-          align: 'right',
-          type: 'text',
-          sort: 0,
-          width: '10%',
-          placeholder: 'Other, $',
-        },
-        {
-          name: 'total',
-          align: 'right',
-          type: 'static',
-          sort: 0,
-          width: '10%',
-          placeholder: 'Total, $',
-        },
-        {
-          name: 'vat',
-          align: 'center',
-          type: 'image',
-          sort: 0,
-          width: '10%',
-          placeholder: '',
-        },
-        {
-          name: 'due_date',
-          align: 'left',
-          type: 'date',
-          sort: 0,
-          width: '10%',
-          placeholder: 'Due Date',
-        },
-        {
-          name: 'billed',
-          align: 'center',
-          type: 'image',
-          sort: 0,
-          width: '10%',
-          placeholder: '',
-        },
-        {
-          name: 'paid',
-          align: 'center',
-          type: 'image',
-          sort: 0,
-          width: '10%',
-          placeholder: '',
-        },
-        {
-          name: 'action',
-          align: 'right',
-          type: 'action',
-          sort: 0,
-          width: '10%',
-          placeholder: '',
-        },
-      ],
       body: props.records,
-      categories: props.categories.filter(
-        category => category.month === props.month,
-      ),
+      categories,
       month: props.month,
-      modal: false,
+      addCategory: false,
+      emptyDialog,
       currencyLabel,
     };
   }
@@ -137,20 +78,36 @@ class BizPage extends React.PureComponent {
       element => element.id === nextProps.currency,
     );
     const currencyLabel = currency.label.slice(-1);
+    const categories = nextProps.categories.filter(
+      category => category.month === nextProps.month,
+    );
+    let emptyDialog = false;
+    if (!categories.length) {
+      emptyDialog = true;
+    }
     this.setState({
       body: nextProps.records,
-      categories: nextProps.categories.filter(
-        category => category.month === nextProps.month,
-      ),
+      categories,
       month: nextProps.month,
       currencyLabel,
+      emptyDialog,
     });
   }
 
   monthBalance = () => {
     let value = 0;
     for (let i = 0; i < this.state.body.length; i += 1) {
-      value += this.state.body[i].salary + this.state.body[i].other;
+      const selectedCategory = this.props.categories.find(
+        category => category.id === this.state.body[i].category_id,
+      );
+      if (
+        selectedCategory.title === 'Recurring Payments' ||
+        selectedCategory.title === 'Project Based'
+      ) {
+        value += this.state.body[i].salary * (1 + this.props.vat / 100);
+      } else {
+        value += this.state.body[i].salary + this.state.body[i].other;
+      }
     }
     return this.format(value);
   };
@@ -158,7 +115,17 @@ class BizPage extends React.PureComponent {
   allBalance = () => {
     let value = 0;
     for (let i = 0; i < this.state.body.length; i += 1) {
-      value += this.state.body[i].salary + this.state.body[i].other;
+      const selectedCategory = this.props.categories.find(
+        category => category.id === this.state.body[i].category_id,
+      );
+      if (
+        selectedCategory.title === 'Recurring Payments' ||
+        selectedCategory.title === 'Project Based'
+      ) {
+        value += this.state.body[i].salary * (1 + this.props.vat / 100);
+      } else {
+        value += this.state.body[i].salary + this.state.body[i].other;
+      }
     }
     return this.format(value);
   };
@@ -203,22 +170,21 @@ class BizPage extends React.PureComponent {
         <Category
           category={element}
           opened={index === 0}
-          header={this.state.header}
           body={this.getRecords(element.id)}
         />
       </div>
     ));
 
-  showModal = () => {
-    this.setState({ modal: true });
+  showAddCategory = () => {
+    this.setState({ addCategory: true });
   };
 
-  closeModal = () => {
-    this.setState({ modal: false });
+  closeAddCategory = () => {
+    this.setState({ addCategory: false });
   };
 
   onSelect = title => {
-    this.setState({ modal: false });
+    this.setState({ addCategory: false });
     this.props.onCreateCategory({
       title,
       color: '#e37898',
@@ -226,12 +192,37 @@ class BizPage extends React.PureComponent {
     });
   };
 
+  hideEmpty = () => {
+    this.setState({ emptyDialog: false });
+  };
+
+  duplicateMonth = () => {
+    this.setState({ emptyDialog: false });
+    this.props.onDuplicateMonth(this.props.month);
+  };
+
   render() {
-    if (this.state.modal) {
+    if (this.state.emptyDialog) {
       return (
         <div>
           <Header route={this.props.location.pathname} />
-          <ModalDialog onClose={this.closeModal} onSelect={this.onSelect} />
+          <MonthWrapper>
+            <NewMonth onClick={this.hideEmpty} />
+            <DuplicateMonth onClick={this.duplicateMonth} />
+          </MonthWrapper>
+          <Footer balance={this.monthBalance()} cash={this.allBalance()} />
+        </div>
+      );
+    }
+
+    if (this.state.addCategory) {
+      return (
+        <div>
+          <Header route={this.props.location.pathname} />
+          <ModalDialog
+            onClose={this.closeAddCategory}
+            onSelect={this.onSelect}
+          />
         </div>
       );
     }
@@ -242,7 +233,7 @@ class BizPage extends React.PureComponent {
         <Wrapper>
           {this.categoryList()}
           <AddWrapper>
-            <Add onClick={this.showModal}>Add category</Add>
+            <Add onClick={this.showAddCategory}>Add category</Add>
           </AddWrapper>
         </Wrapper>
         <Footer balance={this.monthBalance()} cash={this.allBalance()} />
@@ -258,9 +249,11 @@ BizPage.propTypes = {
   month: PropTypes.string,
   currency: PropTypes.number,
   currencies: PropTypes.array,
+  vat: PropTypes.number,
   onLoadRecords: PropTypes.func,
   onLoadCategories: PropTypes.func,
   onCreateCategory: PropTypes.func,
+  onDuplicateMonth: PropTypes.func,
 };
 const mapStateToProps = createStructuredSelector({
   records: makeSelectRecords(),
@@ -268,6 +261,7 @@ const mapStateToProps = createStructuredSelector({
   month: makeSelectMonth(),
   currencies: makeSelectCurrencies(),
   currency: makeSelectCurrency(),
+  vat: makeSelectVAT(),
 });
 
 export function mapDispatchToProps(dispatch) {
@@ -275,6 +269,7 @@ export function mapDispatchToProps(dispatch) {
     onLoadRecords: () => dispatch(getRecords.request()),
     onLoadCategories: () => dispatch(getCategories.request()),
     onCreateCategory: category => dispatch(createCategory.request(category)),
+    onDuplicateMonth: month => dispatch(createMonth.request(month)),
   };
 }
 

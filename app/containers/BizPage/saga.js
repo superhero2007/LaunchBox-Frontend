@@ -20,6 +20,7 @@ import {
   CREATE_CATEGORY_REQUEST,
   UPDATE_CATEGORY_REQUEST,
   DELETE_CATEGORY_REQUEST,
+  CREATE_MONTH_REQUEST,
 } from './constants';
 import {
   getRecords,
@@ -30,6 +31,7 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
+  createMonth,
 } from './actions';
 
 let records = [
@@ -204,10 +206,6 @@ export function* getRecordsRequest() {
     yield put(getRecords.failure(err));
   }
 }
-//
-// function* loadRecords() {
-//   yield fork(getRecordsRequest);
-// }
 
 /**
  * Create Record request/response handler
@@ -283,21 +281,28 @@ export function* getCategoriesRequest() {
   }
 }
 
-// function* loadCategories() {
-//   yield fork(getCategoriesRequest);
-// }
-
 /**
  * Create Record request/response handler
  */
 export function* createCategoryRequest(action) {
   try {
     const category = Object.assign({}, action.category);
+    const duplicate = category.id;
     category.id = 1;
     if (categories.length) {
       category.id = Math.max(...categories.map(element => element.id)) + 1;
     }
     categories.push(category);
+    if (duplicate) {
+      const creatingRecords = records.filter(
+        record => record.category_id === duplicate,
+      );
+      for (let i = 0; i < creatingRecords.length; i += 1) {
+        const record = Object.assign({}, creatingRecords[i]);
+        record.category_id = category.id;
+        yield put(createRecord.request(record));
+      }
+    }
     yield put(createCategory.success({ category }));
   } catch (error) {
     yield put(createCategory.failure(error));
@@ -326,7 +331,9 @@ export function* updateCategoryRequest(action) {
 export function* deleteCategoryRequest(action) {
   try {
     categories = categories.filter(category => category.id !== action.id);
+    records = records.filter(record => record.category_id !== action.id);
     yield put(deleteCategory.success({ id: action.id }));
+    yield put(getRecords.success({ records }));
   } catch (error) {
     yield put(deleteCategory.failure(error));
   }
@@ -353,6 +360,68 @@ export function* watchDeleteCategory() {
 }
 
 /**
+ * Create Record request/response handler
+ */
+export function* createMonthRequest(action) {
+  if (!categories.length) {
+    yield put(createMonth.failure());
+    return;
+  }
+  try {
+    let lastMonth = {
+      year: parseInt(categories[0].month.split('-')[0], 10),
+      month: parseInt(categories[0].month.split('-')[1], 10),
+      str: categories[0].month,
+    };
+    for (let i = 1; i < categories.length; i += 1) {
+      const selectedDate = {
+        year: parseInt(categories[i].month.split('-')[0], 10),
+        month: parseInt(categories[i].month.split('-')[1], 10),
+        str: categories[i].month,
+      };
+      if (
+        selectedDate.year > lastMonth.year ||
+        (selectedDate.year === lastMonth.year &&
+          selectedDate.month > lastMonth.month)
+      ) {
+        lastMonth = selectedDate;
+      }
+    }
+    const selectedCategories = categories.filter(
+      category => category.month === lastMonth.str,
+    );
+    for (let i = 0; i < selectedCategories.length; i += 1) {
+      const category = Object.assign({}, selectedCategories[i]);
+      category.month = action.month;
+      const duplicate = category.id;
+      category.id = 1;
+      if (categories.length) {
+        category.id = Math.max(...categories.map(element => element.id)) + 1;
+      }
+      categories.push(category);
+      if (duplicate) {
+        const creatingRecords = records.filter(
+          record => record.category_id === duplicate,
+        );
+        for (let j = 0; j < creatingRecords.length; j += 1) {
+          const record = Object.assign({}, creatingRecords[j]);
+          record.category_id = category.id;
+          record.due_date = `${action.month}-${record.due_date.split('-')[2]}`;
+          yield put(createRecord.request(record));
+        }
+      }
+      yield put(createCategory.success({ category }));
+    }
+  } catch (error) {
+    yield put(createMonth.failure(error));
+  }
+}
+
+export function* watchCreateMoonth() {
+  yield takeLatest(CREATE_MONTH_REQUEST.REQUEST, createMonthRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -366,5 +435,6 @@ export default function* rootSaga() {
     watchCreateCategory(),
     watchUpdateCategory(),
     watchDeleteCategory(),
+    watchCreateMoonth(),
   ]);
 }

@@ -51,6 +51,23 @@ class AddColumn extends React.Component {
     this.state.value[name] = updatedValue;
   };
 
+  placeholder = value => {
+    if (this.props.category && value === 'Name') {
+      return 'Client';
+    }
+    if (this.props.category && value === 'Salary, $') {
+      return 'Income, $';
+    }
+    if (this.props.category && value === 'Other, $') {
+      return 'VAT, $';
+    }
+    return value;
+  };
+
+  isInput = element =>
+    (element.type === 'text' || element.type === 'date') &&
+    (!this.props.category || element.name !== 'other');
+
   addColumn = () => {
     if (!this.state.addingStatus) {
       return (
@@ -60,9 +77,9 @@ class AddColumn extends React.Component {
     return this.props.data.map(element => (
       <Td align={element.align} key={element.name} width={element.width}>
         {element.type === 'date' && <DateIcon className="far fa-calendar" />}
-        {(element.type === 'text' || element.type === 'date') && (
+        {this.isInput(element) && (
           <Input
-            placeholder={element.placeholder}
+            placeholder={this.placeholder(element.placeholder)}
             align={element.align}
             value={this.state.value[element.name]}
             paddingLeft={element.type === 'date' ? 30 : 12}
@@ -92,6 +109,7 @@ class AddColumn extends React.Component {
 
 AddColumn.propTypes = {
   data: PropTypes.array,
+  category: PropTypes.bool,
   onCreate: PropTypes.func,
 };
 

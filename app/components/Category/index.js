@@ -7,6 +7,7 @@ import { createCategory, deleteCategory } from 'containers/BizPage/actions';
 import {
   makeSelectCurrencies,
   makeSelectCurrency,
+  makeSelectVAT,
 } from 'containers/BizPage/selectors';
 import Dropdown from 'components/Dropdown';
 import Table from 'components/Table';
@@ -47,7 +48,14 @@ class Category extends React.Component {
   total = () => {
     let value = 0;
     for (let i = 0; i < this.props.body.length; i += 1) {
-      value += this.props.body[i].salary + this.props.body[i].other;
+      if (
+        this.props.category.title === 'Recurring Payments' ||
+        this.props.category.title === 'Project Based'
+      ) {
+        value += this.props.body[i].salary * (1 + this.props.vat / 100);
+      } else {
+        value += this.props.body[i].salary + this.props.body[i].other;
+      }
     }
     return this.format(value);
   };
@@ -124,9 +132,8 @@ class Category extends React.Component {
         </Wrapper>
         {this.state.opened && (
           <Table
-            header={this.props.header}
             body={this.props.body}
-            categoryId={this.props.category.id}
+            category={this.props.category}
             currencyLabel={this.state.currencyLabel}
           />
         )}
@@ -138,8 +145,8 @@ class Category extends React.Component {
 Category.propTypes = {
   category: PropTypes.object,
   opened: PropTypes.bool,
-  header: PropTypes.array,
   body: PropTypes.array,
+  vat: PropTypes.number,
   onCreateCategory: PropTypes.func,
   onDeleteCategory: PropTypes.func,
   currency: PropTypes.number,
@@ -149,6 +156,7 @@ Category.propTypes = {
 const mapStateToProps = createStructuredSelector({
   currencies: makeSelectCurrencies(),
   currency: makeSelectCurrency(),
+  vat: makeSelectVAT(),
 });
 
 export function mapDispatchToProps(dispatch) {
