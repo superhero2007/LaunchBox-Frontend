@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import HomePage from '../index';
+import Signup from '../index';
 
-describe('<HomePage />', () => {
+describe('<SignUp />', () => {
   it('should render the page message', () => {
-    shallow(<HomePage />);
+    shallow(<Signup />);
   });
 });
