@@ -10,9 +10,16 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { logIn } from 'services/api/actions';
+import reducer from 'services/api/reducer';
+import saga from 'services/api/sagas';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
 import Check from '../../images/check-white.png';
@@ -341,6 +348,13 @@ class Login extends React.PureComponent {
     }));
   };
 
+  handleLogin = () => {
+    this.props.OnLogin({
+      email: this.state.email,
+      password: this.state.password,
+    });
+  };
+
   render() {
     return (
       <Wrapper>
@@ -388,7 +402,10 @@ class Login extends React.PureComponent {
               </div>
             </ForgotWrapper>
             <Action>
-              <LoginButton disabled={!this.state.email || !this.state.password}>
+              <LoginButton
+                disabled={!this.state.email || !this.state.password}
+                onClick={this.handleLogin}
+              >
                 LOGIN
               </LoginButton>
               <CreateAccount to="/sign-up">Create Account</CreateAccount>
@@ -405,8 +422,25 @@ class Login extends React.PureComponent {
   }
 }
 
-// Login.propTypes = {
-//   location: PropTypes.object,
-// };
+Login.propTypes = {
+  OnLogin: PropTypes.func,
+};
 
-export default Login;
+export function mapDispatchToProps(dispatch) {
+  return {
+    OnLogin: query => dispatch(logIn.request(query)),
+  };
+}
+
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
+const withReducer = injectReducer({ key: 'service', reducer });
+const withSaga = injectSaga({ key: 'service', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(Login);

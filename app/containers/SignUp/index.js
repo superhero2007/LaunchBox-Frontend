@@ -10,9 +10,16 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { signUp } from 'services/api/actions';
+import reducer from 'services/api/reducer';
+import saga from 'services/api/sagas';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
 
@@ -142,7 +149,7 @@ const Action = styled.div`
   margin-top: 32px;
 `;
 
-const LoginButton = styled.button`
+const SignUpButton = styled.button`
   width: 210px;
   height: 48px;
   background: #3166ed;
@@ -272,6 +279,15 @@ class SignUp extends React.PureComponent {
     this.setState({ password: e.target.value });
   };
 
+  handleSignUp = () => {
+    this.props.OnSignUp({
+      email: this.state.email,
+      fullName: this.state.fullName,
+      companyName: this.state.companyName,
+      password: this.state.password,
+    });
+  };
+
   render() {
     const input =
       this.state.companyName &&
@@ -332,8 +348,10 @@ class SignUp extends React.PureComponent {
               <Label htmlFor="password">Password</Label>
             </Input>
             <Action>
-              <LoginButton disabled={!input}>CREATE ACCOUNT</LoginButton>
-              <CreateAccount to="/sign-up">Login</CreateAccount>
+              <SignUpButton disabled={!input} onClick={this.handleSignUp}>
+                CREATE ACCOUNT
+              </SignUpButton>
+              <CreateAccount to="/login">Login</CreateAccount>
             </Action>
             <Social>
               <SocialText>Or login with</SocialText>
@@ -347,8 +365,26 @@ class SignUp extends React.PureComponent {
   }
 }
 
-// SignUp.propTypes = {
-//   location: PropTypes.object,
-// };
+SignUp.propTypes = {
+  OnSignUp: PropTypes.func,
+};
 
-export default SignUp;
+export function mapDispatchToProps(dispatch) {
+  return {
+    OnSignUp: query => dispatch(signUp.request(query)),
+  };
+}
+
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
+
+const withReducer = injectReducer({ key: 'service', reducer });
+const withSaga = injectSaga({ key: 'service', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(SignUp);
