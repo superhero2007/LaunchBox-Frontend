@@ -17,9 +17,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { signUp } from 'services/api/actions';
 import reducer from 'services/api/reducer';
-import saga from 'services/api/sagas';
+import saga from 'services/api/saga';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import AuthBg from '../../images/auth_bg.png';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
 
@@ -41,6 +42,7 @@ const LeftWrapper = styled.div`
 
 const Brand = styled.div`
   text-align: center;
+  background: url(${AuthBg});
 `;
 
 const SubTitle = styled.div`

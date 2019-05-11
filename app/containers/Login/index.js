@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { logIn } from 'services/api/actions';
 import reducer from 'services/api/reducer';
-import saga from 'services/api/sagas';
+import saga from 'services/api/saga';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import WhiteLogo from '../../images/white-logo.svg';
