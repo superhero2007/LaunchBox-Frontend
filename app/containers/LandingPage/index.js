@@ -24,15 +24,18 @@ import biz from '../../images/biz.svg';
 import brand from '../../images/brand.svg';
 import brandTop from '../../images/brand-top.svg';
 import price from '../../images/price.svg';
+import menuToggle from '../../images/menu-toggle.svg';
+import menuClose from '../../images/menu-close.svg';
+import idea from '../../images/idea.svg';
 
 import './style.scss';
 
 const Wrapper = styled.div`
-  padding 30px 32px 0;
   overflow: hidden;
 `;
 
 const Menu = styled.div`
+  padding 30px 32px 0;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -71,7 +74,7 @@ const MenuItem = styled(Link)`
   text-decoration: none;
 
   & + & {
-    margin-left: 44px;
+    margin-left: 35px;
   }
 `;
 
@@ -148,27 +151,140 @@ const StartButton = styled(Link)`
 
 /* eslint-disable react/prefer-stateless-function */
 class LandingPage extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      toggle: false,
+    };
+  }
+
+  handleToggleMenu = () => {
+    this.setState(state => ({
+      toggle: !state.toggle,
+    }));
+  };
+
   render() {
+    if (this.state.toggle) {
+      return (
+        <div className="menu-wrapper">
+          <button
+            type="button"
+            className="menu-wrapper__toggle"
+            onClick={this.handleToggleMenu}
+          >
+            <img src={menuClose} alt="Menu Close" />
+          </button>
+          <div className="menu-wrapper__content">
+            <Link to="/" className="menu-wrapper__content-item">
+              Features
+            </Link>
+            <Link to="/" className="menu-wrapper__content-item">
+              Pricing
+            </Link>
+            <Link to="/" className="menu-wrapper__content-item">
+              Contact us
+            </Link>
+          </div>
+          <div className="menu-wrapper__button">
+            <Link className="menu-wrapper__button-login" to="/login">
+              Login
+            </Link>
+            <Link className="menu-wrapper__button-home" to="/home">
+              Get Started
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <Wrapper>
-        <Menu>
-          <Brand to="/">
-            <img src={logo} alt="Logo" />
-            <BrandTitle>LaunchBox</BrandTitle>
+        <Menu className="menu">
+          <Brand to="/" className="menu-brand">
+            <img src={logo} alt="Logo" className="menu-brand__logo" />
+            <BrandTitle className="menu-brand__title">LaunchBox</BrandTitle>
           </Brand>
-          <MenuContent>
-            <MenuItem to="/">Features</MenuItem>
-            <MenuItem to="/">Pricing</MenuItem>
-            <MenuItem to="/">Contact us</MenuItem>
+          <MenuContent className="menu-content">
+            <MenuItem to="/" className="menu-content__item">
+              Features
+            </MenuItem>
+            <MenuItem to="/" className="menu-content__item">
+              Pricing
+            </MenuItem>
+            <MenuItem to="/" className="menu-content__item">
+              Contact us
+            </MenuItem>
           </MenuContent>
-          <MenuButtons>
+          <MenuButtons className="menu-button">
             <SecondaryButton to="/login">Login</SecondaryButton>
             <GetStartedButton to="/home">Get Started</GetStartedButton>
           </MenuButtons>
+          <button
+            type="button"
+            className="menu-toggle"
+            onClick={this.handleToggleMenu}
+          >
+            <img src={menuToggle} alt="Toggle Menu" />
+          </button>
         </Menu>
         <section className="section1">
           <div className="left-wrapper">
             <div className="content">
+              <div className="left-wrapper__slide">
+                <div className="left-wrapper__slide__background">
+                  <div className="left-wrapper__slide__background-rect left-wrapper__slide__background-rect1" />
+                  <div className="left-wrapper__slide__background-rect left-wrapper__slide__background-rect2" />
+                  <div className="left-wrapper__slide__background-rect left-wrapper__slide__background-rect3" />
+                  <div className="left-wrapper__slide__background-rect left-wrapper__slide__background-rect4" />
+                  <div className="left-wrapper__slide__background-rect left-wrapper__slide__background-rect5" />
+                </div>
+                <div className="left-wrapper__slide__image">
+                  <div className="content">
+                    <div className="left-wrapper__slide__image-item left-wrapper__slide__image-item1">
+                      <div className="left-wrapper__slide__image-item__image">
+                        <img src={finance} alt="Finance" />
+                      </div>
+                      <div className="left-wrapper__slide__image-item__title">
+                        Finance
+                      </div>
+                    </div>
+                    <div className="left-wrapper__slide__image-item left-wrapper__slide__image-item2">
+                      <div className="left-wrapper__slide__image-item__image">
+                        <img src={branding} alt="Branding" />
+                      </div>
+                      <div className="left-wrapper__slide__image-item__title">
+                        Branding
+                      </div>
+                    </div>
+                    <div className="left-wrapper__slide__image-item left-wrapper__slide__image-item3">
+                      <div className="left-wrapper__slide__image-item__image">
+                        <img src={access} alt="Access" />
+                      </div>
+                      <div className="left-wrapper__slide__image-item__title">
+                        Access
+                      </div>
+                    </div>
+                    <div className="left-wrapper__slide__image-item left-wrapper__slide__image-item4">
+                      <div className="left-wrapper__slide__image-item__image">
+                        <img src={documents} alt="Documents" />
+                      </div>
+                      <div className="left-wrapper__slide__image-item__title">
+                        Documents
+                      </div>
+                    </div>
+                    <div className="left-wrapper__slide__image-item left-wrapper__slide__image-item5">
+                      <div className="left-wrapper__slide__image-item__image">
+                        <img src={bookmarks} alt="Bookmarks" />
+                      </div>
+                      <div className="left-wrapper__slide__image-item__title">
+                        Bookmarks
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="left-wrapper__title">
                 <span>All-in-one</span> app bundle to run your
                 <span> business</span>
@@ -180,7 +296,9 @@ class LandingPage extends React.PureComponent {
                 <div className="left-wrapper__action-input">
                   <input type="text" placeholder="name@company.com" />
                 </div>
-                <StartButton to="/">Start FOR FREE</StartButton>
+                <div className="left-wrapper__action-button">
+                  <StartButton to="/">Start FOR FREE</StartButton>
+                </div>
               </div>
             </div>
           </div>
@@ -253,32 +371,46 @@ class LandingPage extends React.PureComponent {
             <img src={biz} alt="Biz Box" />
           </div>
           <div className="right-wrapper">
-            <img src={finance} alt="Finance" />
-            <div className="right-wrapper__title">BizBox</div>
-            <div className="right-wrapper__description">
-              The ultra-minmal income and expenses planner.
-              <br />
-              Real-time tracking and future projections in one view.
-              <br />
-              Get reminded to pay and be paid on time!
+            <div className="right-wrapper__brand">
+              <img src={finance} alt="Finance" />
+              <div className="right-wrapper__brand__title">BizBox</div>
             </div>
-            <div className="d-flex">
+            <div className="right-wrapper__image">
+              <img src={brand} alt="Brand Box" />
+            </div>
+            <div className="right-wrapper__description">
+              <span>The ultra-minmal income and expenses planner.&nbsp;</span>
+              <span>
+                Real-time tracking and future projections in one view.&nbsp;
+              </span>
+              <span>Get reminded to pay and be paid on time!</span>
+            </div>
+            <div className="right-wrapper__button d-flex">
               <StartButton to="/biz">Get Started</StartButton>
             </div>
           </div>
         </section>
         <section className="section4">
           <div className="left-wrapper">
-            <img src={branding} alt="Branding" />
-            <div className="left-wrapper__title">BrandBox</div>
-            <div className="left-wrapper__description">
-              The best way to store and manage brand info and assets.
-              <br />
-              Logos, colours, fonts and icons are now all in one place.
-              <br />
-              Ready for direct download or sharing with collaborators.
+            <div className="left-wrapper__brand">
+              <img src={branding} alt="Branding" />
+              <div className="left-wrapper__brand__title">BrandBox</div>
             </div>
-            <div className="d-flex">
+            <div className="left-wrapper__image">
+              <img src={brand} alt="Brand Box" />
+            </div>
+            <div className="left-wrapper__description">
+              <span>
+                The best way to store and manage brand info and assets.&nbsp;
+              </span>
+              <span>
+                Logos, colours, fonts and icons are now all in one place.&nbsp;
+              </span>
+              <span>
+                Ready for direct download or sharing with collaborators.
+              </span>
+            </div>
+            <div className="left-wrapper__button d-flex">
               <StartButton to="/brand">Get Started</StartButton>
             </div>
           </div>
@@ -328,6 +460,9 @@ class LandingPage extends React.PureComponent {
             </div>
             <div className="section5__content__item new">
               <div className="section5__content__item__content">
+                <div className="section5__content__item__content__image">
+                  <img src={idea} alt="Idea" />
+                </div>
                 <div className="section5__content__item__content__title">
                   Got ideas?
                 </div>
@@ -410,6 +545,37 @@ class LandingPage extends React.PureComponent {
               </div>
             </div>
           </div>
+          <div className="section6__mobile-content">
+            <div className="section6__mobile-content__item">
+              <div className="section6__mobile-content__item__content">
+                <div className="section6__mobile-content__item__content__title">
+                  Monthly
+                </div>
+                <div className="section6__mobile-content__item__content__value">
+                  $12/month
+                </div>
+              </div>
+              <div className="section6__mobile-content__item__button">
+                <i className="fas fa-chevron-right" />
+              </div>
+            </div>
+            <div className="section6__mobile-content__item">
+              <div className="section6__mobile-content__item__content">
+                <div className="section6__mobile-content__item__content__title">
+                  Yearly
+                </div>
+                <div className="section6__mobile-content__item__content__value">
+                  20% off – $9/month – $108/year
+                </div>
+              </div>
+              <div className="section6__mobile-content__item__button">
+                <i className="fas fa-chevron-right" />
+              </div>
+              <div className="section6__mobile-content__item-mark">
+                Save 20%
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="section7">
@@ -438,15 +604,20 @@ class LandingPage extends React.PureComponent {
             <div className="footer-social__title">Social</div>
             <div className="footer-social__subtitle">
               <div className="footer-social__subtitle-element">
+                <i className="fab fa-instagram" />
+              </div>
+              <div className="footer-social__subtitle-element">
                 <i className="fab fa-facebook-f" />
               </div>
               <div className="footer-social__subtitle-element">
                 <i className="fab fa-twitter" />
               </div>
-              <div className="footer-social__subtitle-element">
-                <i className="fab fa-instagram" />
-              </div>
             </div>
+          </div>
+          <div className="footer-element footer-mobile-icon">
+            <img src={logo} alt="Logo" />
+            <div className="footer-mobile-icon__title">LaunchBox</div>
+            <div className="footer-mobile-icon__subtitle">© 2019</div>
           </div>
         </footer>
       </Wrapper>
