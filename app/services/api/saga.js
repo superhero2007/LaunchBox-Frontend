@@ -1,24 +1,28 @@
 import { all, put, call, takeLatest } from 'redux-saga/effects';
 import * as api from 'services/api';
 import * as apiActions from 'services/api/actions';
-import { SIGN_UP_REQUEST, LOG_IN_REQUEST } from './constants';
+import {
+  SIGN_UP_REQUEST,
+  LOG_IN_REQUEST,
+  REGISTER_EMAIL_REQUEST,
+} from './constants';
 
-const { signUp, logIn } = apiActions;
+const { register, logIn, registerEmail } = apiActions;
 
 /**
  * Sign Up request/response handler
  */
-export function* SignUpRequest(action) {
-  const { response, error } = yield call(api.signUp, action);
+export function* RegisterRequest(action) {
+  const { response, error } = yield call(api.register, action);
   if (response) {
-    yield put(signUp.success(response));
+    yield put(register.success(response));
   } else {
-    yield put(signUp.failure(error));
+    yield put(register.failure(error));
   }
 }
 
-export function* watchSignUp() {
-  yield takeLatest(SIGN_UP_REQUEST.REQUEST, SignUpRequest);
+export function* watchRegister() {
+  yield takeLatest(SIGN_UP_REQUEST.REQUEST, RegisterRequest);
 }
 
 /**
@@ -41,6 +45,22 @@ export function* watchLogIn() {
  * Root saga manages watcher lifecycle
  */
 
+/**
+ * Sign Up request/response handler
+ */
+export function* RegisterEmailRequest(action) {
+  const { response, error } = yield call(api.registerEmail, action);
+  if (response) {
+    yield put(registerEmail.success(response));
+  } else {
+    yield put(registerEmail.failure(error));
+  }
+}
+
+export function* watchRegisterEmail() {
+  yield takeLatest(REGISTER_EMAIL_REQUEST.REQUEST, RegisterEmailRequest);
+}
+
 export default function* rootSaga() {
-  yield all([watchSignUp(), watchLogIn()]);
+  yield all([watchRegister(), watchLogIn(), watchRegisterEmail()]);
 }

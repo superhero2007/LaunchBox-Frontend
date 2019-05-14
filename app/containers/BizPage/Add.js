@@ -9,12 +9,12 @@ const Add = styled.div`
   text-align: right;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #3166ed;
+  color: #1b367c;
   padding: 20px;
 
   &:hover {
     color: #ffffff;
-    background: #3166ed;
+    background: #1b367c;
   }
 `;
 

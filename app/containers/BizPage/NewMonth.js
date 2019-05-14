@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   margin-left: 22px;
 
   &:hover {
-    background: #3166ed;
+    background: #1b367c;
     color: white;
   }
 `;

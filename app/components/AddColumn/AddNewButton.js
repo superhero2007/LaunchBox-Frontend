@@ -13,7 +13,7 @@ const AddNewButton = styled.button`
   color: rgba(108, 72, 83, 0.5);
 
   &:hover {
-    color: #3166ed;
+    color: #1b367c;
   }
 `;
 

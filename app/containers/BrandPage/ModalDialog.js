@@ -78,13 +78,13 @@ const Button = styled.button`
 `;
 
 const AddButton = styled(Button)`
-  border: 2px solid #3166ed;
-  background: #3166ed;
+  border: 2px solid #1b367c;
+  background: #1b367c;
   color: #fff;
   margin-left: 1rem;
 
   &:hover {
-    color: #3166ed;
+    color: #1b367c;
     background: #fff;
   }
 `;
@@ -149,7 +149,7 @@ const DropzoneSubtitle = styled.div`
   margin-top: 6px;
 
   span {
-    color: #3166ed;
+    color: #1b367c;
     cursor: pointer;
   }
 `;

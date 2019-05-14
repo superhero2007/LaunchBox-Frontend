@@ -17,7 +17,7 @@ const Th = styled.div`
   padding: 0 4px;
 
   &:hover {
-    color: #3166ed;
+    color: #1b367c;
   }
 `;
 

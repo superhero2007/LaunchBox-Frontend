@@ -10,7 +10,7 @@ const InputElement = styled.input`
   &:focus {
     border: 1px solid rgba(152, 178, 246, 0.2);
     height: 35px;
-    color: #3166ed;
+    color: #1b367c;
   }
 
   &::placeholder {

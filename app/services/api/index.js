@@ -63,9 +63,8 @@ const callApi = (endpoint, method = 'GET', bodyJS = null, hasFile = false) => {
 };
 
 // API to Sign Up
-export const signUp = query => {
-  console.log(query);
-  const url = 'signup';
+export const register = query => {
+  const url = 'signUp';
   const option = {
     email: query.query.email,
     fullName: query.query.fullName,
@@ -83,4 +82,10 @@ export const logIn = query => {
     password: query.query.password,
   };
   return callApi(url, 'POST', option);
+};
+
+// API to send registration email
+export const registerEmail = () => {
+  const url = 'registration-email';
+  return callApi(url, 'POST');
 };

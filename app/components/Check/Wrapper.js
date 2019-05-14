@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   }
 
   &:hover {
-    color: #3166ed;
+    color: #1b367c;
 
     .origin {
       display: none;

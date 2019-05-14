@@ -18,7 +18,7 @@ const Button = styled.button`
 const SaveButton = styled.button`
   width: 184px;
   height: 40px;
-  background: #3166ed;
+  background: #1b367c;
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -30,8 +30,8 @@ const SaveButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: #3166ed;
-    border: 2px solid #3166ed;
+    color: #1b367c;
+    border: 2px solid #1b367c;
     background: #fff;
   }
 `;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const InputAdd = styled.button`
   padding-top: 0;
-  border: 2px solid #3166ed;
+  border: 2px solid #1b367c;
   box-sizing: border-box;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
@@ -13,12 +13,12 @@ const InputAdd = styled.button`
   line-height: normal;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #3166ed;
+  color: #1b367c;
   cursor: pointer;
   font-size: ${props => props.size}px;
 
   &:hover {
-    background: #3166ed;
+    background: #1b367c;
     color: white;
   }
 `;

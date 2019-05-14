@@ -14,7 +14,7 @@ const Hover = styled.span`
   align-items: center;
   justify-content: center;
   width: ${props => (props.value ? '66px' : '86px')};
-  background: ${props => (props.value ? '#3166ed' : '#e37898')};
+  background: ${props => (props.value ? '#1b367c;' : '#e37898')};
 `;
 
 export default Hover;

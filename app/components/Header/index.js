@@ -7,11 +7,9 @@ import LogoImage from '../../images/logo.svg';
 import BrandImage from '../../images/logo.png';
 import BizBoxIcon from '../../images/bizbox-icon.svg';
 import BrandBoxIcon from '../../images/brandbox-icon.svg';
-import ToolBoxIcon from '../../images/toolbox-icon.svg';
 
 import BizBoxIconHover from '../../images/bizbox-icon__hover.svg';
 import BrandBoxIconHover from '../../images/brandbox-icon__hover.svg';
-import ToolBoxIconHover from '../../images/toolbox-icon__hover.svg';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -58,7 +56,7 @@ const MenuItem = styled(Link)`
 
   &.active,
   &:hover {
-    color: #3166ed;
+    color: #1b367c;
     img {
       &.origin {
         display: none;
@@ -140,17 +138,6 @@ const Header = props => (
         <img src={BrandBoxIcon} alt="BrandBox" className="origin" />
         <img src={BrandBoxIconHover} alt="BizBox" className="hover" />
         <MenuItemText>BrandBox</MenuItemText>
-      </MenuItem>
-      <MenuItem
-        to="/"
-        className={
-          (props.route === '/tool' ? 'active' : '') +
-          (props.route === '/' ? 'hide' : '')
-        }
-      >
-        <img src={ToolBoxIcon} alt="ToolBox" className="origin" />
-        <img src={ToolBoxIconHover} alt="ToolBox" className="hover" />
-        <MenuItemText>ToolBox</MenuItemText>
       </MenuItem>
     </Menu>
     <BrandWrapper>

@@ -22,7 +22,7 @@ class HomePage extends React.PureComponent {
     this.state = {
       list: [
         {
-          background: '#3166ed',
+          background: '#1b367c;',
           color: '#ffffff',
           link: '/biz',
           date: 'UPDATED 3 DAYS AGO',

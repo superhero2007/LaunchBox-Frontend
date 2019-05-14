@@ -12,3 +12,4 @@ const createRequestTypes = base => {
 
 export const SIGN_UP_REQUEST = createRequestTypes('SIGN_UP');
 export const LOG_IN_REQUEST = createRequestTypes('LOG_IN');
+export const REGISTER_EMAIL_REQUEST = createRequestTypes('REGISTER_EMAIL');

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /*
  * HomePage
  *
@@ -20,6 +21,7 @@ import reducer from 'services/api/reducer';
 import saga from 'services/api/saga';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import AuthBg from '../../images/auth_bg.png';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
 import Check from '../../images/check-white.png';
@@ -37,7 +39,7 @@ const LeftWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #3166ed;
+  background: url(${AuthBg});
 `;
 
 const Brand = styled.div`
@@ -106,6 +108,10 @@ const Input = styled.div`
   width: 100%;
   height: 56px;
   position: relative;
+
+  &.invalid {
+    border-color: #f74d6c;
+  }
 `;
 
 const Label = styled.label`
@@ -186,14 +192,14 @@ const Remember = styled.div`
 
   &.checked {
     .remember-label {
-      color: #3166ed;
+      color: #1b367c;
     }
 
     .remember-checkbox {
-      background: url(${Check}) #3166ed;
+      background: url(${Check}) #1b367c;
       background-position: center;
       background-repeat: no-repeat;
-      border-color: #3166ed;
+      border-color: #1b367c;
     }
   }
 `;
@@ -210,8 +216,8 @@ const ForgotLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    color: #3166ed;
-    border-color: #3166ed;
+    color: #1b367c;
+    border-color: #1b367c;
   }
 `;
 
@@ -223,7 +229,7 @@ const Action = styled.div`
 const LoginButton = styled.button`
   width: 210px;
   height: 48px;
-  background: #3166ed;
+  background: #1b367c;
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -258,11 +264,11 @@ const CreateAccount = styled(Link)`
   text-transform: uppercase;
   cursor: pointer;
   border: 2px solid #dfe8ff;
-  color: #3166ed;
+  color: #1b367c;
   text-decoration: none;
 
   &:hover {
-    background: #3166ed;
+    background: #1b367c;
     color: #fff;
     border: 0;
   }
@@ -322,6 +328,19 @@ const GoogleLink = styled(Link)`
   }
 `;
 
+const InvalidEmail = styled.div`
+  position: absolute;
+  right: 21px;
+  top: 19px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: right;
+  color: #f64d6c;
+`;
+
 /* eslint-disable react/prefer-stateless-function */
 class Login extends React.PureComponent {
   constructor(props) {
@@ -330,8 +349,24 @@ class Login extends React.PureComponent {
       email: '',
       password: '',
       remember: false,
+      invalidEmail: false,
     };
   }
+
+  validateEmail = email => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  handleEmailFocus = () => {
+    this.setState({ invalidEmail: false });
+  };
+
+  handleEmailBlur = () => {
+    this.setState(state => ({
+      invalidEmail: !this.validateEmail(state.email),
+    }));
+  };
 
   handleEmailChange = e => {
     this.setState({ email: e.target.value });
@@ -369,15 +404,20 @@ class Login extends React.PureComponent {
           <Logo src={BlueLogo} alt="Logo" />
           <Form>
             <Header>Login</Header>
-            <Input>
+            <Input className={this.state.invalidEmail ? 'invalid' : ''}>
               <InputElement
                 type="text"
                 value={this.state.email}
                 onChange={this.handleEmailChange}
                 id="email"
                 className={this.state.email ? 'focus' : ''}
+                onFocus={this.handleEmailFocus}
+                onBlur={this.handleEmailBlur}
               />
               <Label htmlFor="email">Email</Label>
+              {this.state.invalidEmail && (
+                <InvalidEmail>Invalid Address</InvalidEmail>
+              )}
             </Input>
             <Input>
               <InputElement
@@ -408,7 +448,7 @@ class Login extends React.PureComponent {
               >
                 LOGIN
               </LoginButton>
-              <CreateAccount to="/sign-up">Create Account</CreateAccount>
+              <CreateAccount to="/register">Create Account</CreateAccount>
             </Action>
             <Social>
               <SocialText>Or login with</SocialText>

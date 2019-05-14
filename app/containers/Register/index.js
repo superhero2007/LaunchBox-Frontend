@@ -1,5 +1,6 @@
+/* eslint-disable no-useless-escape */
 /*
- * HomePage
+ * RegisterPage
  *
  * This is the first thing users see of our App, at the '/' route
  *
@@ -15,7 +16,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { signUp } from 'services/api/actions';
+import { register } from 'services/api/actions';
 import reducer from 'services/api/reducer';
 import saga from 'services/api/saga';
 import injectReducer from 'utils/injectReducer';
@@ -23,6 +24,12 @@ import injectSaga from 'utils/injectSaga';
 import AuthBg from '../../images/auth_bg.png';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
+import PasswordText from '../../images/password-text.svg';
+import PasswordTextHover from '../../images/password-text__hover.svg';
+import PasswordHash from '../../images/password-hash.svg';
+import PasswordHashHover from '../../images/password-hash__hover.svg';
+import PasswordHint from '../../images/password-hint.svg';
+import PasswordHintHover from '../../images/password-hint__hover.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,12 +44,11 @@ const LeftWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #3166ed;
+  background: url(${AuthBg});
 `;
 
 const Brand = styled.div`
   text-align: center;
-  background: url(${AuthBg});
 `;
 
 const SubTitle = styled.div`
@@ -107,6 +113,10 @@ const Input = styled.div`
   width: 100%;
   height: 56px;
   position: relative;
+
+  &.invalid {
+    border-color: #f74d6c;
+  }
 `;
 
 const Label = styled.label`
@@ -151,10 +161,10 @@ const Action = styled.div`
   margin-top: 32px;
 `;
 
-const SignUpButton = styled.button`
+const RegisterButton = styled.button`
   width: 210px;
   height: 48px;
-  background: #3166ed;
+  background: #1b367c;
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -189,11 +199,11 @@ const CreateAccount = styled(Link)`
   text-transform: uppercase;
   cursor: pointer;
   border: 2px solid #dfe8ff;
-  color: #3166ed;
+  color: #1b367c;
   text-decoration: none;
 
   &:hover {
-    background: #3166ed;
+    background: #1b367c;
     color: #fff;
     border: 0;
   }
@@ -253,8 +263,99 @@ const GoogleLink = styled(Link)`
   }
 `;
 
+const PasswordHintImg = styled.img`
+  position: absolute;
+  top: 17px;
+  right: 57px;
+  width: 20px;
+  height: 20px;
+`;
+
+const PasswordIconImg = styled.img`
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  width: 20px;
+  height: 20px;
+`;
+
+const PasswordParam = styled.div`
+  position: absolute;
+  top: 17px;
+  right: -60px;
+  color: ${props => props.color};
+`;
+
+const PasswordLength = styled.div`
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  display: flex;
+`;
+
+const PasswordLengthElement = styled.div`
+  background: ${props => props.color};
+  width: 100%;
+
+  & + & {
+    margin-left: 12px;
+  }
+`;
+
+const PasswordHintTooltip = styled.div`
+  position: absolute;
+  top: -75px;
+  left: 340px;
+  width: 285px;
+  height: 83px;
+`;
+
+const PasswordHintTooltipContent = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 17px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 24px;
+  color: #424d6b;
+  background: #fff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.09);
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+    bottom: -8px;
+    left: 25px;
+  }
+`;
+
+const InvalidEmail = styled.div`
+  position: absolute;
+  right: 21px;
+  top: 19px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: right;
+  color: #f64d6c;
+`;
+
 /* eslint-disable react/prefer-stateless-function */
-class SignUp extends React.PureComponent {
+class Register extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -262,6 +363,10 @@ class SignUp extends React.PureComponent {
       fullName: '',
       companyName: '',
       password: '',
+      showPassword: false,
+      passwordHover: false,
+      passwordHoverHint: false,
+      invalidEmail: false,
     };
   }
 
@@ -281,13 +386,50 @@ class SignUp extends React.PureComponent {
     this.setState({ password: e.target.value });
   };
 
-  handleSignUp = () => {
-    this.props.OnSignUp({
+  handleRegister = () => {
+    this.props.OnRegister({
       email: this.state.email,
       fullName: this.state.fullName,
       companyName: this.state.companyName,
       password: this.state.password,
     });
+  };
+
+  togglePassword = () => {
+    this.setState(state => ({
+      showPassword: !state.showPassword,
+    }));
+  };
+
+  hoverInPassword = () => {
+    this.setState({ passwordHover: true });
+  };
+
+  hoverOutPassword = () => {
+    this.setState({ passwordHover: false });
+  };
+
+  hoverInPasswordHint = () => {
+    this.setState({ passwordHoverHint: true });
+  };
+
+  hoverOutPasswordHint = () => {
+    this.setState({ passwordHoverHint: false });
+  };
+
+  validateEmail = email => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  handleEmailFocus = () => {
+    this.setState({ invalidEmail: false });
+  };
+
+  handleEmailBlur = () => {
+    this.setState(state => ({
+      invalidEmail: !this.validateEmail(state.email),
+    }));
   };
 
   render() {
@@ -296,6 +438,73 @@ class SignUp extends React.PureComponent {
       this.state.fullName &&
       this.state.email &&
       this.state.password;
+
+    let passwordIcon;
+    if (this.state.showPassword) {
+      if (this.state.passwordHover) {
+        passwordIcon = PasswordTextHover;
+      } else {
+        passwordIcon = PasswordText;
+      }
+    } else if (this.state.passwordHover) {
+      passwordIcon = PasswordHashHover;
+    } else {
+      passwordIcon = PasswordHash;
+    }
+
+    let passwordHintIcon;
+    if (this.state.passwordHoverHint) {
+      passwordHintIcon = PasswordHintHover;
+    } else {
+      passwordHintIcon = PasswordHint;
+    }
+
+    let passwordParam = {
+      text: '',
+      color: '#fff',
+      weak: ['transparent', 'transparent', 'transparent', 'transparent'],
+    };
+    const passwordWeakLength = [
+      {
+        text: 'Worst',
+        color: '#B3B8C4',
+        weak: ['#D9DBE1', '#D9DBE1', '#D9DBE1', '#D9DBE1'],
+      },
+      {
+        text: 'Bad',
+        color: '#E37898',
+        weak: ['#E37898', '#D9DBE1', '#D9DBE1', '#D9DBE1'],
+      },
+      {
+        text: 'Weak',
+        color: '#FEB765',
+        weak: ['#FEB765', '#FEB765', '#D9DBE1', '#D9DBE1'],
+      },
+      {
+        text: 'Good',
+        color: '#0BDF6D',
+        weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#D9DBE1'],
+      },
+      {
+        text: 'Strong',
+        color: '#0BDF6D',
+        weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#0BDF6D'],
+      },
+    ];
+
+    if (this.state.password) {
+      const passwordWeak = Math.floor(this.state.password.length / 4);
+      if (passwordWeak >= 5) {
+        passwordParam = {
+          text: 'Strong',
+          color: '#0BDF6D',
+          weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#0BDF6D'],
+        };
+      } else {
+        passwordParam = passwordWeakLength[passwordWeak];
+      }
+    }
+
     return (
       <Wrapper>
         <LeftWrapper>
@@ -308,16 +517,21 @@ class SignUp extends React.PureComponent {
         <RightWrapper>
           <Logo src={BlueLogo} alt="Logo" />
           <Form>
-            <Header>Register</Header>
-            <Input>
+            <Header>Sign Up</Header>
+            <Input className={this.state.invalidEmail ? 'invalid' : ''}>
               <InputElement
                 type="text"
                 value={this.state.email}
                 onChange={this.handleEmailChange}
                 id="email"
                 className={this.state.email ? 'focus' : ''}
+                onFocus={this.handleEmailFocus}
+                onBlur={this.handleEmailBlur}
               />
               <Label htmlFor="email">Email</Label>
+              {this.state.invalidEmail && (
+                <InvalidEmail>Invalid Address</InvalidEmail>
+              )}
             </Input>
             <Input>
               <InputElement
@@ -341,18 +555,48 @@ class SignUp extends React.PureComponent {
             </Input>
             <Input>
               <InputElement
-                type="text"
+                type={this.state.showPassword ? 'text' : 'password'}
                 value={this.state.password}
                 onChange={this.handlePasswordChange}
                 id="password"
                 className={this.state.password ? 'focus' : ''}
               />
               <Label htmlFor="password">Password</Label>
+              <PasswordHintImg
+                src={passwordHintIcon}
+                alt="Password Hint"
+                onMouseEnter={this.hoverInPasswordHint}
+                onMouseLeave={this.hoverOutPasswordHint}
+              />
+              <PasswordIconImg
+                src={passwordIcon}
+                alt="Password Text"
+                onClick={this.togglePassword}
+                onMouseEnter={this.hoverInPassword}
+                onMouseLeave={this.hoverOutPassword}
+              />
+              <PasswordParam color={passwordParam.color}>
+                {passwordParam.text}
+              </PasswordParam>
+              <PasswordLength>
+                <PasswordLengthElement color={passwordParam.weak[0]} />
+                <PasswordLengthElement color={passwordParam.weak[1]} />
+                <PasswordLengthElement color={passwordParam.weak[2]} />
+                <PasswordLengthElement color={passwordParam.weak[3]} />
+              </PasswordLength>
+              {this.state.passwordHoverHint && (
+                <PasswordHintTooltip>
+                  <PasswordHintTooltipContent>
+                    Use 8 or more characters with a mix of letters, numbers &
+                    symbols
+                  </PasswordHintTooltipContent>
+                </PasswordHintTooltip>
+              )}
             </Input>
             <Action>
-              <SignUpButton disabled={!input} onClick={this.handleSignUp}>
+              <RegisterButton disabled={!input} onClick={this.handleRegister}>
                 CREATE ACCOUNT
-              </SignUpButton>
+              </RegisterButton>
               <CreateAccount to="/login">Login</CreateAccount>
             </Action>
             <Social>
@@ -367,13 +611,13 @@ class SignUp extends React.PureComponent {
   }
 }
 
-SignUp.propTypes = {
-  OnSignUp: PropTypes.func,
+Register.propTypes = {
+  OnRegister: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    OnSignUp: query => dispatch(signUp.request(query)),
+    OnRegister: query => dispatch(register.request(query)),
   };
 }
 
@@ -389,4 +633,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(SignUp);
+)(Register);

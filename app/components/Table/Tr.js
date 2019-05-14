@@ -6,7 +6,7 @@ const Tr = styled.div`
   color: #58454b;
 
   &.table__tr:hover {
-    color: #3166ed;
+    color: #1b367c;
   }
 `;
 

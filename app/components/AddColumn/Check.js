@@ -23,7 +23,7 @@ class Check extends React.Component {
       <CheckWrapper>
         <ImageWrapper
           color="rgba(49, 102, 237, 0.1)"
-          hover="#3166ed"
+          hover="#1b367c;"
           onClick={() => this.setActive(true)}
           className={this.state.active === true ? 'active' : ''}
         >

@@ -16,7 +16,7 @@ const InputElement = styled.input`
   line-height: 19px;
 
   &:focus {
-    color: #3166ed;
+    color: #1b367c;
   }
 
   &::placeholder {
