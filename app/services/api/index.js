@@ -57,14 +57,14 @@ const callApi = (endpoint, method = 'GET', bodyJS = null, hasFile = false) => {
         error,
       }),
     )
-    .catch(reason => {
-      console.log('ERROR', reason);
+    .catch(() => {
+      // console.log('ERROR', error);
     });
 };
 
 // API to Sign Up
 export const register = query => {
-  const url = 'signUp';
+  const url = 'api/auth/register';
   const option = {
     email: query.query.email,
     fullName: query.query.fullName,
@@ -76,7 +76,7 @@ export const register = query => {
 
 // API to Log In
 export const logIn = query => {
-  const url = 'login';
+  const url = 'api/auth/login';
   const option = {
     email: query.query.email,
     password: query.query.password,
@@ -86,6 +86,27 @@ export const logIn = query => {
 
 // API to send registration email
 export const registerEmail = () => {
-  const url = 'registration-email';
-  return callApi(url, 'POST');
+  const url = 'api/auth/register-confirmation';
+  const option = {
+    token: localStorage.getItem('token'),
+  };
+  return callApi(url, 'POST', option);
+};
+
+// API to confirm registration email
+export const registerConfirmation = query => {
+  const url = `api/auth/confirmation`;
+  const option = {
+    token: query.token,
+  };
+  return callApi(url, 'POST', option);
+};
+
+// API to confirm registration email
+export const getUser = query => {
+  const url = `api/auth/user`;
+  const option = {
+    token: query.token,
+  };
+  return callApi(url, 'POST', option);
 };

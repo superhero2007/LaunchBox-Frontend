@@ -421,7 +421,7 @@ class Login extends React.PureComponent {
             </Input>
             <Input>
               <InputElement
-                type="text"
+                type="password"
                 value={this.state.password}
                 onChange={this.handlePasswordChange}
                 id="password"
