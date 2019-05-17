@@ -56,7 +56,7 @@ RouteConfirm.propTypes = {
 
 RouteConfirm.defaultProps = {
   to: '/login',
-  confirm: '/home',
+  confirm: '/account-active',
 };
 
 export default RouteConfirm;

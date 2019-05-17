@@ -5,8 +5,8 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 800;
   font-size: 27px;
-  line-height: normal;
-  color: #3d2f3d;
+  line-height: 34px;
+  color: #1b367c;
 `;
 
 export default Title;

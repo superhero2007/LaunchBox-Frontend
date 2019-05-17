@@ -1,7 +1,7 @@
 /*
- * HomePage
+ * BrandPage
  *
- * This is the first thing users see of our App, at the '/' route
+ * This is the first thing users see of our App, at the '/brand' route
  *
  * NOTE: while this component should technically be a stateless functional
  * component (SFC), hot reloading does not currently support SFCs. If hot
@@ -11,30 +11,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'components/Modal';
 import Header from 'components/Header';
+
+import Modal from 'components/Modal';
 import IconElement from 'components/IconElement';
-import Wrapper from './Wrapper';
-import Title from './Title';
-import SubTitle from './SubTitle';
-import ElementContainer from './ElementContainer';
-import SubContainer from './SubContainer';
-import Row from './Row';
-import Icon from './Icon';
+import InputContainer from './components/InputContainer';
 
-import Input from './Input';
-import InputAdd from './InputAdd';
+import Wrapper from './components/Wrapper';
 
-import Button from './Button';
+import Title from './components/Title';
+import SubTitle from './components/SubTitle';
+import ElementContainer from './components/ElementContainer';
+import SubContainer from './components/SubContainer';
+import Row from './components/Row';
+import Icon from './components/Icon';
 
-import Logo from './Logo';
+import InputAdd from './components/InputAdd';
+import Button from './components/Button';
+import Logo from './components/Logo';
+import FontContainer from './components/FontContainer';
+import FontRow from './components/FontRow';
+import FontElement from './components/FontElement';
+import FontColor from './components/FontColor';
 
-import FontContainer from './FontContainer';
-import FontRow from './FontRow';
-import FontElement from './FontElement';
-import FontColor from './FontColor';
-
-import ModalDialog from './ModalDialog';
+import ModalDialog from './components/ModalDialog';
 
 /* eslint-disable react/prefer-stateless-function */
 class BrandPage extends React.PureComponent {
@@ -42,6 +42,18 @@ class BrandPage extends React.PureComponent {
     super(props);
     this.state = {
       type: null,
+      inputElements: [
+        {
+          id: 1,
+          label: 'Brand Name',
+          value: 'Ketchup Creative',
+        },
+        {
+          id: 2,
+          label: 'ID Number',
+          value: '420817-2580',
+        },
+      ],
     };
   }
 
@@ -58,33 +70,27 @@ class BrandPage extends React.PureComponent {
   };
 
   render() {
+    if (this.state.type) {
+      return (
+        <Modal onClose={this.closeModal}>
+          <ModalDialog
+            type={this.state.type}
+            onAdd={this.addElement}
+            onClose={this.closeModal}
+          />
+        </Modal>
+      );
+    }
+
     return (
       <div>
-        {this.state.type && (
-          <Modal onClose={this.closeModal}>
-            <ModalDialog
-              type={this.state.type}
-              onAdd={this.addElement}
-              onClose={this.closeModal}
-            />
-          </Modal>
-        )}
         <Header route={this.props.location.pathname} />
         <Wrapper>
-          <Title>Basics</Title>
-          <ElementContainer top={24} bottom={69}>
-            <Input label="Brand Name" value="Ketchup Creative" />
-            <Input label="ID Number" value="420817-2580" />
-            <InputAdd
-              width={328}
-              height={56}
-              size={15}
-              weight={900}
-              onClick={() => this.add('Input')}
-            >
-              Add +
-            </InputAdd>
-          </ElementContainer>
+          <InputContainer
+            title="Basics"
+            elements={this.state.inputElements}
+            onCreate={() => this.add('Input')}
+          />
 
           <Title>Online Presence</Title>
           <ElementContainer top={24} bottom={82}>
