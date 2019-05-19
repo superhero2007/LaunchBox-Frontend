@@ -12,13 +12,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import styled from 'styled-components';
 import { registerEmail } from 'services/api/actions';
-import reducer from 'services/api/reducer';
-import saga from 'services/api/saga';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 import AuthBg from '../../images/auth_bg.png';
 import WhiteLogo from '../../images/white-logo.svg';
 import BlueLogo from '../../images/logo.svg';
@@ -178,16 +173,7 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(
+export default connect(
   null,
   mapDispatchToProps,
-);
-
-const withReducer = injectReducer({ key: 'service', reducer });
-const withSaga = injectSaga({ key: 'service', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
 )(RegisterConfirm);

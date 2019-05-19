@@ -55,13 +55,20 @@ class App extends React.Component {
       return <div />;
     }
 
-    const isAuthenticated = !!this.props.user;
+    const isAuthenticated = !!token;
     const isConfirmed = !!(this.props.user && this.props.user.confirmed);
+    console.log(isAuthenticated, isConfirmed);
 
     return (
       <div>
         <Switch>
           <Route exact path="/" component={LandingPage} />
+          <RouteConfirm
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/confirmation/:token"
+            component={Confirmation}
+          />
           <RoutePublic
             isAuthenticated={isAuthenticated}
             path="/login"
@@ -72,7 +79,7 @@ class App extends React.Component {
             path="/register"
             component={Register}
           />
-          <RoutePrivate
+          <RouteConfirm
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
             path="/register-confirm"
@@ -113,12 +120,6 @@ class App extends React.Component {
             isConfirmed={isConfirmed}
             path="/brand"
             component={BrandPage}
-          />
-          <RouteConfirm
-            isAuthenticated={isAuthenticated}
-            isConfirmed={isConfirmed}
-            path="/confirmation/:token"
-            component={Confirmation}
           />
           <Route component={NotFoundPage} />
         </Switch>

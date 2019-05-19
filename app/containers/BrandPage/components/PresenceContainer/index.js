@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
-  getInputElements,
-  createInputElement,
-  updateInputElement,
-  deleteInputElement,
+  getPresences,
+  createPresence,
+  updatePresence,
+  deletePresence,
 } from 'containers/BrandPage/actions';
-import { makeSelectInputElements } from 'containers/BrandPage/selectors';
+import { makeSelectPresences } from 'containers/BrandPage/selectors';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -20,17 +20,17 @@ import InputAdd from '../InputAdd';
 import ElementCloser from '../ElementCloser';
 import ModalDialog from './ModalDialog';
 
-class InputContainer extends React.PureComponent {
+class PresenceContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'Basics',
+      title: 'Online Presence',
       type: null,
     };
   }
 
   componentDidMount() {
-    this.props.onLoadInputElements();
+    this.props.onLoadPresences();
   }
 
   closeModal = () => {
@@ -42,7 +42,6 @@ class InputContainer extends React.PureComponent {
       type: 'Create',
       element: {
         _id: '',
-        label: '',
         value: '',
       },
     });
@@ -50,9 +49,9 @@ class InputContainer extends React.PureComponent {
 
   onAdd = value => {
     if (this.state.type === 'Create') {
-      this.props.onCreateInputElement(value);
+      this.props.onCreatePresence(value);
     } else {
-      this.props.onUpdateInputElement(value);
+      this.props.onUpdatePresence(value);
     }
     this.setState({ type: null });
   };
@@ -60,11 +59,11 @@ class InputContainer extends React.PureComponent {
   onUpdate = (value, element) => {
     const updatedObj = Object.assign({}, element);
     updatedObj.value = value.target.value;
-    this.props.onUpdateInputElement(updatedObj);
+    this.props.onUpdatePresence(updatedObj);
   };
 
   onDelete = _id => {
-    this.props.onDeleteInputElement(_id);
+    this.props.onDeletePresence(_id);
   };
 
   updateModal = element => {
@@ -75,11 +74,11 @@ class InputContainer extends React.PureComponent {
   };
 
   onDuplicate = element => {
-    this.props.onCreateInputElement(element);
+    this.props.onCreatePresence(element);
   };
 
   listElements = () =>
-    this.props.inputElements.map(element => (
+    this.props.presences.map(element => (
       <ElementWrapper key={element._id}>
         <Element
           element={element}
@@ -128,28 +127,28 @@ class InputContainer extends React.PureComponent {
   }
 }
 
-InputContainer.propTypes = {
-  inputElements: PropTypes.array,
-  onLoadInputElements: PropTypes.func,
-  onUpdateInputElement: PropTypes.func,
-  onCreateInputElement: PropTypes.func,
-  onDeleteInputElement: PropTypes.func,
+PresenceContainer.propTypes = {
+  presences: PropTypes.array,
+  onLoadPresences: PropTypes.func,
+  onUpdatePresence: PropTypes.func,
+  onCreatePresence: PropTypes.func,
+  onDeletePresence: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  inputElements: makeSelectInputElements(),
+  presences: makeSelectPresences(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onLoadInputElements: () => dispatch(getInputElements.request()),
-    onCreateInputElement: value => dispatch(createInputElement.request(value)),
-    onUpdateInputElement: value => dispatch(updateInputElement.request(value)),
-    onDeleteInputElement: value => dispatch(deleteInputElement.request(value)),
+    onLoadPresences: () => dispatch(getPresences.request()),
+    onCreatePresence: value => dispatch(createPresence.request(value)),
+    onUpdatePresence: value => dispatch(updatePresence.request(value)),
+    onDeletePresence: value => dispatch(deletePresence.request(value)),
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(InputContainer);
+)(PresenceContainer);

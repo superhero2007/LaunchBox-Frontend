@@ -65,48 +65,26 @@ const callApi = (endpoint, method = 'GET', bodyJS = null, hasFile = false) => {
     });
 };
 
-// API to Sign Up
-export const register = query => {
-  const url = 'api/auth/register';
-  const option = {
-    email: query.query.email,
-    fullName: query.query.fullName,
-    companyName: query.query.companyName,
-    password: query.query.password,
-  };
-  return callApi(url, 'POST', option);
-};
-
-// API to Log In
-export const logIn = query => {
-  const url = 'api/auth/login';
-  const option = {
-    email: query.query.email,
-    password: query.query.password,
-  };
-  return callApi(url, 'POST', option);
-};
-
-// API to send registration email
-export const registerEmail = () => {
-  const url = 'api/auth/register-confirmation';
-  const option = {
-    token: localStorage.getItem('token'),
-  };
-  return callApi(url, 'POST', option);
-};
-
-// API to confirm registration email
-export const registerConfirmation = query => {
-  const url = `api/auth/confirmation`;
-  const option = {
-    token: query.token,
-  };
-  return callApi(url, 'POST', option);
-};
-
-// API to confirm registration email
-export const getUser = () => {
-  const url = `api/auth/user`;
+// API to get Input Elements
+export const getElementsService = type => {
+  const url = `api/${type}`;
   return callApi(url, 'GET');
+};
+
+// API to create Input Elements
+export const createElementService = (type, body) => {
+  const url = `api/${type}`;
+  return callApi(url, 'POST', body);
+};
+
+// API to update Input Elements
+export const updateElementService = (type, body) => {
+  const url = `api/${type}/${body._id}`;
+  return callApi(url, 'PUT', body);
+};
+
+// API to delete Input Elements
+export const deleteElementService = (type, _id) => {
+  const url = `api/${type}/${_id}`;
+  return callApi(url, 'DELETE');
 };

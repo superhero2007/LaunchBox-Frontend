@@ -39,16 +39,7 @@ module.exports = options => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.scss/,
         exclude: /node_modules/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-            },
-          },
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // Preprocess 3rd party .css files located in node_modules

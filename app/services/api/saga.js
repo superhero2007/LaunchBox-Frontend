@@ -1,6 +1,6 @@
 import { all, put, call, takeLatest } from 'redux-saga/effects';
-import * as api from 'services/api';
-import * as apiActions from 'services/api/actions';
+import * as api from '.';
+import * as apiActions from './actions';
 import {
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,

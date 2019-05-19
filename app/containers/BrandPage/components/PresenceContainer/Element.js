@@ -13,32 +13,6 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Label = styled.label`
-  position: absolute;
-  top: 19px;
-  left: 17px;
-
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: rgba(66, 77, 107, 0.5);
-
-  transition: top 0.2s;
-  transition: font-size 0.2s;
-
-  input:focus + &,
-  input.focus + & {
-    font-weight: normal;
-    font-size: 11px;
-    line-height: 14px;
-    color: #1b367c;
-    opacity: 0.5;
-    top: 10px;
-  }
-`;
-
 const InputElement = styled.input`
   border: none;
   width: 100%;
@@ -57,7 +31,7 @@ const InputElement = styled.input`
   }
 `;
 
-const EditButton = styled.div`
+const DeleteButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,16 +115,8 @@ class Element extends React.PureComponent {
           value={this.state.value}
           onChange={this.handleValueChange}
           onBlur={this.props.onChange}
-          id={this.props.element.label}
           className={inputClass.join(' ')}
         />
-        <Label htmlFor={this.props.element.label}>
-          {this.props.element.label}
-        </Label>
-        <EditButton onClick={this.props.onEdit}>
-          <img className="origin" src={InputEdit} alt="Input Edit" />
-          <img className="hover" src={InputEditHover} alt="Input Edit Hover" />
-        </EditButton>
         <DuplicateButton onClick={this.props.onDuplicate}>
           <img className="origin" src={InputDuplicate} alt="Input Duplicate" />
           <img
@@ -159,6 +125,10 @@ class Element extends React.PureComponent {
             alt="Input Duplicate Hover"
           />
         </DuplicateButton>
+        <DeleteButton onClick={this.props.onEdit}>
+          <img className="origin" src={InputEdit} alt="Input Edit" />
+          <img className="hover" src={InputEditHover} alt="Input Edit Hover" />
+        </DeleteButton>
       </Wrapper>
     );
   }

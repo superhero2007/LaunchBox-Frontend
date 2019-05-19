@@ -12,12 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { registerConfirmation } from 'services/api/actions';
-import reducer from 'services/api/reducer';
-import saga from 'services/api/saga';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 
 /* eslint-disable react/prefer-stateless-function */
 class Confirmation extends React.PureComponent {
@@ -45,16 +40,7 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(
+export default connect(
   null,
   mapDispatchToProps,
-);
-
-const withReducer = injectReducer({ key: 'service', reducer });
-const withSaga = injectSaga({ key: 'service', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
 )(Confirmation);

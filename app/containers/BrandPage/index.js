@@ -11,6 +11,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+
+import reducer from 'containers/BrandPage/reducer';
+import saga from 'containers/BrandPage/saga';
+
 import Header from 'components/Header';
 
 import Modal from 'components/Modal';
@@ -42,18 +50,6 @@ class BrandPage extends React.PureComponent {
     super(props);
     this.state = {
       type: null,
-      inputElements: [
-        {
-          id: 1,
-          label: 'Brand Name',
-          value: 'Ketchup Creative',
-        },
-        {
-          id: 2,
-          label: 'ID Number',
-          value: '420817-2580',
-        },
-      ],
     };
   }
 
@@ -86,12 +82,7 @@ class BrandPage extends React.PureComponent {
       <div>
         <Header route={this.props.location.pathname} />
         <Wrapper>
-          <InputContainer
-            title="Basics"
-            elements={this.state.inputElements}
-            onCreate={() => this.add('Input')}
-          />
-
+          <InputContainer />
           <Title>Online Presence</Title>
           <ElementContainer top={24} bottom={82}>
             <Button icon="< / >" value="ketchupcreative.com" color="#3166ed" />
@@ -466,4 +457,10 @@ BrandPage.propTypes = {
   location: PropTypes.object,
 };
 
-export default BrandPage;
+const withReducer = injectReducer({ key: 'brand', reducer });
+const withSaga = injectSaga({ key: 'brand', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+)(BrandPage);

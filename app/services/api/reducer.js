@@ -22,7 +22,7 @@ function ServiceReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('error', false)
-        .set('user', action.user);
+        .set('user', action.response.user);
     case SIGN_UP_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
     case LOG_IN_REQUEST.REQUEST:

@@ -176,6 +176,7 @@ class ModalDialog extends React.Component {
     this.state = {
       background: '#fff',
       files: props.type !== 'Font' && props.type !== 'Design',
+      value: '',
     };
   }
 
@@ -193,6 +194,19 @@ class ModalDialog extends React.Component {
     reader.readAsDataURL(file);
   };
 
+  handleClickAdd = () => {
+    if (this.props.type === 'Input') {
+      this.props.onAdd({
+        label: this.state.value,
+        value: '',
+      });
+    }
+  };
+
+  handleChangeInput = e => {
+    this.setState({ value: e.target.value });
+  };
+
   render() {
     return (
       <Wrapper>
@@ -201,12 +215,23 @@ class ModalDialog extends React.Component {
           {this.props.type === 'Presence' && (
             <ModalText>Add New Online Presence</ModalText>
           )}
-          {this.props.type === 'Input' && (
-            <ModalInput placeholder="Item Name" />
-          )}
-          {this.props.type === 'Presence' && <ModalInput placeholder="URL" />}
           {this.props.type === 'Color' && (
             <ModalText>Add Brand Color</ModalText>
+          )}
+
+          {this.props.type === 'Input' && (
+            <ModalInput
+              placeholder="Item Name"
+              value={this.state.value}
+              onChange={this.handleChangeInput}
+            />
+          )}
+          {this.props.type === 'Presence' && (
+            <ModalInput
+              placeholder="URL"
+              value={this.state.value}
+              onChange={this.handleChangeInput}
+            />
           )}
         </ModalHeader>
         {this.props.type === 'Color' && (
@@ -309,7 +334,7 @@ class ModalDialog extends React.Component {
         <ModalAction>
           <CancelButton onClick={this.props.onClose}>Cancel</CancelButton>
           {this.state.files && (
-            <AddButton onClick={this.props.onAdd}>Add</AddButton>
+            <AddButton onClick={this.handleClickAdd}>Add</AddButton>
           )}
         </ModalAction>
       </Wrapper>
