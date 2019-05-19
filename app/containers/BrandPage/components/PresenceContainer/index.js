@@ -16,8 +16,8 @@ import Content from './Content';
 import Title from '../Title';
 import ElementWrapper from './ElementWrapper';
 import Element from './Element';
+import Icon from './Icon';
 import InputAdd from '../InputAdd';
-import ElementCloser from '../ElementCloser';
 import ModalDialog from './ModalDialog';
 
 class PresenceContainer extends React.PureComponent {
@@ -27,6 +27,13 @@ class PresenceContainer extends React.PureComponent {
       title: 'Online Presence',
       type: null,
     };
+    this.colors = ['#3166ed', '#3b5998', '#e1306c', '#1ab7ea'];
+    this.icons = [
+      '< / >',
+      <Icon className="fab fa-facebook-f" />,
+      <Icon className="fab fa-instagram" />,
+      <Icon className="fab fa-vimeo-v" />,
+    ];
   }
 
   componentDidMount() {
@@ -56,21 +63,8 @@ class PresenceContainer extends React.PureComponent {
     this.setState({ type: null });
   };
 
-  onUpdate = (value, element) => {
-    const updatedObj = Object.assign({}, element);
-    updatedObj.value = value.target.value;
-    this.props.onUpdatePresence(updatedObj);
-  };
-
   onDelete = _id => {
     this.props.onDeletePresence(_id);
-  };
-
-  updateModal = element => {
-    this.setState({
-      type: 'Update',
-      element,
-    });
   };
 
   onDuplicate = element => {
@@ -78,20 +72,15 @@ class PresenceContainer extends React.PureComponent {
   };
 
   listElements = () =>
-    this.props.presences.map(element => (
+    this.props.presences.map((element, index) => (
       <ElementWrapper key={element._id}>
         <Element
-          element={element}
-          onChange={value => this.onUpdate(value, element)}
-          onEdit={() => this.updateModal(element)}
+          value={element.value}
+          icon={this.icons[index % 4]}
+          color={this.colors[index % 4]}
+          onDelete={() => this.onDelete(element._id)}
           onDuplicate={() => this.onDuplicate(element)}
         />
-        <ElementCloser
-          onClick={() => this.onDelete(element._id)}
-          className="element_delete"
-        >
-          <i className="fas fa-times" />
-        </ElementCloser>
       </ElementWrapper>
     ));
 
@@ -112,13 +101,13 @@ class PresenceContainer extends React.PureComponent {
           {this.listElements()}
           <ElementWrapper>
             <InputAdd
-              width={328}
-              height={56}
-              size={15}
-              weight={900}
+              width={48}
+              height={48}
+              size={30}
+              weight={100}
               onClick={this.createModal}
             >
-              Add +
+              +
             </InputAdd>
           </ElementWrapper>
         </Content>

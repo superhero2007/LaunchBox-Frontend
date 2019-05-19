@@ -24,6 +24,7 @@ import Header from 'components/Header';
 import Modal from 'components/Modal';
 import IconElement from 'components/IconElement';
 import InputContainer from './components/InputContainer';
+import PresenceContainer from './components/PresenceContainer';
 
 import Wrapper from './components/Wrapper';
 
@@ -32,10 +33,8 @@ import SubTitle from './components/SubTitle';
 import ElementContainer from './components/ElementContainer';
 import SubContainer from './components/SubContainer';
 import Row from './components/Row';
-import Icon from './components/Icon';
 
 import InputAdd from './components/InputAdd';
-import Button from './components/Button';
 import Logo from './components/Logo';
 import FontContainer from './components/FontContainer';
 import FontRow from './components/FontRow';
@@ -83,34 +82,7 @@ class BrandPage extends React.PureComponent {
         <Header route={this.props.location.pathname} />
         <Wrapper>
           <InputContainer />
-          <Title>Online Presence</Title>
-          <ElementContainer top={24} bottom={82}>
-            <Button icon="< / >" value="ketchupcreative.com" color="#3166ed" />
-            <Button
-              icon={<Icon className="fab fa-facebook-f" color="#ffffff" />}
-              value="/tomatsosa"
-              color="#3b5998"
-            />
-            <Button
-              icon={<Icon className="fab fa-instagram" color="#ffffff" />}
-              value="@therealketchupcreative"
-              color="#e1306c"
-            />
-            <Button
-              icon={<Icon className="fab fa-vimeo-v" color="#ffffff" />}
-              value="/ketchupcreative"
-              color="#1ab7ea"
-            />
-            <InputAdd
-              width={48}
-              height={48}
-              size={30}
-              weight={100}
-              onClick={() => this.add('Presence')}
-            >
-              +
-            </InputAdd>
-          </ElementContainer>
+          <PresenceContainer />
 
           <Title>Design</Title>
           <ElementContainer top={24} bottom={0}>

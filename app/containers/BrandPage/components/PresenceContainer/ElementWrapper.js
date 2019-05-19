@@ -1,16 +1,10 @@
 import styled from 'styled-components';
 
 const ElementWrapper = styled.div`
-  margin-left: 12px;
-  margin-right: 12px;
-  margin-bottom: 12px;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
   position: relative;
-
-  &:hover {
-    .element_delete {
-      display: flex;
-    }
-  }
 `;
 
 export default ElementWrapper;

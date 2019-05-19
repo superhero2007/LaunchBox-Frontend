@@ -10,8 +10,6 @@ const InputAdd = styled.div`
 
   border: 2px solid #1b367c;
 
-  margin-left: 16px;
-
   font-size: ${props => props.size}px;
   font-family: Muli;
   font-style: normal;
