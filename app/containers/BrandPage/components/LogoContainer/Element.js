@@ -1,28 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ElementDelete from '../../../../images/element-delete.svg';
+import Logo from '../Logo';
+import ElementDownload from '../../../../images/element-download.svg';
+import ElementDownloadHover from '../../../../images/element-download__hover.svg';
 import InputDuplicate from '../../../../images/input-duplicate.svg';
-import ElementDeleteHover from '../../../../images/element-delete__hover.svg';
 import InputDuplicateHover from '../../../../images/input-duplicate__hover.svg';
 
 const Wrapper = styled.div`
-  height: 48px;
-  background: ${props => props.color};
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 13px;
-  line-height: normal;
-  text-align: center;
-  color: #ffffff;
-  padding: 15px;
-  cursor: pointer;
   position: relative;
-
-  span + span {
-    margin-left: 12px;
-  }
 
   &:hover {
     .button_group {
@@ -31,22 +17,34 @@ const Wrapper = styled.div`
   }
 `;
 
-const DeleteButton = styled.div`
+const DownloadButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 32px;
+  width: 120px;
   height: 32px;
   border: 2px solid #d6dbe9;
   background: white;
+  text-decoration: none;
+  color: #1b367c;
+
+  span {
+    font-family: Muli;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 16px;
+    margin-left: 12px;
+  }
 
   .hover {
     display: none;
   }
 
   &:hover {
-    background: #ec6689;
+    background: #1b367c;
+    color: #fff;
 
     .origin {
       display: none;
@@ -58,15 +56,25 @@ const DeleteButton = styled.div`
   }
 `;
 
-const DuplicateButton = styled.div`
+const CopyButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 32px;
+  width: 120px;
   height: 32px;
   border: 2px solid #d6dbe9;
   background: white;
+  color: #1b367c;
+
+  span {
+    font-family: Muli;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 16px;
+    margin-left: 12px;
+  }
 
   .hover {
     display: none;
@@ -74,6 +82,7 @@ const DuplicateButton = styled.div`
 
   &:hover {
     background: #1b367c;
+    color: #fff;
 
     .origin {
       display: none;
@@ -95,20 +104,30 @@ const ButtonGroup = styled.div`
   display: none;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   div + div {
-    margin-left: 8px;
+    margin-top: 8px;
   }
 `;
 
 class Element extends React.PureComponent {
   render() {
+    const BACKEND_URL = 'http://localhost:8080';
     return (
-      <Wrapper color={this.props.color}>
-        <span>{this.props.icon}</span>
-        <span>{this.props.value}</span>
+      <Wrapper>
+        <Logo src={`${BACKEND_URL}${this.props.value}`} alt="Logo Element" />
         <ButtonGroup className="button_group">
-          <DuplicateButton onClick={this.props.onDuplicate}>
+          <DownloadButton href={`${BACKEND_URL}${this.props.value}`} download>
+            <img className="origin" src={ElementDownload} alt="Input Edit" />
+            <img
+              className="hover"
+              src={ElementDownloadHover}
+              alt="Input Edit Hover"
+            />
+            <span>Download</span>
+          </DownloadButton>
+          <CopyButton>
             <img
               className="origin"
               src={InputDuplicate}
@@ -119,15 +138,8 @@ class Element extends React.PureComponent {
               src={InputDuplicateHover}
               alt="Input Duplicate Hover"
             />
-          </DuplicateButton>
-          <DeleteButton onClick={this.props.onDelete}>
-            <img className="origin" src={ElementDelete} alt="Input Edit" />
-            <img
-              className="hover"
-              src={ElementDeleteHover}
-              alt="Input Edit Hover"
-            />
-          </DeleteButton>
+            <span>Copy Link</span>
+          </CopyButton>
         </ButtonGroup>
       </Wrapper>
     );
@@ -135,11 +147,7 @@ class Element extends React.PureComponent {
 }
 
 Element.propTypes = {
-  icon: PropTypes.node,
-  color: PropTypes.string,
   value: PropTypes.string,
-  onDuplicate: PropTypes.func,
-  onDelete: PropTypes.func,
 };
 
 export default Element;

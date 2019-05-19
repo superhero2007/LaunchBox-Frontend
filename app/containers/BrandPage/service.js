@@ -9,14 +9,15 @@ const createRequest = (endpoint, method, bodyJS, hasFile) => {
   if (bodyJS !== null) {
     if (hasFile) {
       body = new FormData();
-      Object.keys(bodyJS).forEach(key =>
-        body.append(
-          key,
-          typeof bodyJS[key] !== 'object' || bodyJS[key].preview
-            ? bodyJS[key]
-            : JSON.stringify(bodyJS[key]),
-        ),
-      );
+      body.append('file', bodyJS.value);
+      // Object.keys(bodyJS).forEach(key =>
+      //   body.append(
+      //     key,
+      //     typeof bodyJS[key] !== 'object' || bodyJS[key].preview
+      //       ? bodyJS[key]
+      //       : JSON.stringify(bodyJS[key]),
+      //   ),
+      // );
     } else {
       body = JSON.stringify(bodyJS);
       headers.append('Accept', 'application/json');
@@ -74,6 +75,9 @@ export const getElementsService = type => {
 // API to create Input Elements
 export const createElementService = (type, body) => {
   const url = `api/${type}`;
+  if (type === 'logo') {
+    return callApi(url, 'POST', body, true);
+  }
   return callApi(url, 'POST', body);
 };
 

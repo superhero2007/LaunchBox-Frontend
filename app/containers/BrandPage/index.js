@@ -23,19 +23,21 @@ import Header from 'components/Header';
 
 import Modal from 'components/Modal';
 import IconElement from 'components/IconElement';
+
 import InputContainer from './components/InputContainer';
 import PresenceContainer from './components/PresenceContainer';
+import LogoContainer from './components/LogoContainer';
 
 import Wrapper from './components/Wrapper';
-
 import Title from './components/Title';
 import SubTitle from './components/SubTitle';
+import Containers from './components/Containers';
+
 import ElementContainer from './components/ElementContainer';
 import SubContainer from './components/SubContainer';
 import Row from './components/Row';
 
 import InputAdd from './components/InputAdd';
-import Logo from './components/Logo';
 import FontContainer from './components/FontContainer';
 import FontRow from './components/FontRow';
 import FontElement from './components/FontElement';
@@ -85,23 +87,12 @@ class BrandPage extends React.PureComponent {
           <PresenceContainer />
 
           <Title>Design</Title>
+          <Containers>
+            <LogoContainer />
+          </Containers>
+
           <ElementContainer top={24} bottom={0}>
             <Row>
-              <SubContainer width={50}>
-                <SubTitle>LOGO</SubTitle>
-                <ElementContainer top={0} bottom={0}>
-                  <Logo src="logo.png" color="#c4c4c4" />
-                  <InputAdd
-                    width={160}
-                    height={160}
-                    size={90}
-                    weight={100}
-                    onClick={() => this.add('Design')}
-                  >
-                    +
-                  </InputAdd>
-                </ElementContainer>
-              </SubContainer>
               <SubContainer width={50}>
                 <SubTitle>FONTS</SubTitle>
                 <ElementContainer>

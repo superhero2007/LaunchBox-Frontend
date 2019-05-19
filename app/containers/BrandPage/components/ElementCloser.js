@@ -7,7 +7,7 @@ const ElementCloser = styled.div`
   width: 15px;
   height: 15px;
   font-size: 10px;
-  background: #f14040;
+  background: #ec6689;
   color: #fff;
   cursor: pointer;
   border-radius: 50%;
