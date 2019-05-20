@@ -101,12 +101,17 @@ const ButtonGroup = styled.div`
 
 class Element extends React.PureComponent {
   render() {
-    const BACKEND_URL = 'http://localhost:8080';
     return (
       <Wrapper>
-        <Icon src={`${BACKEND_URL}${this.props.value}`} alt="Icon Element" />
+        <Icon
+          src={`${process.env.API_ENTRY_PREFIX}${this.props.value}`}
+          alt="Icon Element"
+        />
         <ButtonGroup className="button_group">
-          <DownloadButton href={`${BACKEND_URL}${this.props.value}`} download>
+          <DownloadButton
+            href={`${process.env.API_ENTRY_PREFIX}${this.props.value}`}
+            download
+          >
             <img className="origin" src={ElementDownload} alt="Input Edit" />
             <img
               className="hover"
