@@ -66,6 +66,7 @@ const CopyButton = styled.div`
   border: 2px solid #d6dbe9;
   background: white;
   color: #1b367c;
+  margin-top: 8px;
 
   span {
     font-family: Muli;

@@ -111,11 +111,11 @@ const AddButton = styled(Button)`
 
 const CancelButton = styled(Button)`
   border: 2px solid #ececf6;
-  color: #6c4853;
+  color: #1b367c;
 
   &:hover {
     color: #fff;
-    background: #6c4853;
+    background: #1b367c;
   }
 `;
 
@@ -163,7 +163,7 @@ class ModalDialog extends React.Component {
                       <i className="fas fa-arrow-up" />
                     </DropzoneIcon>
                     <DropzoneTitle>
-                      Drag & Drop to upload your icons
+                      Drag & Drop to upload your logos
                     </DropzoneTitle>
                     <DropzoneSubtitle>
                       or <span>browse</span> to choose a files
