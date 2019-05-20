@@ -139,7 +139,7 @@ function BrandReducer(state = initialState, action) {
         return fromJS(elements);
       });
     case DELETE_FONT_COLOR_REQUEST.SUCCESS:
-      return state.update('fonts', fontColors =>
+      return state.update('fontColors', fontColors =>
         fromJS(
           fontColors
             .toJS()
@@ -162,7 +162,7 @@ function BrandReducer(state = initialState, action) {
         return fromJS(elements);
       });
     case DELETE_BRAND_COLOR_REQUEST.SUCCESS:
-      return state.update('brands', brandColors =>
+      return state.update('brandColors', brandColors =>
         fromJS(
           brandColors
             .toJS()

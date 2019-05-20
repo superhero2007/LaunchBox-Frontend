@@ -28,6 +28,8 @@ import InputContainer from './components/InputContainer';
 import PresenceContainer from './components/PresenceContainer';
 import LogoContainer from './components/LogoContainer';
 import FontContainer from './components/FontContainer';
+import FontColorContainer from './components/FontColorContainer';
+import BrandColorContainer from './components/BrandColorContainer';
 
 import Wrapper from './components/Wrapper';
 import Title from './components/Title';
@@ -39,7 +41,6 @@ import SubContainer from './components/SubContainer';
 import Row from './components/Row';
 
 import InputAdd from './components/InputAdd';
-import FontColor from './components/FontColor';
 
 import ModalDialog from './components/ModalDialog';
 
@@ -88,45 +89,11 @@ class BrandPage extends React.PureComponent {
           <Containers>
             <LogoContainer />
             <FontContainer />
+            <FontColorContainer />
+            <BrandColorContainer />
           </Containers>
 
           <ElementContainer top={24} bottom={0}>
-            <Row>
-              <SubContainer width={50}>
-                <SubTitle>Font Colors</SubTitle>
-                <ElementContainer top={0} bottom={0}>
-                  <FontColor color="#ffffff" />
-                  <FontColor color="#ffdf5d" />
-                  <FontColor color="#88afaf" />
-                  <InputAdd
-                    width={150}
-                    height={150}
-                    size={90}
-                    weight={100}
-                    onClick={() => this.add('Color')}
-                  >
-                    +
-                  </InputAdd>
-                </ElementContainer>
-              </SubContainer>
-              <SubContainer width={50}>
-                <SubTitle>Brand Colors</SubTitle>
-                <ElementContainer top={0} bottom={0}>
-                  <FontColor color="#99258d" />
-                  <FontColor color="#ffdf5d" />
-                  <FontColor color="#ffffff" />
-                  <InputAdd
-                    width={150}
-                    height={150}
-                    size={90}
-                    weight={100}
-                    onClick={() => this.add('Color')}
-                  >
-                    +
-                  </InputAdd>
-                </ElementContainer>
-              </SubContainer>
-            </Row>
             <Row>
               <SubContainer width={100}>
                 <SubTitle>Icons</SubTitle>
