@@ -18,7 +18,13 @@ pipelines:
           artifacts:
             - build/**
       - step:
-          image: atlassian/pipelines-awscli
           deployment: production
           script:
-            - aws s3 sync --delete build s3://$AWS_PROD_BUCKET_TARGET
+            - pipe: atlassian/aws-s3-deploy:0.2.1
+              variables:
+                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                 AWS_DEFAULT_REGION: "us-east-2"
+                 S3_BUCKET: $AWS_PROD_BUCKET_TARGET
+                 LOCAL_PATH: "build"
+                 ACL: "public-read"
