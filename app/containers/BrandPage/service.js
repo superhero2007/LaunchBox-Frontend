@@ -9,7 +9,11 @@ const createRequest = (endpoint, method, bodyJS, hasFile) => {
   if (bodyJS !== null) {
     if (hasFile) {
       body = new FormData();
-      body.append('file', bodyJS.value);
+      if (Array.isArray(bodyJS.value)) {
+        bodyJS.value.map(file => body.append('file', file));
+      } else {
+        body.append('file', bodyJS.value);
+      }
       // Object.keys(bodyJS).forEach(key =>
       //   body.append(
       //     key,
@@ -75,7 +79,7 @@ export const getElementsService = type => {
 // API to create Input Elements
 export const createElementService = (type, body) => {
   const url = `api/${type}`;
-  if (type === 'logo') {
+  if (type === 'logo' || type === 'icon') {
     return callApi(url, 'POST', body, true);
   }
   return callApi(url, 'POST', body);

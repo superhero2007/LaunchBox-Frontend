@@ -172,7 +172,9 @@ function BrandReducer(state = initialState, action) {
     case GET_ICONS_REQUEST.SUCCESS:
       return state.set('icons', fromJS(action.response.icons));
     case CREATE_ICON_REQUEST.SUCCESS:
-      return state.update('icons', icons => icons.push(action.response.icon));
+      return state.update('icons', icons =>
+        icons.concat(action.response.icons),
+      );
     case UPDATE_ICON_REQUEST.SUCCESS:
       return state.update('icons', icons => {
         const elements = icons.toJS();
