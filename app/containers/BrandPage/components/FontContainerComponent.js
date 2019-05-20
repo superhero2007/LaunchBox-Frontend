@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FontContainer = styled.div`
+const FontContainerComponent = styled.div`
   padding: 18px 20px;
   width: 50%;
   display: flex;
@@ -9,4 +9,4 @@ const FontContainer = styled.div`
   flex-direction: column;
 `;
 
-export default FontContainer;
+export default FontContainerComponent;
