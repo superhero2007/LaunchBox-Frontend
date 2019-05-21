@@ -26,7 +26,7 @@ import RoutePublic from 'routes/RoutePublic';
 import RoutePrivate from 'routes/RoutePrivate';
 import RouteConfirm from 'routes/RouteConfirm';
 
-import LandingPage from 'containers/LandingPage/Loadable';
+import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
@@ -62,7 +62,7 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/" component={BrandLandingPage} />
           <RouteConfirm
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
