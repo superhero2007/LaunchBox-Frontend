@@ -35,7 +35,6 @@ const Main = styled.div`
 
 const Menu = styled.div`
   padding 30px 32px 0;
-  height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,6 +44,19 @@ const Brand = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
+`;
+
+const Beta = styled.div`
+  width: 39px;
+  height: 16px;
+  background: rgba(41, 85, 242, 0.1);
+  border-radius: 11px;
+  color: #1b367c;
+  margin-left: 12px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const MenuButtons = styled.div`
@@ -127,6 +139,7 @@ class BrandLandingPage extends React.PureComponent {
           <Menu className="menu">
             <Brand to="/" className="menu-brand">
               <img src={brandlogo} alt="Logo" className="menu-brand__logo" />
+              <Beta>beta</Beta>
             </Brand>
             <MenuButtons className="menu-button">
               <SecondaryButton to="/login">Login</SecondaryButton>
