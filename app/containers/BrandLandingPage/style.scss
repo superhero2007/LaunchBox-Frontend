@@ -59,6 +59,7 @@ $screen-xl-min: 1200px;
     img {
       width: 100%;
       max-width: 640px;
+      box-shadow: -10px 10px 5px 5px rgba(49, 102, 240, 0.1);
     }
   }
 
@@ -179,6 +180,7 @@ $screen-xl-min: 1200px;
     img {
       width: 100%;
       max-width: 640px;
+      box-shadow: -10px 10px 5px 5px rgba(49, 102, 240, 0.1);
     }
   }
 
@@ -435,13 +437,13 @@ $screen-xl-min: 1200px;
   &:before {
     position: absolute;
     content: '';
-    width: 120%;
+    width: 200%;
     height: 120%;
     background: #fff;
     transform: rotate(-3deg);
     z-index: -1;
     bottom: -25px;
-    left: -100px;
+    left: -50%;
   }
 
   &__top {
