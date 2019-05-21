@@ -49,7 +49,7 @@ class IconContainer extends React.PureComponent {
 
   listElements = () =>
     this.props.icons.map(element => (
-      <ElementWrapper key={element._id}>
+      <ElementWrapper key={element.value}>
         <Element value={element.value} />
         <ElementCloser
           onClick={() => this.onDelete(element._id)}
