@@ -10,11 +10,12 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
-import PaymentAdded from '../../images/payment-added.svg';
+import ResetPassword from '../../images/reset-password.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,7 +52,7 @@ const FormTitle = styled.div`
   line-height: 44px;
   letter-spacing: -0.03em;
   color: #1b367c;
-  margin-top: 45px;
+  margin-top: 64px;
 `;
 
 const SubHeader = styled.div`
@@ -71,8 +72,8 @@ const Action = styled.div`
   margin-top: 28px;
 `;
 
-const Button = styled(Link)`
-  width: 272px;
+const LoginButton = styled(Link)`
+  width: 210px;
   height: 48px;
   border-radius: 7px;
   background: #1b367c;
@@ -88,12 +89,12 @@ const Button = styled(Link)`
   cursor: pointer;
   text-decoration: none;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 `;
 
 /* eslint-disable react/prefer-stateless-function */
-class ActivePayment extends React.PureComponent {
+class ResetPasswordSent extends React.PureComponent {
   render() {
     return (
       <Wrapper>
@@ -104,11 +105,15 @@ class ActivePayment extends React.PureComponent {
           <img src={HeaderMaskImg} alt="Header Mask" />
         </Header>
         <Form>
-          <img src={PaymentAdded} alt="Registration Confirm" />
-          <FormTitle>Payment Method Added!</FormTitle>
-          <SubHeader>You can now start enjoying your free trial.</SubHeader>
+          <img src={ResetPassword} alt="Reset Password" />
+          <FormTitle>Email Sent</FormTitle>
+          <SubHeader>
+            An email with instructions on how to reset your password was sent to
+            &nbsp;
+            {this.props.location.state.email}
+          </SubHeader>
           <Action>
-            <Button to="home">LAUNCH BRANDGUIDE</Button>
+            <LoginButton to="/login">LOGIN</LoginButton>
           </Action>
         </Form>
       </Wrapper>
@@ -116,4 +121,8 @@ class ActivePayment extends React.PureComponent {
   }
 }
 
-export default ActivePayment;
+ResetPasswordSent.propTypes = {
+  location: PropTypes.object,
+};
+
+export default ResetPasswordSent;

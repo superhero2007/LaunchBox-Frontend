@@ -4,7 +4,8 @@ const ElementWrapper = styled.div`
   margin-left: 8px;
   margin-right: 8px;
   margin-bottom: 20px;
-  width: 45%;
+  width: 314px;
+  max-width: 100%;
   position: relative;
 
   &:hover {

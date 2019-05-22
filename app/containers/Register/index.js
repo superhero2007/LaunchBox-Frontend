@@ -13,12 +13,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { register } from 'services/api/actions';
-import AuthBg from '../../images/auth_bg.png';
-import WhiteLogo from '../../images/white-logo.svg';
-import BlueLogo from '../../images/logo.svg';
+import BrandLogo from '../../images/brand_logo.svg';
+import HeaderMaskImg from '../../images/header_mask.svg';
 import PasswordText from '../../images/password-text.svg';
 import PasswordTextHover from '../../images/password-text__hover.svg';
 import PasswordHash from '../../images/password-hash.svg';
@@ -31,74 +30,37 @@ const Wrapper = styled.div`
   position: absolute;
   height: 100%;
   width: 100%;
-`;
-
-const LeftWrapper = styled.div`
-  height: 100%;
-  width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url(${AuthBg});
 `;
 
-const Brand = styled.div`
-  text-align: center;
-`;
-
-const SubTitle = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 17px;
-  line-height: 21px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 50px;
-`;
-
-const Title = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 30px;
-  line-height: 30px;
-  text-align: center;
-  letter-spacing: 0;
-  color: white;
-  margin-top: 10px;
-`;
-
-const RightWrapper = styled.div`
-  height: 100%;
-  width: 70%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 24px 40px;
+const Header = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
 `;
 
 const Logo = styled.img`
   position: absolute;
-  left: 40px;
-  top: 24px;
+  left: 43px;
+  top: 34px;
 `;
 
 const Form = styled.div`
   width: 445px;
   max-width: 100%;
+  margin: 20px;
 `;
 
-const Header = styled.div`
+const FormTitle = styled.div`
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
   font-size: 35px;
   line-height: 44px;
   letter-spacing: -0.03em;
-  color: #424d6b;
+  color: #1b367c;
   margin-bottom: 40px;
 `;
 
@@ -107,6 +69,7 @@ const Input = styled.div`
   margin: 16px 0;
   width: 100%;
   height: 56px;
+  border-radius: 7px;
   position: relative;
 
   &.invalid {
@@ -159,6 +122,7 @@ const Action = styled.div`
 const RegisterButton = styled.button`
   width: 210px;
   height: 48px;
+  border-radius: 7px;
   background: #1b367c;
   font-family: Muli;
   font-style: normal;
@@ -181,6 +145,7 @@ const RegisterButton = styled.button`
 const CreateAccount = styled(Link)`
   width: 210px;
   height: 48px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -420,6 +385,9 @@ class Register extends React.PureComponent {
 
   validateEmail = email => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (email === '') {
+      return true;
+    }
     return re.test(String(email).toLowerCase());
   };
 
@@ -508,105 +476,101 @@ class Register extends React.PureComponent {
 
     return (
       <Wrapper>
-        <LeftWrapper>
-          <Brand>
-            <img src={WhiteLogo} alt="White-Logo" />
-            <SubTitle>Welcome to</SubTitle>
-            <Title>Launch Box</Title>
-          </Brand>
-        </LeftWrapper>
-        <RightWrapper>
-          <Logo src={BlueLogo} alt="Logo" />
-          <Form>
-            <Header>Sign Up</Header>
-            <Input className={this.state.invalidEmail ? 'invalid' : ''}>
-              <InputElement
-                type="text"
-                value={this.state.email}
-                onChange={this.handleEmailChange}
-                id="email"
-                className={this.state.email ? 'focus' : ''}
-                onFocus={this.handleEmailFocus}
-                onBlur={this.handleEmailBlur}
-              />
-              <Label htmlFor="email">Email</Label>
-              {this.state.invalidEmail && (
-                <InvalidEmail>Invalid Address</InvalidEmail>
-              )}
-            </Input>
-            <Input>
-              <InputElement
-                type="text"
-                value={this.state.fullName}
-                onChange={this.handleFullNameChange}
-                id="fullName"
-                className={this.state.fullName ? 'focus' : ''}
-              />
-              <Label htmlFor="fullName">Full Name</Label>
-            </Input>
-            <Input>
-              <InputElement
-                type="text"
-                value={this.state.companyName}
-                onChange={this.handleCompanyNameChange}
-                id="companyName"
-                className={this.state.companyName ? 'focus' : ''}
-              />
-              <Label htmlFor="companyName">Company Name</Label>
-            </Input>
-            <Input>
-              <InputElement
-                type={this.state.showPassword ? 'text' : 'password'}
-                value={this.state.password}
-                onChange={this.handlePasswordChange}
-                id="password"
-                className={this.state.password ? 'focus' : ''}
-              />
-              <Label htmlFor="password">Password</Label>
-              <PasswordHintImg
-                src={passwordHintIcon}
-                alt="Password Hint"
-                onMouseEnter={this.hoverInPasswordHint}
-                onMouseLeave={this.hoverOutPasswordHint}
-              />
-              <PasswordIconImg
-                src={passwordIcon}
-                alt="Password Text"
-                onClick={this.togglePassword}
-                onMouseEnter={this.hoverInPassword}
-                onMouseLeave={this.hoverOutPassword}
-              />
-              <PasswordParam color={passwordParam.color}>
-                {passwordParam.text}
-              </PasswordParam>
-              <PasswordLength>
-                <PasswordLengthElement color={passwordParam.weak[0]} />
-                <PasswordLengthElement color={passwordParam.weak[1]} />
-                <PasswordLengthElement color={passwordParam.weak[2]} />
-                <PasswordLengthElement color={passwordParam.weak[3]} />
-              </PasswordLength>
-              {this.state.passwordHoverHint && (
-                <PasswordHintTooltip>
-                  <PasswordHintTooltipContent>
-                    Use 8 or more characters with a mix of letters, numbers &
-                    symbols
-                  </PasswordHintTooltipContent>
-                </PasswordHintTooltip>
-              )}
-            </Input>
-            <Action>
-              <RegisterButton disabled={!input} onClick={this.handleRegister}>
-                CREATE ACCOUNT
-              </RegisterButton>
-              <CreateAccount to="/login">Login</CreateAccount>
-            </Action>
-            <Social>
-              <SocialText>Or login with</SocialText>
-              <FacebookLink to="/">FACEBOOK</FacebookLink>
-              <GoogleLink to="/">GOOGLE</GoogleLink>
-            </Social>
-          </Form>
-        </RightWrapper>
+        <Header>
+          <Link to="/">
+            <Logo src={BrandLogo} alt="Brand Logo" />
+          </Link>
+          <img src={HeaderMaskImg} alt="Header Mask" />
+        </Header>
+        <Form>
+          <FormTitle>Sign Up</FormTitle>
+          <Input className={this.state.invalidEmail ? 'invalid' : ''}>
+            <InputElement
+              type="text"
+              value={this.state.email}
+              onChange={this.handleEmailChange}
+              id="email"
+              className={this.state.email ? 'focus' : ''}
+              onFocus={this.handleEmailFocus}
+              onBlur={this.handleEmailBlur}
+            />
+            <Label htmlFor="email">Email</Label>
+            {this.state.invalidEmail && (
+              <InvalidEmail>Invalid Address</InvalidEmail>
+            )}
+          </Input>
+          <Input>
+            <InputElement
+              type="text"
+              value={this.state.fullName}
+              onChange={this.handleFullNameChange}
+              id="fullName"
+              className={this.state.fullName ? 'focus' : ''}
+            />
+            <Label htmlFor="fullName">Full Name</Label>
+          </Input>
+          <Input>
+            <InputElement
+              type="text"
+              value={this.state.companyName}
+              onChange={this.handleCompanyNameChange}
+              id="companyName"
+              className={this.state.companyName ? 'focus' : ''}
+            />
+            <Label htmlFor="companyName">Company Name</Label>
+          </Input>
+          <Input>
+            <InputElement
+              type={this.state.showPassword ? 'text' : 'password'}
+              value={this.state.password}
+              onChange={this.handlePasswordChange}
+              id="password"
+              className={this.state.password ? 'focus' : ''}
+            />
+            <Label htmlFor="password">Password</Label>
+            <PasswordHintImg
+              src={passwordHintIcon}
+              alt="Password Hint"
+              onMouseEnter={this.hoverInPasswordHint}
+              onMouseLeave={this.hoverOutPasswordHint}
+            />
+            <PasswordIconImg
+              src={passwordIcon}
+              alt="Password Text"
+              onClick={this.togglePassword}
+              onMouseEnter={this.hoverInPassword}
+              onMouseLeave={this.hoverOutPassword}
+            />
+            <PasswordParam color={passwordParam.color}>
+              {passwordParam.text}
+            </PasswordParam>
+            <PasswordLength>
+              <PasswordLengthElement color={passwordParam.weak[0]} />
+              <PasswordLengthElement color={passwordParam.weak[1]} />
+              <PasswordLengthElement color={passwordParam.weak[2]} />
+              <PasswordLengthElement color={passwordParam.weak[3]} />
+            </PasswordLength>
+            {this.state.passwordHoverHint && (
+              <PasswordHintTooltip>
+                <PasswordHintTooltipContent>
+                  Use 8 or more characters with a mix of letters, numbers &
+                  symbols
+                </PasswordHintTooltipContent>
+              </PasswordHintTooltip>
+            )}
+          </Input>
+          <Action>
+            <RegisterButton disabled={!input} onClick={this.handleRegister}>
+              CREATE ACCOUNT
+            </RegisterButton>
+            <CreateAccount to="/login">Login</CreateAccount>
+          </Action>
+          <Social>
+            <SocialText>Or login with</SocialText>
+            <FacebookLink to="/">FACEBOOK</FacebookLink>
+            <GoogleLink to="/">GOOGLE</GoogleLink>
+          </Social>
+        </Form>
       </Wrapper>
     );
   }

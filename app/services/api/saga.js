@@ -6,6 +6,8 @@ import {
   LOG_IN_REQUEST,
   REGISTER_EMAIL_REQUEST,
   CONFIRM_REGISTER_REQUEST,
+  FORGOT_PASSWORD_REQUEST,
+  RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
 } from './constants';
 
@@ -14,6 +16,8 @@ const {
   logIn,
   registerEmail,
   registerConfirmation,
+  forgotPassword,
+  resetPassword,
   getUser,
 } = apiActions;
 
@@ -103,6 +107,38 @@ export function* watchGetUser() {
 }
 
 /**
+ * Forgot Password email request/response handler
+ */
+export function* ForgotPasswordRequest(action) {
+  const { response, error } = yield call(api.forgotPassword, action);
+  if (response) {
+    yield put(forgotPassword.success(response));
+  } else {
+    yield put(forgotPassword.failure(error));
+  }
+}
+
+export function* watchForgotPassword() {
+  yield takeLatest(FORGOT_PASSWORD_REQUEST.REQUEST, ForgotPasswordRequest);
+}
+
+/**
+ * Reset Password email request/response handler
+ */
+export function* ResetPasswordRequest(action) {
+  const { response, error } = yield call(api.resetPassword, action);
+  if (response) {
+    yield put(resetPassword.success(response));
+  } else {
+    yield put(resetPassword.failure(error));
+  }
+}
+
+export function* watchResetPassword() {
+  yield takeLatest(RESET_PASSWORD_REQUEST.REQUEST, ResetPasswordRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -112,6 +148,8 @@ export default function* rootSaga() {
     watchLogIn(),
     watchRegisterEmail(),
     watchRegisterConfirmation(),
+    watchForgotPassword(),
+    watchResetPassword(),
     watchGetUser(),
   ]);
 }

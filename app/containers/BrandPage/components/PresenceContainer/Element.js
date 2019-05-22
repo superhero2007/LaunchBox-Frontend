@@ -19,6 +19,8 @@ const Wrapper = styled.div`
   padding: 15px;
   cursor: pointer;
   position: relative;
+  border-radius: 7px;
+  overflow: hidden;
 
   span + span {
     margin-left: 12px;

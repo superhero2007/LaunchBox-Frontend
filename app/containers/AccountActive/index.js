@@ -12,30 +12,46 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import BlankHeader from 'components/BlankHeader';
+import BrandLogo from '../../images/brand_logo.svg';
+import HeaderMaskImg from '../../images/header_mask.svg';
 import ActiveImage from '../../images/active-image.svg';
 
 const Wrapper = styled.div`
   display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  position: absolute;
 `;
 
 const Header = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+`;
+
+const Logo = styled.img`
+  position: absolute;
+  left: 43px;
+  top: 34px;
+`;
+
+const Form = styled.div`
+  max-width: 100%;
+  margin: 20px;
+`;
+
+const FormTitle = styled.div`
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
   font-size: 35px;
   line-height: 44px;
   letter-spacing: -0.03em;
-  color: #424d6b;
-  margin-top: 50px;
-  padding: 0 20px;
-  text-align: center;
+  color: #1b367c;
+  margin-top: 45px;
 `;
 
 const SubHeader = styled.div`
@@ -44,15 +60,21 @@ const SubHeader = styled.div`
   font-weight: 600;
   font-size: 15px;
   line-height: 19px;
-  color: #7d8291;
+  color: #1b367c;
+  opacity: 0.5;
   margin-top: 13px;
-  padding: 0 20px;
-  text-align: center;
+`;
+
+const Action = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
 `;
 
 const Button = styled(Link)`
   width: 272px;
   height: 48px;
+  border-radius: 7px;
   background: #1b367c;
   font-family: Muli;
   font-style: normal;
@@ -64,7 +86,6 @@ const Button = styled(Link)`
   text-transform: uppercase;
   color: #fff;
   cursor: pointer;
-  margin-top: 28px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -76,13 +97,22 @@ class AccountActive extends React.PureComponent {
   render() {
     return (
       <Wrapper>
-        <BlankHeader />
-        <img src={ActiveImage} alt="Active" />
-        <Header>Your account is activated!</Header>
-        <SubHeader>
-          To start using the trial period, please add a payment method
-        </SubHeader>
-        <Button to="/add-payment">Start trial Period</Button>
+        <Header>
+          <Link to="/">
+            <Logo src={BrandLogo} alt="Brand Logo" />
+          </Link>
+          <img src={HeaderMaskImg} alt="Header Mask" />
+        </Header>
+        <Form>
+          <img src={ActiveImage} alt="Registration Confirm" />
+          <FormTitle>Account Verified!</FormTitle>
+          <SubHeader>
+            Please add a payment method before starting your free trial.
+          </SubHeader>
+          <Action>
+            <Button to="add-payment">ADD PAYMENT METHOD</Button>
+          </Action>
+        </Form>
       </Wrapper>
     );
   }

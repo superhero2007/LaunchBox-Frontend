@@ -9,6 +9,8 @@ import InputDuplicateHover from '../../../../images/input-duplicate__hover.svg';
 
 const Wrapper = styled.div`
   position: relative;
+  border-radius: 7px;
+  overflow: hidden;
 
   &:hover {
     .button_group {

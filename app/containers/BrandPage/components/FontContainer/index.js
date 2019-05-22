@@ -90,13 +90,13 @@ class FontContainer extends React.PureComponent {
           {this.listElements()}
           <ElementWrapper>
             <InputAdd
-              width={158}
-              height={46}
-              size={15}
-              weight={900}
+              width={221}
+              height={221}
+              size={90}
+              weight={100}
               onClick={this.createModal}
             >
-              ADD FONT +
+              +
             </InputAdd>
           </ElementWrapper>
         </Content>

@@ -15,3 +15,5 @@ export const LOG_IN_REQUEST = createRequestTypes('LOG_IN');
 export const REGISTER_EMAIL_REQUEST = createRequestTypes('REGISTER_EMAIL');
 export const CONFIRM_REGISTER_REQUEST = createRequestTypes('CONFIRM_REGISTER');
 export const GET_USER_REQUEST = createRequestTypes('GET_USER');
+export const FORGOT_PASSWORD_REQUEST = createRequestTypes('FORGOT_PASSWORD');
+export const RESET_PASSWORD_REQUEST = createRequestTypes('RESET_PASSWORD');

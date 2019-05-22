@@ -14,11 +14,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { logIn } from 'services/api/actions';
+import { Link, Redirect } from 'react-router-dom';
+import { forgotPassword } from 'services/api/actions';
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
-import Check from '../../images/check-white.png';
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,12 +55,22 @@ const FormTitle = styled.div`
   line-height: 44px;
   letter-spacing: -0.03em;
   color: #1b367c;
-  margin-bottom: 40px;
+`;
+
+const SubHeader = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
+  opacity: 0.5;
+  margin-top: 13px;
 `;
 
 const Input = styled.div`
   border: 2px solid rgba(66, 77, 107, 0.2);
-  margin: 16px 0;
+  margin: 20px 0;
   width: 100%;
   height: 56px;
   border-radius: 7px;
@@ -108,83 +117,12 @@ const InputElement = styled.input`
   }
 `;
 
-const ForgotWrapper = styled.div`
-  margin: 24px 0;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Remember = styled.div`
-  display: flex;
-  align-items: center;
-  user-select: none;
-
-  .remember-label {
-    font-family: Muli;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 19px;
-    color: #7d8291;
-    margin-left: 16px;
-  }
-
-  .remember-checkbox {
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(125, 130, 144, 0.5);
-  }
-
-  &:hover {
-    .remember-label {
-      color: #596898;
-    }
-
-    .remember-checkbox {
-      background: url(${Check}) #c0d1fc;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-color: #c0d1fc;
-    }
-  }
-
-  &.checked {
-    .remember-label {
-      color: #1b367c;
-    }
-
-    .remember-checkbox {
-      background: url(${Check}) #1b367c;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-color: #1b367c;
-    }
-  }
-`;
-
-const ForgotLink = styled(Link)`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: #7d8291;
-  cursor: pointer;
-  border-bottom: 1px solid #d9dbe1;
-  text-decoration: none;
-
-  &:hover {
-    color: #1b367c;
-    border-color: #1b367c;
-  }
-`;
-
 const Action = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const LoginButton = styled.button`
+const SubmitButton = styled.button`
   width: 210px;
   height: 48px;
   border-radius: 7px;
@@ -207,7 +145,7 @@ const LoginButton = styled.button`
   }
 `;
 
-const CreateAccount = styled(Link)`
+const LoginButton = styled(Link)`
   width: 210px;
   height: 48px;
   border-radius: 7px;
@@ -234,60 +172,6 @@ const CreateAccount = styled(Link)`
   }
 `;
 
-const Social = styled.div`
-  display: flex;
-  margin-top: 78px;
-`;
-
-const SocialText = styled.span`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: rgba(66, 77, 107, 0.5);
-`;
-
-const FacebookLink = styled(Link)`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: right;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #3b5998;
-  margin-left: 47px;
-  border-bottom: 2px solid #3b5998;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    border: 0;
-  }
-`;
-
-const GoogleLink = styled(Link)`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: right;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #4285f4;
-  margin-left: 47px;
-  border-bottom: 2px solid #4285f4;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    border: 0;
-  }
-`;
-
 const InvalidEmail = styled.div`
   position: absolute;
   right: 21px;
@@ -302,14 +186,13 @@ const InvalidEmail = styled.div`
 `;
 
 /* eslint-disable react/prefer-stateless-function */
-class Login extends React.PureComponent {
+class ResetPasswordRequest extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      remember: false,
       invalidEmail: false,
+      sent: false,
     };
   }
 
@@ -335,25 +218,25 @@ class Login extends React.PureComponent {
     this.setState({ email: e.target.value });
   };
 
-  handlePasswordChange = e => {
-    this.setState({ password: e.target.value });
-  };
-
-  handleClickRemember = e => {
-    e.preventDefault();
-    this.setState(state => ({
-      remember: !state.remember,
-    }));
-  };
-
-  handleLogin = () => {
-    this.props.OnLogin({
-      email: this.state.email,
-      password: this.state.password,
-    });
+  handleForgotPassword = () => {
+    this.props.OnForgotPassword(this.state.email);
+    this.setState({ sent: true });
   };
 
   render() {
+    if (this.state.sent) {
+      return (
+        <Redirect
+          to={{
+            pathname: 'reset_password_sent',
+            state: {
+              email: this.state.email,
+            },
+          }}
+        />
+      );
+    }
+
     return (
       <Wrapper>
         <Header>
@@ -363,7 +246,8 @@ class Login extends React.PureComponent {
           <img src={HeaderMaskImg} alt="Header Mask" />
         </Header>
         <Form>
-          <FormTitle>Login</FormTitle>
+          <FormTitle>Forgot password</FormTitle>
+          <SubHeader>Please enter the email you used to register.</SubHeader>
           <Input className={this.state.invalidEmail ? 'invalid' : ''}>
             <InputElement
               type="text"
@@ -379,61 +263,32 @@ class Login extends React.PureComponent {
               <InvalidEmail>Invalid Address</InvalidEmail>
             )}
           </Input>
-          <Input>
-            <InputElement
-              type="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-              id="password"
-              className={this.state.password ? 'focus' : ''}
-            />
-            <Label htmlFor="password">Password</Label>
-          </Input>
-          <ForgotWrapper>
-            <Remember
-              onClick={this.handleClickRemember}
-              className={this.state.remember ? 'checked' : ''}
-            >
-              <div className="remember-checkbox" id="remember" />
-              <div className="remember-label">Remember me</div>
-            </Remember>
-            <div>
-              <ForgotLink to="/reset_password_request">
-                Forgot password?
-              </ForgotLink>
-            </div>
-          </ForgotWrapper>
           <Action>
-            <LoginButton
-              disabled={!this.state.email || !this.state.password}
-              onClick={this.handleLogin}
+            <SubmitButton
+              disabled={!this.state.email || this.state.invalidEmail}
+              onClick={this.handleForgotPassword}
             >
-              LOGIN
-            </LoginButton>
-            <CreateAccount to="/register">Create Account</CreateAccount>
+              SUBMIT
+            </SubmitButton>
+            <LoginButton to="/login">LOGIN</LoginButton>
           </Action>
-          <Social>
-            <SocialText>Or login with</SocialText>
-            <FacebookLink to="/">FACEBOOK</FacebookLink>
-            <GoogleLink to="/">GOOGLE</GoogleLink>
-          </Social>
         </Form>
       </Wrapper>
     );
   }
 }
 
-Login.propTypes = {
-  OnLogin: PropTypes.func,
+ResetPasswordRequest.propTypes = {
+  OnForgotPassword: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    OnLogin: query => dispatch(logIn.request(query)),
+    OnForgotPassword: query => dispatch(forgotPassword.request(query)),
   };
 }
 
 export default connect(
   null,
   mapDispatchToProps,
-)(Login);
+)(ResetPasswordRequest);

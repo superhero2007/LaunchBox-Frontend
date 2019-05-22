@@ -105,7 +105,26 @@ export const registerConfirmation = query => {
   return callApi(url, 'POST', option);
 };
 
-// API to confirm registration email
+// API to forgot password email
+export const forgotPassword = query => {
+  const url = `api/auth/reset_password_request`;
+  const option = {
+    email: query.email,
+  };
+  return callApi(url, 'POST', option);
+};
+
+// API to reset password
+export const resetPassword = query => {
+  const url = `api/auth/reset_password`;
+  const option = {
+    token: query.token,
+    password: query.password,
+  };
+  return callApi(url, 'POST', option);
+};
+
+// API to get user from token
 export const getUser = () => {
   const url = `api/auth/user`;
   return callApi(url, 'GET');

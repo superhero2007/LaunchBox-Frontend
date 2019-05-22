@@ -10,6 +10,8 @@ const Wrapper = styled.div`
   height: 100%;
   background: #fff;
   padding: 20px;
+  border-radius: 7px;
+  overflow: hidden;
 
   &:hover {
     .button_group {

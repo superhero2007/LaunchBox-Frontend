@@ -14,6 +14,8 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   background: #fff;
+  border-radius: 7px;
+  overflow: hidden;
 
   &:hover {
     .button_group {

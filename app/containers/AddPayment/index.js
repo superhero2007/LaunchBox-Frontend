@@ -12,7 +12,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import BlankHeader from 'components/BlankHeader';
+import BrandLogo from '../../images/brand_logo.svg';
+import HeaderMaskImg from '../../images/header_mask.svg';
 import creditCard from '../../images/creditcard.svg';
 import paypal from '../../images/paypal.svg';
 import creditCardActive from '../../images/creditcard-active.svg';
@@ -31,6 +32,18 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+`;
+
+const Logo = styled.img`
+  position: absolute;
+  left: 43px;
+  top: 34px;
+`;
+
+const Title = styled.div`
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -49,7 +62,8 @@ const SubHeader = styled.div`
   font-weight: 600;
   font-size: 15px;
   line-height: 19px;
-  color: #7d8291;
+  color: #1b367c;
+  opacity: 0.5;
   margin-top: 13px;
   padding: 0 20px;
   text-align: center;
@@ -111,6 +125,7 @@ const FormAddButton = styled(Link)`
   background: #1b367c;
   width: 208px;
   height: 48px;
+  border-radius: 7px;
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -135,6 +150,7 @@ const FormAddButton = styled(Link)`
 const FormCancelButton = styled(Link)`
   width: 208px;
   height: 48px;
+  border-radius: 7px;
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
@@ -161,6 +177,7 @@ const Input = styled.div`
   border: 2px solid rgba(66, 77, 107, 0.2);
   width: 100%;
   height: 56px;
+  border-radius: 7px;
   position: relative;
 
   & + & {
@@ -452,8 +469,13 @@ class AddPayment extends React.PureComponent {
     );
     return (
       <Wrapper>
-        <BlankHeader />
-        <Header>Add Payment Method</Header>
+        <Header>
+          <Link to="/">
+            <Logo src={BrandLogo} alt="Brand Logo" />
+          </Link>
+          <img src={HeaderMaskImg} alt="Header Mask" />
+        </Header>
+        <Title>Add Payment Method</Title>
         <SubHeader>
           Please add a payment method to start using Launch Box
         </SubHeader>

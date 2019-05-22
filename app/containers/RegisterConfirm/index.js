@@ -12,11 +12,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { registerEmail } from 'services/api/actions';
-import AuthBg from '../../images/auth_bg.png';
-import WhiteLogo from '../../images/white-logo.svg';
-import BlueLogo from '../../images/logo.svg';
+import BrandLogo from '../../images/brand_logo.svg';
+import HeaderMaskImg from '../../images/header_mask.svg';
 import ConfirmImage from '../../images/confirm-image.svg';
 
 const Wrapper = styled.div`
@@ -24,73 +24,36 @@ const Wrapper = styled.div`
   position: absolute;
   height: 100%;
   width: 100%;
-`;
-
-const LeftWrapper = styled.div`
-  height: 100%;
-  width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url(${AuthBg});
 `;
 
-const Brand = styled.div`
-  text-align: center;
-`;
-
-const SubTitle = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 17px;
-  line-height: 21px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 50px;
-`;
-
-const Title = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 30px;
-  line-height: 30px;
-  text-align: center;
-  letter-spacing: 0;
-  color: white;
-  margin-top: 10px;
-`;
-
-const RightWrapper = styled.div`
-  height: 100%;
-  width: 70%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 24px 40px;
+const Header = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
 `;
 
 const Logo = styled.img`
   position: absolute;
-  left: 40px;
-  top: 24px;
+  left: 43px;
+  top: 34px;
 `;
 
 const Form = styled.div`
   max-width: 100%;
+  margin: 20px;
 `;
 
-const Header = styled.div`
+const FormTitle = styled.div`
   font-family: Muli;
   font-style: normal;
   font-weight: 900;
   font-size: 35px;
   line-height: 44px;
   letter-spacing: -0.03em;
-  color: #424d6b;
+  color: #1b367c;
   margin-top: 64px;
 `;
 
@@ -100,7 +63,8 @@ const SubHeader = styled.div`
   font-weight: 600;
   font-size: 15px;
   line-height: 19px;
-  color: #7d8291;
+  color: #1b367c;
+  opacity: 0.5;
   margin-top: 13px;
 `;
 
@@ -113,6 +77,7 @@ const Action = styled.div`
 const RegisterButton = styled.button`
   width: 210px;
   height: 48px;
+  border-radius: 7px;
   background: #1b367c;
   font-family: Muli;
   font-style: normal;
@@ -135,29 +100,25 @@ class RegisterConfirm extends React.PureComponent {
   render() {
     return (
       <Wrapper>
-        <LeftWrapper>
-          <Brand>
-            <img src={WhiteLogo} alt="White-Logo" />
-            <SubTitle>Welcome to</SubTitle>
-            <Title>Launch Box</Title>
-          </Brand>
-        </LeftWrapper>
-        <RightWrapper>
-          <Logo src={BlueLogo} alt="Logo" />
-          <Form>
-            <img src={ConfirmImage} alt="Registration Confirm" />
-            <Header>Congratulations on your successful registration</Header>
-            <SubHeader>
-              Please confirm your account by clicking on the link sent to your
-              email
-            </SubHeader>
-            <Action>
-              <RegisterButton onClick={this.handleRegisterEmail}>
-                RESEND
-              </RegisterButton>
-            </Action>
-          </Form>
-        </RightWrapper>
+        <Header>
+          <Link to="/">
+            <Logo src={BrandLogo} alt="Brand Logo" />
+          </Link>
+          <img src={HeaderMaskImg} alt="Header Mask" />
+        </Header>
+        <Form>
+          <img src={ConfirmImage} alt="Registration Confirm" />
+          <FormTitle>Success!</FormTitle>
+          <SubHeader>
+            We just sent you an email. Please click on the link to verify your
+            account.
+          </SubHeader>
+          <Action>
+            <RegisterButton onClick={this.handleRegisterEmail}>
+              RESEND
+            </RegisterButton>
+          </Action>
+        </Form>
       </Wrapper>
     );
   }

@@ -30,6 +30,8 @@ import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
+import ResetPasswordRequest from 'containers/ResetPasswordRequest/Loadable';
+import ResetPasswordSent from 'containers/ResetPasswordSent/Loadable';
 import RegisterConfirm from 'containers/RegisterConfirm/Loadable';
 import Confirmation from 'containers/Confirmation/Loadable';
 import AccountActive from 'containers/AccountActive/Loadable';
@@ -78,6 +80,16 @@ class App extends React.Component {
             isAuthenticated={isAuthenticated}
             path="/register"
             component={Register}
+          />
+          <RoutePublic
+            isAuthenticated={isAuthenticated}
+            path="/reset_password_request"
+            component={ResetPasswordRequest}
+          />
+          <RoutePublic
+            isAuthenticated={isAuthenticated}
+            path="/reset_password_sent"
+            component={ResetPasswordSent}
           />
           <RouteConfirm
             isAuthenticated={isAuthenticated}
