@@ -166,7 +166,7 @@ class BrandLandingPage extends React.PureComponent {
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
-                <StartButton to="/brand">Get Started</StartButton>
+                <StartButton to="/brand">Start For Free</StartButton>
               </div>
             </div>
             <div className="right-wrapper">
@@ -249,7 +249,7 @@ class BrandLandingPage extends React.PureComponent {
           <section className="section6">
             <div className="section6__title">Pricing</div>
             <div className="section6__description">
-              Earlybird specials: One price for life!
+              One-price-only while we are still in beta!
             </div>
             <div className="section6__content">
               <div className="section6__content__item">
