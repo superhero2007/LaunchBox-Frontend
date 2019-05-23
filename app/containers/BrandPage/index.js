@@ -10,7 +10,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose } from 'redux';
 
 import injectReducer from 'utils/injectReducer';
@@ -38,7 +37,7 @@ class BrandPage extends React.PureComponent {
   render() {
     return (
       <div>
-        <Header route={this.props.location.pathname} />
+        <Header />
         <Wrapper>
           <InputContainer />
           <PresenceContainer />
@@ -56,10 +55,6 @@ class BrandPage extends React.PureComponent {
     );
   }
 }
-
-BrandPage.propTypes = {
-  location: PropTypes.object,
-};
 
 const withReducer = injectReducer({ key: 'brand', reducer });
 const withSaga = injectSaga({ key: 'brand', saga });

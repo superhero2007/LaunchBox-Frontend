@@ -39,6 +39,7 @@ import AddPayment from 'containers/AddPayment/Loadable';
 import ActivePayment from 'containers/ActivePayment/Loadable';
 import BizPage from 'containers/BizPage/Loadable';
 import BrandPage from 'containers/BrandPage/Loadable';
+import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
 
@@ -47,7 +48,7 @@ class App extends React.Component {
   componentDidMount = () => {
     const token = localStorage.getItem('token');
     if (token && !this.props.user) {
-      this.props.OnGetUser(token);
+      this.props.OnGetUser();
     }
   };
 
@@ -59,7 +60,6 @@ class App extends React.Component {
 
     const isAuthenticated = !!token;
     const isConfirmed = !!(this.props.user && this.props.user.confirmed);
-    console.log(isAuthenticated, isConfirmed);
 
     return (
       <div>
@@ -133,6 +133,12 @@ class App extends React.Component {
             path="/brand"
             component={BrandPage}
           />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/settings"
+            component={SettingsPage}
+          />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
@@ -153,7 +159,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  OnGetUser: token => dispatch(getUser.request(token)),
+  OnGetUser: () => dispatch(getUser.request()),
 });
 
 const withConnect = connect(

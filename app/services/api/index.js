@@ -9,14 +9,11 @@ const createRequest = (endpoint, method, bodyJS, hasFile) => {
   if (bodyJS !== null) {
     if (hasFile) {
       body = new FormData();
-      Object.keys(bodyJS).forEach(key =>
-        body.append(
-          key,
-          typeof bodyJS[key] !== 'object' || bodyJS[key].preview
-            ? bodyJS[key]
-            : JSON.stringify(bodyJS[key]),
-        ),
-      );
+      if (Array.isArray(bodyJS.value)) {
+        bodyJS.value.map(file => body.append('file', file));
+      } else {
+        body.append('file', bodyJS.value);
+      }
     } else {
       body = JSON.stringify(bodyJS);
       headers.append('Accept', 'application/json');
@@ -126,6 +123,27 @@ export const resetPassword = query => {
 
 // API to get user from token
 export const getUser = () => {
-  const url = `api/auth/user`;
+  const url = `api/user`;
   return callApi(url, 'GET');
+};
+
+// API to update user from token
+export const updateUser = query => {
+  const url = `api/user`;
+  return callApi(url, 'POST', query.value);
+};
+
+// API to upload user's photo
+export const uploadPhoto = query => {
+  const url = `api/user/photo`;
+  const option = {
+    value: query.value,
+  };
+  return callApi(url, 'POST', option, true);
+};
+
+// API to delete user's photo
+export const deletePhoto = () => {
+  const url = `api/user/photo`;
+  return callApi(url, 'DELETE');
 };

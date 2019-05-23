@@ -9,6 +9,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
+  UPDATE_USER_REQUEST,
+  UPLOAD_PHOTO_REQUEST,
+  DELETE_PHOTO_REQUEST,
 } from './constants';
 
 const {
@@ -19,6 +22,9 @@ const {
   forgotPassword,
   resetPassword,
   getUser,
+  updateUser,
+  uploadPhoto,
+  deletePhoto,
 } = apiActions;
 
 /**
@@ -27,7 +33,6 @@ const {
 export function* RegisterRequest(action) {
   const { response, error } = yield call(api.register, action);
   if (response) {
-    localStorage.setItem('token', response.user.token);
     yield put(register.success(response));
   } else {
     yield put(register.failure(error));
@@ -44,7 +49,6 @@ export function* watchRegister() {
 export function* LogInRequest(action) {
   const { response, error } = yield call(api.logIn, action);
   if (response) {
-    localStorage.setItem('token', response.user.token);
     yield put(logIn.success(response));
   } else {
     yield put(logIn.failure(error));
@@ -91,22 +95,6 @@ export function* watchRegisterConfirmation() {
 }
 
 /**
- * Confirm register email request/response handler
- */
-export function* GetUserRequest(action) {
-  const { response, error } = yield call(api.getUser, action);
-  if (response) {
-    yield put(getUser.success(response));
-  } else {
-    yield put(getUser.failure(error));
-  }
-}
-
-export function* watchGetUser() {
-  yield takeLatest(GET_USER_REQUEST.REQUEST, GetUserRequest);
-}
-
-/**
  * Forgot Password email request/response handler
  */
 export function* ForgotPasswordRequest(action) {
@@ -139,6 +127,70 @@ export function* watchResetPassword() {
 }
 
 /**
+ * Update user request/response handler
+ */
+export function* UpdateUserRequest(action) {
+  const { response, error } = yield call(api.updateUser, action);
+  if (response) {
+    yield put(updateUser.success(response));
+  } else {
+    yield put(updateUser.failure(error));
+  }
+}
+
+export function* watchUpdateUser() {
+  yield takeLatest(UPDATE_USER_REQUEST.REQUEST, UpdateUserRequest);
+}
+
+/**
+ * Get user request/response handler
+ */
+export function* GetUserRequest(action) {
+  const { response, error } = yield call(api.getUser, action);
+  if (response) {
+    yield put(getUser.success(response));
+  } else {
+    yield put(getUser.failure(error));
+  }
+}
+
+export function* watchGetUser() {
+  yield takeLatest(GET_USER_REQUEST.REQUEST, GetUserRequest);
+}
+
+/**
+ * Upload user photo request/response handler
+ */
+export function* UploadPhotoRequest(action) {
+  const { response, error } = yield call(api.uploadPhoto, action);
+  if (response) {
+    yield put(uploadPhoto.success(response));
+  } else {
+    yield put(uploadPhoto.failure(error));
+  }
+}
+
+export function* watchUploadPhoto() {
+  yield takeLatest(UPLOAD_PHOTO_REQUEST.REQUEST, UploadPhotoRequest);
+}
+
+/**
+ * Delete user photo request/response handler
+ */
+export function* DeletePhotoRequest() {
+  const { response, error } = yield call(api.deletePhoto, null);
+  if (response) {
+    yield put(deletePhoto.success(response));
+  } else {
+    yield put(deletePhoto.failure(error));
+  }
+}
+
+export function* watchDeletePhoto() {
+  yield takeLatest(DELETE_PHOTO_REQUEST.REQUEST, DeletePhotoRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -151,5 +203,8 @@ export default function* rootSaga() {
     watchForgotPassword(),
     watchResetPassword(),
     watchGetUser(),
+    watchUpdateUser(),
+    watchUploadPhoto(),
+    watchDeletePhoto(),
   ]);
 }

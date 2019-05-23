@@ -6,6 +6,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
+  UPDATE_USER_REQUEST,
+  UPLOAD_PHOTO_REQUEST,
+  DELETE_PHOTO_REQUEST,
 } from './constants';
 
 function action(type, payload = {}) {
@@ -52,15 +55,6 @@ export const registerConfirmation = {
 };
 
 /*
- * Action to get user from token
- */
-export const getUser = {
-  request: token => action(GET_USER_REQUEST.REQUEST, { token }),
-  success: response => action(GET_USER_REQUEST.SUCCESS, { response }),
-  failure: error => action(GET_USER_REQUEST.FAILURE, { error }),
-};
-
-/*
  * Action to forgot password
  */
 export const forgotPassword = {
@@ -76,4 +70,40 @@ export const resetPassword = {
   request: token => action(RESET_PASSWORD_REQUEST.REQUEST, { token }),
   success: response => action(RESET_PASSWORD_REQUEST.SUCCESS, { response }),
   failure: error => action(RESET_PASSWORD_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to get user from token
+ */
+export const getUser = {
+  request: () => action(GET_USER_REQUEST.REQUEST),
+  success: response => action(GET_USER_REQUEST.SUCCESS, { response }),
+  failure: error => action(GET_USER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to get user from token
+ */
+export const updateUser = {
+  request: value => action(UPDATE_USER_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_USER_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_USER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to upload user's photo
+ */
+export const uploadPhoto = {
+  request: value => action(UPLOAD_PHOTO_REQUEST.REQUEST, { value }),
+  success: response => action(UPLOAD_PHOTO_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPLOAD_PHOTO_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to delete user's photo
+ */
+export const deletePhoto = {
+  request: () => action(DELETE_PHOTO_REQUEST.REQUEST),
+  success: response => action(DELETE_PHOTO_REQUEST.SUCCESS, { response }),
+  failure: error => action(DELETE_PHOTO_REQUEST.FAILURE, { error }),
 };

@@ -7,6 +7,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
+  UPDATE_USER_REQUEST,
+  UPLOAD_PHOTO_REQUEST,
+  DELETE_PHOTO_REQUEST,
 } from './constants';
 
 // The initial state of the App
@@ -21,6 +24,7 @@ function ServiceReducer(state = initialState, action) {
     case SIGN_UP_REQUEST.REQUEST:
       return state.set('loading', true).set('error', false);
     case SIGN_UP_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
       return state
         .set('loading', false)
         .set('error', false)
@@ -30,6 +34,7 @@ function ServiceReducer(state = initialState, action) {
     case LOG_IN_REQUEST.REQUEST:
       return state.set('loading', true).set('error', false);
     case LOG_IN_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
       return state
         .set('loading', false)
         .set('error', false)
@@ -39,6 +44,7 @@ function ServiceReducer(state = initialState, action) {
     case CONFIRM_REGISTER_REQUEST.REQUEST:
       return state.set('loading', true).set('error', false);
     case CONFIRM_REGISTER_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
       return state
         .set('loading', false)
         .set('error', false)
@@ -60,11 +66,42 @@ function ServiceReducer(state = initialState, action) {
     case GET_USER_REQUEST.REQUEST:
       return state.set('loading', true).set('error', false);
     case GET_USER_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
       return state
         .set('loading', false)
         .set('error', false)
         .set('user', action.response.user);
     case GET_USER_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+    case UPDATE_USER_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case UPDATE_USER_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('user', action.response.user);
+    case UPDATE_USER_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+    case UPLOAD_PHOTO_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case UPLOAD_PHOTO_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('user', action.response.user);
+    case UPLOAD_PHOTO_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+    case DELETE_PHOTO_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case DELETE_PHOTO_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('user', action.response.user);
+    case DELETE_PHOTO_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
     default:
       return state;

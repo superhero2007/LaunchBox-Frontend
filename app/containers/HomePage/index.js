@@ -10,7 +10,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import Panel from 'components/Panel';
 import Panels from './Panels';
@@ -77,7 +76,7 @@ class HomePage extends React.PureComponent {
     const { list } = this.state;
     return (
       <div>
-        <Header route={this.props.location.pathname} />
+        <Header />
         <Panels id="panels" className="panels">
           {this.panelList(list)}
         </Panels>
@@ -85,9 +84,5 @@ class HomePage extends React.PureComponent {
     );
   }
 }
-
-HomePage.propTypes = {
-  location: PropTypes.object,
-};
 
 export default HomePage;

@@ -1,15 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import LogoImage from '../../images/logo.svg';
+import LogoImage from '../../images/brand_logo.svg';
 import BrandImage from '../../images/logo.png';
-import BizBoxIcon from '../../images/bizbox-icon.svg';
-import BrandBoxIcon from '../../images/brandbox-icon.svg';
-
-import BizBoxIconHover from '../../images/bizbox-icon__hover.svg';
-import BrandBoxIconHover from '../../images/brandbox-icon__hover.svg';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -17,7 +11,7 @@ const Wrapper = styled.div`
   height: 100px;
   width: 100%;
   padding: 2rem;
-  background: white;
+  background: rgba(49, 102, 237, 0.06);
   display: flex;
   justify-content: space-between;
   z-index: 5;
@@ -27,60 +21,12 @@ const Menu = styled.div`
   display: flex;
 `;
 
-const MenuItem = styled(Link)`
-  color: #a88d95;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-
-  img {
-    &.origin {
-      display: inline-block;
-    }
-    &.hover {
-      display: none;
-    }
-  }
-
-  img + span {
-    margin-left: 15px;
-  }
-
-  & + & {
-    margin-left: 4rem;
-  }
-
-  &.hide {
-    display: none;
-  }
-
-  &.active,
-  &:hover {
-    color: #1b367c;
-    img {
-      &.origin {
-        display: none;
-      }
-      &.hover {
-        display: inline-block;
-      }
-    }
-  }
-`;
-
-const MenuItemText = styled.span`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: normal;
-`;
-
-const BrandWrapper = styled.div`
+const BrandWrapper = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 const BrandTitle = styled.span`
@@ -88,8 +34,8 @@ const BrandTitle = styled.span`
   font-style: normal;
   font-weight: 900;
   font-size: 15px;
-  line-height: normal;
-  color: #6c4853;
+  line-height: 19px;
+  color: #1b367c;
   margin-left: 1rem;
   position: relative;
 
@@ -110,45 +56,18 @@ const Brand = styled.img`
   border-radius: 50%;
 `;
 
-const Header = props => (
+const Header = () => (
   <Wrapper>
     <Menu>
-      <MenuItem to="/">
+      <Link to="/">
         <img src={LogoImage} alt="Logo" />
-      </MenuItem>
-      <MenuItem
-        to="/biz"
-        className={
-          (props.route === '/biz' ? 'active' : '') +
-          (props.route === '/' ? 'hide' : '')
-        }
-      >
-        <img src={BizBoxIcon} alt="BizBox" className="origin" />
-        <img src={BizBoxIconHover} alt="BizBox" className="hover" />
-        <MenuItemText>BizBox</MenuItemText>
-      </MenuItem>
-
-      <MenuItem
-        to="/brand"
-        className={
-          (props.route === '/brand' ? 'active' : '') +
-          (props.route === '/' ? 'hide' : '')
-        }
-      >
-        <img src={BrandBoxIcon} alt="BrandBox" className="origin" />
-        <img src={BrandBoxIconHover} alt="BizBox" className="hover" />
-        <MenuItemText>BrandBox</MenuItemText>
-      </MenuItem>
+      </Link>
     </Menu>
-    <BrandWrapper>
+    <BrandWrapper to="settings">
       <Brand src={BrandImage} alt="Brand" />
-      <BrandTitle opened>Ketchup Creative</BrandTitle>
+      <BrandTitle opened>Paul Kilton</BrandTitle>
     </BrandWrapper>
   </Wrapper>
 );
-
-Header.propTypes = {
-  route: PropTypes.string,
-};
 
 export default Header;

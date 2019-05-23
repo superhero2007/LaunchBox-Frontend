@@ -205,7 +205,7 @@ class BizPage extends React.PureComponent {
     if (this.state.emptyDialog) {
       return (
         <div>
-          <Header route={this.props.location.pathname} />
+          <Header />
           <MonthWrapper>
             <NewMonth onClick={this.hideEmpty} />
             <DuplicateMonth onClick={this.duplicateMonth} />
@@ -218,7 +218,7 @@ class BizPage extends React.PureComponent {
     if (this.state.addCategory) {
       return (
         <div>
-          <Header route={this.props.location.pathname} />
+          <Header />
           <ModalDialog
             onClose={this.closeAddCategory}
             onSelect={this.onSelect}
@@ -229,7 +229,7 @@ class BizPage extends React.PureComponent {
 
     return (
       <div>
-        <Header route={this.props.location.pathname} />
+        <Header />
         <Wrapper>
           {this.categoryList()}
           <AddWrapper>
@@ -243,7 +243,6 @@ class BizPage extends React.PureComponent {
 }
 
 BizPage.propTypes = {
-  location: PropTypes.object,
   records: PropTypes.array,
   categories: PropTypes.array,
   month: PropTypes.string,
