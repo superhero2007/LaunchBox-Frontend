@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ResetPasswordSent from '../index';
+import DeleteAccount from '../index';
 
-describe('<ResetPasswordSent />', () => {
+describe('<DeleteAccount />', () => {
   it('should render the page message', () => {
-    shallow(<ResetPasswordSent />);
+    shallow(<DeleteAccount />);
   });
 });

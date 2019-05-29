@@ -31,12 +31,17 @@ import HomePage from 'containers/HomePage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
 import ResetPasswordRequest from 'containers/ResetPasswordRequest/Loadable';
-import ResetPasswordSent from 'containers/ResetPasswordSent/Loadable';
+import ResetPassword from 'containers/ResetPassword/Loadable';
 import RegisterConfirm from 'containers/RegisterConfirm/Loadable';
 import Confirmation from 'containers/Confirmation/Loadable';
+import EmailConfirmation from 'containers/EmailConfirmation/Loadable';
 import AccountActive from 'containers/AccountActive/Loadable';
 import AddPayment from 'containers/AddPayment/Loadable';
 import ActivePayment from 'containers/ActivePayment/Loadable';
+import ChangeEmail from 'containers/ChangeEmail/Loadable';
+import ChangePassword from 'containers/ChangePassword/Loadable';
+import ClearAccount from 'containers/ClearAccount/Loadable';
+import DeleteAccount from 'containers/DeleteAccount/Loadable';
 import BizPage from 'containers/BizPage/Loadable';
 import BrandPage from 'containers/BrandPage/Loadable';
 import SettingsPage from 'containers/SettingsPage/Loadable';
@@ -88,14 +93,39 @@ class App extends React.Component {
           />
           <RoutePublic
             isAuthenticated={isAuthenticated}
-            path="/reset_password_sent"
-            component={ResetPasswordSent}
+            path="/reset_password/:token"
+            component={ResetPassword}
           />
           <RouteConfirm
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
             path="/register-confirm"
             component={RegisterConfirm}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/clear-account"
+            component={ClearAccount}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/change-email"
+            component={ChangeEmail}
+          />
+
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/email_confirmation/:token"
+            component={EmailConfirmation}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/change-password"
+            component={ChangePassword}
           />
           <RoutePrivate
             isAuthenticated={isAuthenticated}
@@ -139,6 +169,7 @@ class App extends React.Component {
             path="/settings"
             component={SettingsPage}
           />
+          <Route path="/delete-account" component={DeleteAccount} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

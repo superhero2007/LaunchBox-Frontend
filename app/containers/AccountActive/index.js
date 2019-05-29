@@ -110,7 +110,14 @@ class AccountActive extends React.PureComponent {
             Please add a payment method before starting your free trial.
           </SubHeader>
           <Action>
-            <Button to="add-payment">ADD PAYMENT METHOD</Button>
+            <Button
+              to={{
+                pathname: 'add-payment',
+                state: { redirect: 'active-payment' },
+              }}
+            >
+              ADD PAYMENT METHOD
+            </Button>
           </Action>
         </Form>
       </Wrapper>

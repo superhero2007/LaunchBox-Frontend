@@ -10,6 +10,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BrandLogo from '../../images/brand_logo.svg';
@@ -121,7 +122,7 @@ const FormAction = styled.div`
   width: 100%;
 `;
 
-const FormAddButton = styled(Link)`
+const FormAddButton = styled.button`
   background: #1b367c;
   width: 208px;
   height: 48px;
@@ -135,10 +136,6 @@ const FormAddButton = styled(Link)`
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   &:hover {
     border: 2px solid #d6dbe9;
@@ -147,7 +144,7 @@ const FormAddButton = styled(Link)`
   }
 `;
 
-const FormCancelButton = styled(Link)`
+const FormCancelButton = styled.button`
   width: 208px;
   height: 48px;
   border-radius: 7px;
@@ -162,10 +159,6 @@ const FormCancelButton = styled(Link)`
   background: white;
   color: #1b367c;
   border: 2px solid #d6dbe9;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   &:hover {
     background: #1b367c;
@@ -346,11 +339,27 @@ class AddPayment extends React.PureComponent {
     }));
   };
 
+  handleClick = type => {
+    if (type === 'add') {
+      console.log('Add');
+    }
+
+    if (this.props.location.state.redirect) {
+      this.props.history.push(this.props.location.state.redirect);
+    } else {
+      this.props.history.goBack();
+    }
+  };
+
   render() {
     const formAction = (
       <FormAction>
-        <FormCancelButton to="/">Cancel</FormCancelButton>
-        <FormAddButton to="/active-payment">Add</FormAddButton>
+        <FormCancelButton onClick={() => this.handleClick('cancel')}>
+          Cancel
+        </FormCancelButton>
+        <FormAddButton onClick={() => this.handleClick('add')}>
+          Add
+        </FormAddButton>
       </FormAction>
     );
 
@@ -490,5 +499,10 @@ class AddPayment extends React.PureComponent {
     );
   }
 }
+
+AddPayment.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+};
 
 export default AddPayment;

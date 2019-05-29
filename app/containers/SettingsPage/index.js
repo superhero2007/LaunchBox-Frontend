@@ -26,7 +26,14 @@ import {
 import Header from 'components/Header';
 import Photo from './components/Photo';
 import Input from './components/Input';
+import ChangeEmail from './components/ChangeEmail';
 import Social from './components/Social';
+import Order from './components/Order';
+import Subscription from './components/Subscription';
+import Payment from './components/Payment';
+import ChangePassword from './components/ChangePassword';
+import ClearAccount from './components/ClearAccount';
+import DeleteAccount from './components/DeleteAccount';
 
 import './style.scss';
 import ExitSetings from '../../images/exit-settings.svg';
@@ -41,6 +48,23 @@ class SettingsPage extends React.PureComponent {
   };
 
   render() {
+    const list = [
+      {
+        _id: 1,
+        type: 'Monthly',
+        date: 'March 30, 2019',
+      },
+      {
+        _id: 2,
+        type: 'Monthly',
+        date: 'February 28, 2019',
+      },
+      {
+        _id: 3,
+        type: 'Monthly',
+        date: 'January 31, 2019',
+      },
+    ];
     return (
       <div>
         <Header />
@@ -73,8 +97,7 @@ class SettingsPage extends React.PureComponent {
                   onUpdate={this.props.onUpdateUser}
                 />
                 <div className="settings__title">Email</div>
-                <Input
-                  label="email"
+                <ChangeEmail
                   value={this.props.user.email}
                   onUpdate={this.props.onUpdateUser}
                 />
@@ -82,12 +105,52 @@ class SettingsPage extends React.PureComponent {
               <div className="settings__profile-social">
                 <div className="settings__title">Soical Network</div>
                 <div className="settings__profile-social__content">
-                  <Social type="facebook" onAdd={this.props.onSocialAdd} />
-                  <Social type="twitter" onAdd={this.props.onSocialAdd} />
+                  <Social
+                    type="facebook"
+                    value={null}
+                    onAdd={() => {}}
+                    onDelete={() => {}}
+                  />
+                  <Social
+                    type="twitter"
+                    value={null}
+                    onAdd={() => {}}
+                    onDelete={() => {}}
+                  />
                   <div className="settings__profile-social__content-static">
                     One-click sign in
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="settings__payment">
+            <div className="settings__payment-subscription">
+              <div className="settings__title">Subscription</div>
+              <div className="settings__payment-subscription__content">
+                <Subscription onCancel={() => {}} />
+              </div>
+            </div>
+            <div className="settings__payment-method">
+              <div className="settings__title">Payment method</div>
+              <div className="settings__payment-method__content">
+                <Payment value={null} />
+              </div>
+            </div>
+          </div>
+          <div className="settings__account">
+            <div className="settings__account-order">
+              <div className="settings__title">Order History</div>
+              <div className="settings__account-order__content">
+                <Order list={list} />
+              </div>
+            </div>
+            <div className="settings__account-management">
+              <div className="settings__title">Account management</div>
+              <div className="settings__account-management__content">
+                <ChangePassword />
+                <ClearAccount />
+                <DeleteAccount />
               </div>
             </div>
           </div>
@@ -103,7 +166,7 @@ SettingsPage.propTypes = {
   onUpdateUser: PropTypes.func,
   onUploadPhoto: PropTypes.func,
   onDeletePhoto: PropTypes.func,
-  onSocialAdd: PropTypes.func,
+  // onSocialAdd: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({

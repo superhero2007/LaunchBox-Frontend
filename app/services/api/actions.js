@@ -7,6 +7,11 @@ import {
   RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
   UPDATE_USER_REQUEST,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_CONFIRM_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
+  CLEAR_USER_REQUEST,
+  DELETE_USER_REQUEST,
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
 } from './constants';
@@ -67,7 +72,7 @@ export const forgotPassword = {
  * Action to reset password
  */
 export const resetPassword = {
-  request: token => action(RESET_PASSWORD_REQUEST.REQUEST, { token }),
+  request: query => action(RESET_PASSWORD_REQUEST.REQUEST, { query }),
   success: response => action(RESET_PASSWORD_REQUEST.SUCCESS, { response }),
   failure: error => action(RESET_PASSWORD_REQUEST.FAILURE, { error }),
 };
@@ -82,12 +87,58 @@ export const getUser = {
 };
 
 /*
- * Action to get user from token
+ * Action to update user
  */
 export const updateUser = {
   request: value => action(UPDATE_USER_REQUEST.REQUEST, { value }),
   success: response => action(UPDATE_USER_REQUEST.SUCCESS, { response }),
   failure: error => action(UPDATE_USER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update user email
+ */
+export const updateEmail = {
+  request: value => action(UPDATE_EMAIL_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_EMAIL_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_EMAIL_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update user email
+ */
+export const updateEmailConfirm = {
+  request: token => action(UPDATE_EMAIL_CONFIRM_REQUEST.REQUEST, { token }),
+  success: response =>
+    action(UPDATE_EMAIL_CONFIRM_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_EMAIL_CONFIRM_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update user password
+ */
+export const updatePassword = {
+  request: value => action(UPDATE_PASSWORD_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_PASSWORD_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_PASSWORD_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to clear user
+ */
+export const clearUser = {
+  request: () => action(CLEAR_USER_REQUEST.REQUEST),
+  success: response => action(CLEAR_USER_REQUEST.SUCCESS, { response }),
+  failure: error => action(CLEAR_USER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to delete user
+ */
+export const deleteUser = {
+  request: () => action(DELETE_USER_REQUEST.REQUEST),
+  success: response => action(DELETE_USER_REQUEST.SUCCESS, { response }),
+  failure: error => action(DELETE_USER_REQUEST.FAILURE, { error }),
 };
 
 /*

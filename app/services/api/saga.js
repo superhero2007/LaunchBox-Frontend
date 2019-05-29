@@ -10,6 +10,11 @@ import {
   RESET_PASSWORD_REQUEST,
   GET_USER_REQUEST,
   UPDATE_USER_REQUEST,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_CONFIRM_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
+  CLEAR_USER_REQUEST,
+  DELETE_USER_REQUEST,
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
 } from './constants';
@@ -23,6 +28,11 @@ const {
   resetPassword,
   getUser,
   updateUser,
+  updateEmail,
+  updateEmailConfirm,
+  updatePassword,
+  clearUser,
+  deleteUser,
   uploadPhoto,
   deletePhoto,
 } = apiActions;
@@ -143,6 +153,89 @@ export function* watchUpdateUser() {
 }
 
 /**
+ * Update email request/response handler
+ */
+export function* UpdateEmailRequest(action) {
+  const { response, error } = yield call(api.updateEmail, action);
+  if (response) {
+    yield put(updateEmail.success(response));
+  } else {
+    yield put(updateEmail.failure(error));
+  }
+}
+
+export function* watchUpdateEmail() {
+  yield takeLatest(UPDATE_EMAIL_REQUEST.REQUEST, UpdateEmailRequest);
+}
+
+/**
+ * Update email confirm request/response handler
+ */
+export function* UpdateEmailConfirmRequest(action) {
+  const { response, error } = yield call(api.updateEmailConfirm, action);
+  if (response) {
+    yield put(updateEmailConfirm.success(response));
+  } else {
+    yield put(updateEmailConfirm.failure(error));
+  }
+}
+
+export function* watchUpdateEmailConfirm() {
+  yield takeLatest(
+    UPDATE_EMAIL_CONFIRM_REQUEST.REQUEST,
+    UpdateEmailConfirmRequest,
+  );
+}
+
+/**
+ * Update email request/response handler
+ */
+export function* UpdatePasswordRequest(action) {
+  const { response, error } = yield call(api.updatePassword, action);
+  if (response) {
+    yield put(updatePassword.success(response));
+  } else {
+    yield put(updatePassword.failure(error));
+  }
+}
+
+export function* watchUpdatePassword() {
+  yield takeLatest(UPDATE_PASSWORD_REQUEST.REQUEST, UpdatePasswordRequest);
+}
+
+/**
+ * Clear user request/response handler
+ */
+export function* ClearUserRequest(action) {
+  const { response, error } = yield call(api.clearUser, action);
+  if (response) {
+    yield put(clearUser.success(response));
+  } else {
+    yield put(clearUser.failure(error));
+  }
+}
+
+export function* watchClearUser() {
+  yield takeLatest(CLEAR_USER_REQUEST.REQUEST, ClearUserRequest);
+}
+
+/**
+ * Delete user request/response handler
+ */
+export function* DeleteUserRequest(action) {
+  const { response, error } = yield call(api.deleteUser, action);
+  if (response) {
+    yield put(deleteUser.success(response));
+  } else {
+    yield put(deleteUser.failure(error));
+  }
+}
+
+export function* watchDeleteUser() {
+  yield takeLatest(DELETE_USER_REQUEST.REQUEST, DeleteUserRequest);
+}
+
+/**
  * Get user request/response handler
  */
 export function* GetUserRequest(action) {
@@ -204,6 +297,11 @@ export default function* rootSaga() {
     watchResetPassword(),
     watchGetUser(),
     watchUpdateUser(),
+    watchUpdateEmail(),
+    watchUpdateEmailConfirm(),
+    watchUpdatePassword(),
+    watchClearUser(),
+    watchDeleteUser(),
     watchUploadPhoto(),
     watchDeletePhoto(),
   ]);

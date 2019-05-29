@@ -14,10 +14,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { forgotPassword } from 'services/api/actions';
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
+import ResetPassword from '../../images/reset-password.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,6 +44,11 @@ const Logo = styled.img`
 
 const Form = styled.div`
   width: 445px;
+  max-width: 100%;
+  margin: 20px;
+`;
+
+const FormContent = styled.div`
   max-width: 100%;
   margin: 20px;
 `;
@@ -172,6 +178,34 @@ const LoginButton = styled(Link)`
   }
 `;
 
+const GoToLoginButton = styled(Link)`
+  width: 210px;
+  height: 48px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  background: #1b367c;
+  color: #fff;
+  margin-top: 28px;
+
+  &:hover {
+    color: #1b367c;
+    background: #fff;
+    border: 1px solid #1b367c;
+  }
+`;
+
 const InvalidEmail = styled.div`
   position: absolute;
   right: 21px;
@@ -224,19 +258,6 @@ class ResetPasswordRequest extends React.PureComponent {
   };
 
   render() {
-    if (this.state.sent) {
-      return (
-        <Redirect
-          to={{
-            pathname: 'reset_password_sent',
-            state: {
-              email: this.state.email,
-            },
-          }}
-        />
-      );
-    }
-
     return (
       <Wrapper>
         <Header>
@@ -245,34 +266,49 @@ class ResetPasswordRequest extends React.PureComponent {
           </Link>
           <img src={HeaderMaskImg} alt="Header Mask" />
         </Header>
-        <Form>
-          <FormTitle>Forgot password</FormTitle>
-          <SubHeader>Please enter the email you used to register.</SubHeader>
-          <Input className={this.state.invalidEmail ? 'invalid' : ''}>
-            <InputElement
-              type="text"
-              value={this.state.email}
-              onChange={this.handleEmailChange}
-              id="email"
-              className={this.state.email ? 'focus' : ''}
-              onFocus={this.handleEmailFocus}
-              onBlur={this.handleEmailBlur}
-            />
-            <Label htmlFor="email">Email</Label>
-            {this.state.invalidEmail && (
-              <InvalidEmail>Invalid Address</InvalidEmail>
-            )}
-          </Input>
-          <Action>
-            <SubmitButton
-              disabled={!this.state.email || this.state.invalidEmail}
-              onClick={this.handleForgotPassword}
-            >
-              SUBMIT
-            </SubmitButton>
-            <LoginButton to="/login">LOGIN</LoginButton>
-          </Action>
-        </Form>
+        {this.state.sent ? (
+          <FormContent>
+            <img src={ResetPassword} alt="Reset Password" />
+            <FormTitle>Email Sent</FormTitle>
+            <SubHeader>
+              An email with instructions on how to reset your password was sent
+              to &nbsp;
+              {this.state.email}
+            </SubHeader>
+            <Action>
+              <GoToLoginButton to="/login">LOGIN</GoToLoginButton>
+            </Action>
+          </FormContent>
+        ) : (
+          <Form>
+            <FormTitle>Forgot password</FormTitle>
+            <SubHeader>Please enter the email you used to register.</SubHeader>
+            <Input className={this.state.invalidEmail ? 'invalid' : ''}>
+              <InputElement
+                type="text"
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+                id="email"
+                className={this.state.email ? 'focus' : ''}
+                onFocus={this.handleEmailFocus}
+                onBlur={this.handleEmailBlur}
+              />
+              <Label htmlFor="email">Email</Label>
+              {this.state.invalidEmail && (
+                <InvalidEmail>Invalid Address</InvalidEmail>
+              )}
+            </Input>
+            <Action>
+              <SubmitButton
+                disabled={!this.state.email || this.state.invalidEmail}
+                onClick={this.handleForgotPassword}
+              >
+                SUBMIT
+              </SubmitButton>
+              <LoginButton to="/login">LOGIN</LoginButton>
+            </Action>
+          </Form>
+        )}
       </Wrapper>
     );
   }

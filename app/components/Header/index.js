@@ -1,9 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { makeSelectUser } from 'services/api/selectors';
 
 import LogoImage from '../../images/brand_logo.svg';
-import BrandImage from '../../images/logo.png';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -11,7 +15,7 @@ const Wrapper = styled.div`
   height: 100px;
   width: 100%;
   padding: 2rem;
-  background: rgba(49, 102, 237, 0.06);
+  background: rgba(235, 239, 253);
   display: flex;
   justify-content: space-between;
   z-index: 5;
@@ -56,18 +60,34 @@ const Brand = styled.img`
   border-radius: 50%;
 `;
 
-const Header = () => (
+const Header = props => (
   <Wrapper>
     <Menu>
       <Link to="/">
         <img src={LogoImage} alt="Logo" />
       </Link>
     </Menu>
-    <BrandWrapper to="settings">
-      <Brand src={BrandImage} alt="Brand" />
-      <BrandTitle opened>Paul Kilton</BrandTitle>
-    </BrandWrapper>
+    {props.user && (
+      <BrandWrapper to="settings">
+        <Brand
+          src={`${process.env.API_ENTRY_PREFIX}${props.user.photo}`}
+          alt="Brand"
+        />
+        <BrandTitle opened>{props.user.fullName}</BrandTitle>
+      </BrandWrapper>
+    )}
   </Wrapper>
 );
 
-export default Header;
+Header.propTypes = {
+  user: PropTypes.object,
+};
+
+const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(Header);

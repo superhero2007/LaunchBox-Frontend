@@ -78,8 +78,8 @@ const DropzoneTitle = styled.div`
 `;
 
 const DropzoneImage = styled.img`
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 const UploadButton = styled.button`

@@ -16,14 +16,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { register } from 'services/api/actions';
+import Password from 'components/Password';
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
-import PasswordText from '../../images/password-text.svg';
-import PasswordTextHover from '../../images/password-text__hover.svg';
-import PasswordHash from '../../images/password-hash.svg';
-import PasswordHashHover from '../../images/password-hash__hover.svg';
-import PasswordHint from '../../images/password-hint.svg';
-import PasswordHintHover from '../../images/password-hint__hover.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -223,84 +218,6 @@ const GoogleLink = styled(Link)`
   }
 `;
 
-const PasswordHintImg = styled.img`
-  position: absolute;
-  top: 17px;
-  right: 57px;
-  width: 20px;
-  height: 20px;
-`;
-
-const PasswordIconImg = styled.img`
-  position: absolute;
-  top: 17px;
-  right: 17px;
-  width: 20px;
-  height: 20px;
-`;
-
-const PasswordParam = styled.div`
-  position: absolute;
-  top: 17px;
-  right: -60px;
-  color: ${props => props.color};
-`;
-
-const PasswordLength = styled.div`
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  display: flex;
-`;
-
-const PasswordLengthElement = styled.div`
-  background: ${props => props.color};
-  width: 100%;
-
-  & + & {
-    margin-left: 12px;
-  }
-`;
-
-const PasswordHintTooltip = styled.div`
-  position: absolute;
-  top: -75px;
-  left: 340px;
-  width: 285px;
-  height: 83px;
-`;
-
-const PasswordHintTooltipContent = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 17px;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 24px;
-  color: #424d6b;
-  background: #fff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.09);
-  position: relative;
-
-  &:before {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    position: absolute;
-
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid white;
-    bottom: -8px;
-    left: 25px;
-  }
-`;
-
 const InvalidEmail = styled.div`
   position: absolute;
   right: 21px;
@@ -323,18 +240,9 @@ class Register extends React.PureComponent {
       fullName: '',
       companyName: '',
       password: '',
-      showPassword: false,
-      passwordHover: false,
-      passwordHoverHint: false,
       invalidEmail: false,
     };
   }
-
-  componentWillReceiveProps = newProps => {
-    if (newProps.user) {
-      console.log(newProps.user);
-    }
-  };
 
   handleEmailChange = e => {
     this.setState({ email: e.target.value });
@@ -361,28 +269,6 @@ class Register extends React.PureComponent {
     });
   };
 
-  togglePassword = () => {
-    this.setState(state => ({
-      showPassword: !state.showPassword,
-    }));
-  };
-
-  hoverInPassword = () => {
-    this.setState({ passwordHover: true });
-  };
-
-  hoverOutPassword = () => {
-    this.setState({ passwordHover: false });
-  };
-
-  hoverInPasswordHint = () => {
-    this.setState({ passwordHoverHint: true });
-  };
-
-  hoverOutPasswordHint = () => {
-    this.setState({ passwordHoverHint: false });
-  };
-
   validateEmail = email => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email === '') {
@@ -403,76 +289,11 @@ class Register extends React.PureComponent {
 
   render() {
     const input =
+      !this.state.invalidEmail &&
       this.state.companyName &&
       this.state.fullName &&
       this.state.email &&
       this.state.password;
-
-    let passwordIcon;
-    if (this.state.showPassword) {
-      if (this.state.passwordHover) {
-        passwordIcon = PasswordTextHover;
-      } else {
-        passwordIcon = PasswordText;
-      }
-    } else if (this.state.passwordHover) {
-      passwordIcon = PasswordHashHover;
-    } else {
-      passwordIcon = PasswordHash;
-    }
-
-    let passwordHintIcon;
-    if (this.state.passwordHoverHint) {
-      passwordHintIcon = PasswordHintHover;
-    } else {
-      passwordHintIcon = PasswordHint;
-    }
-
-    let passwordParam = {
-      text: '',
-      color: '#fff',
-      weak: ['transparent', 'transparent', 'transparent', 'transparent'],
-    };
-    const passwordWeakLength = [
-      {
-        text: 'Worst',
-        color: '#B3B8C4',
-        weak: ['#D9DBE1', '#D9DBE1', '#D9DBE1', '#D9DBE1'],
-      },
-      {
-        text: 'Bad',
-        color: '#E37898',
-        weak: ['#E37898', '#D9DBE1', '#D9DBE1', '#D9DBE1'],
-      },
-      {
-        text: 'Weak',
-        color: '#FEB765',
-        weak: ['#FEB765', '#FEB765', '#D9DBE1', '#D9DBE1'],
-      },
-      {
-        text: 'Good',
-        color: '#0BDF6D',
-        weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#D9DBE1'],
-      },
-      {
-        text: 'Strong',
-        color: '#0BDF6D',
-        weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#0BDF6D'],
-      },
-    ];
-
-    if (this.state.password) {
-      const passwordWeak = Math.floor(this.state.password.length / 4);
-      if (passwordWeak >= 5) {
-        passwordParam = {
-          text: 'Strong',
-          color: '#0BDF6D',
-          weak: ['#0BDF6D', '#0BDF6D', '#0BDF6D', '#0BDF6D'],
-        };
-      } else {
-        passwordParam = passwordWeakLength[passwordWeak];
-      }
-    }
 
     return (
       <Wrapper>
@@ -519,46 +340,7 @@ class Register extends React.PureComponent {
             />
             <Label htmlFor="companyName">Company Name</Label>
           </Input>
-          <Input>
-            <InputElement
-              type={this.state.showPassword ? 'text' : 'password'}
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-              id="password"
-              className={this.state.password ? 'focus' : ''}
-            />
-            <Label htmlFor="password">Password</Label>
-            <PasswordHintImg
-              src={passwordHintIcon}
-              alt="Password Hint"
-              onMouseEnter={this.hoverInPasswordHint}
-              onMouseLeave={this.hoverOutPasswordHint}
-            />
-            <PasswordIconImg
-              src={passwordIcon}
-              alt="Password Text"
-              onClick={this.togglePassword}
-              onMouseEnter={this.hoverInPassword}
-              onMouseLeave={this.hoverOutPassword}
-            />
-            <PasswordParam color={passwordParam.color}>
-              {passwordParam.text}
-            </PasswordParam>
-            <PasswordLength>
-              <PasswordLengthElement color={passwordParam.weak[0]} />
-              <PasswordLengthElement color={passwordParam.weak[1]} />
-              <PasswordLengthElement color={passwordParam.weak[2]} />
-              <PasswordLengthElement color={passwordParam.weak[3]} />
-            </PasswordLength>
-            {this.state.passwordHoverHint && (
-              <PasswordHintTooltip>
-                <PasswordHintTooltipContent>
-                  Use 8 or more characters with a mix of letters, numbers &
-                  symbols
-                </PasswordHintTooltipContent>
-              </PasswordHintTooltip>
-            )}
-          </Input>
+          <Password onChangePassword={this.handlePasswordChange} />
           <Action>
             <RegisterButton disabled={!input} onClick={this.handleRegister}>
               CREATE ACCOUNT

@@ -114,11 +114,7 @@ export const forgotPassword = query => {
 // API to reset password
 export const resetPassword = query => {
   const url = `api/auth/reset_password`;
-  const option = {
-    token: query.token,
-    password: query.password,
-  };
-  return callApi(url, 'POST', option);
+  return callApi(url, 'POST', query.query);
 };
 
 // API to get user from token
@@ -127,10 +123,43 @@ export const getUser = () => {
   return callApi(url, 'GET');
 };
 
-// API to update user from token
+// API to update user
 export const updateUser = query => {
   const url = `api/user`;
   return callApi(url, 'POST', query.value);
+};
+
+// API to update user email
+export const updateEmail = query => {
+  const url = `api/user/email`;
+  return callApi(url, 'POST', query.value);
+};
+
+// API to update user email confirm
+export const updateEmailConfirm = query => {
+  const url = `api/user/email-confirm`;
+  const option = {
+    token: query.token,
+  };
+  return callApi(url, 'POST', option);
+};
+
+// API to update user password
+export const updatePassword = query => {
+  const url = `api/user/password`;
+  return callApi(url, 'POST', query.value);
+};
+
+// API to clear user
+export const clearUser = () => {
+  const url = `api/user/clear`;
+  return callApi(url, 'POST');
+};
+
+// API to delete user
+export const deleteUser = () => {
+  const url = `api/user`;
+  return callApi(url, 'DELETE');
 };
 
 // API to upload user's photo
