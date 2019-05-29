@@ -344,7 +344,7 @@ class AddPayment extends React.PureComponent {
       console.log('Add');
     }
 
-    if (this.props.location.state.redirect) {
+    if (this.props.location.state && this.props.location.state.redirect) {
       this.props.history.push(this.props.location.state.redirect);
     } else {
       this.props.history.goBack();
