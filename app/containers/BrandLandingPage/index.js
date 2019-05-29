@@ -360,7 +360,12 @@ class BrandLandingPage extends React.PureComponent {
             <div className="footer__top">
               <div className="footer-icon">
                 <img src={brandguidelogo} alt="Logo" />
-                <div className="footer-icon__title">hello@brandguide.app</div>
+                <a
+                  href="mailto:hello@brandguide.app"
+                  className="footer-icon__title"
+                >
+                  hello@brandguide.app
+                </a>
                 <div className="footer-icon__subtitle">
                   60 St Martins Lane, Covent Garden
                   <br />
@@ -369,19 +374,25 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="footer-social">
                 <div className="footer-social__subtitle">
-                  <div className="footer-social__subtitle-element">
+                  <Link to="/" className="footer-social__subtitle-element">
                     <i className="fab fa-twitter" />
-                  </div>
-                  <div className="footer-social__subtitle-element">
+                  </Link>
+                  <Link to="/" className="footer-social__subtitle-element">
                     <i className="fab fa-facebook-f" />
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
             <div className="footer__menu">
-              <div className="footer__menu-element">Terms and Conditions</div>
-              <div className="footer__menu-element">Privacy Policy</div>
-              <div className="footer__menu-element">Cookie Policy</div>
+              <Link to="/" className="footer__menu-element">
+                Terms and Conditions
+              </Link>
+              <Link to="/" className="footer__menu-element">
+                Privacy Policy
+              </Link>
+              <Link to="/" className="footer__menu-element">
+                Cookie Policy
+              </Link>
             </div>
             <div className="footer-mobile-icon">
               <img src={brandlogo} alt="Logo" />

@@ -460,6 +460,12 @@ $screen-xl-min: 1200px;
       letter-spacing: -0.02em;
       color: #1B367C;
       margin-top: 56px;
+      text-decoration: none;
+      display: block;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     &__subtitle {
@@ -531,6 +537,11 @@ $screen-xl-min: 1200px;
       letter-spacing: -0.02em;
       color: #1B367C;
       opacity: 0.7;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

@@ -603,15 +603,15 @@ class LandingPage extends React.PureComponent {
           <div className="footer-element footer-social">
             <div className="footer-social__title">Social</div>
             <div className="footer-social__subtitle">
-              <div className="footer-social__subtitle-element">
+              <Link to="/" className="footer-social__subtitle-element">
                 <i className="fab fa-instagram" />
-              </div>
-              <div className="footer-social__subtitle-element">
+              </Link>
+              <Link to="/" className="footer-social__subtitle-element">
                 <i className="fab fa-facebook-f" />
-              </div>
-              <div className="footer-social__subtitle-element">
+              </Link>
+              <Link to="/" className="footer-social__subtitle-element">
                 <i className="fab fa-twitter" />
-              </div>
+              </Link>
             </div>
           </div>
           <div className="footer-element footer-mobile-icon">
