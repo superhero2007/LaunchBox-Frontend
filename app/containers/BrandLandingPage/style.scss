@@ -188,17 +188,17 @@ $screen-xl-min: 1200px;
 
     &__brand {
       &__top {
+        width: 117px;
+        height: 25px;
         background: #EC6689;
         border-radius: 11px;
         font-family: Nunito;
         font-style: normal;
         font-weight: normal;
-        font-size: 11px;
-        line-height: 20px;
+        font-size: 17px;
+        line-height: 31px;
         letter-spacing: -0.02em;
         color: #FFFFFF;
-        width: 84px;
-        height: 18px;
         display: flex;
         align-items: center;
         justify-content: center;
