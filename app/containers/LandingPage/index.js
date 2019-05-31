@@ -411,7 +411,7 @@ class LandingPage extends React.PureComponent {
               </span>
             </div>
             <div className="left-wrapper__button d-flex">
-              <StartButton to="/brand">Get Started</StartButton>
+              <StartButton to="/home">Get Started</StartButton>
             </div>
           </div>
           <div className="right-wrapper">

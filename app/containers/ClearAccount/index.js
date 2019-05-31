@@ -299,7 +299,7 @@ class ClearAccount extends React.PureComponent {
           <FormTitle>Your account has been successfully cleared</FormTitle>
           <SubHeader>Time for a fresh start!</SubHeader>
           <ResendAction>
-            <Button to="/brand">GO TO BRAND PAGE</Button>
+            <Button to="/home">GO TO BRAND PAGE</Button>
           </ResendAction>
         </FormContent>
       );

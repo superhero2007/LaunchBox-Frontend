@@ -32,7 +32,7 @@ class HomePage extends React.PureComponent {
         {
           background: '#e37898',
           color: '#ffffff',
-          link: '/brand',
+          link: '/home',
           date: 'UPDATED 3 DAYS AGO',
           title: 'BrandBox',
           description:

@@ -244,7 +244,7 @@ class ChangePassword extends React.PureComponent {
             <FormTitle>Password Changed</FormTitle>
             <SubHeader>Now, let’s get back to work!</SubHeader>
             <ResendAction>
-              <Button to="/brand">GO TO BRAND PAGE</Button>
+              <Button to="/home">GO TO BRAND PAGE</Button>
             </ResendAction>
           </FormContent>
         ) : (

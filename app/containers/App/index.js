@@ -27,7 +27,9 @@ import RoutePrivate from 'routes/RoutePrivate';
 import RouteConfirm from 'routes/RouteConfirm';
 
 import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
-import HomePage from 'containers/HomePage/Loadable';
+// import HomePage from 'containers/HomePage/Loadable';
+// import BizPage from 'containers/BizPage/Loadable';
+import BrandPage from 'containers/BrandPage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
 import ResetPasswordRequest from 'containers/ResetPasswordRequest/Loadable';
@@ -42,8 +44,6 @@ import ChangeEmail from 'containers/ChangeEmail/Loadable';
 import ChangePassword from 'containers/ChangePassword/Loadable';
 import ClearAccount from 'containers/ClearAccount/Loadable';
 import DeleteAccount from 'containers/DeleteAccount/Loadable';
-import BizPage from 'containers/BizPage/Loadable';
-import BrandPage from 'containers/BrandPage/Loadable';
 import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import GlobalStyle from '../../global-styles';
@@ -149,18 +149,6 @@ class App extends React.Component {
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
             path="/home"
-            component={HomePage}
-          />
-          <RoutePrivate
-            isAuthenticated={isAuthenticated}
-            isConfirmed={isConfirmed}
-            path="/biz"
-            component={BizPage}
-          />
-          <RoutePrivate
-            isAuthenticated={isAuthenticated}
-            isConfirmed={isConfirmed}
-            path="/brand"
             component={BrandPage}
           />
           <RoutePrivate
