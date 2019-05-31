@@ -82,6 +82,7 @@ function ServiceReducer(state = initialState, action) {
         .set('error', false)
         .set('user', action.response.user);
     case GET_USER_REQUEST.FAILURE:
+      localStorage.removeItem('token');
       return state.set('loading', false).set('error', action.error);
 
     case UPDATE_USER_REQUEST.REQUEST:
