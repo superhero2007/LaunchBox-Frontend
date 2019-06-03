@@ -230,7 +230,9 @@ class BrandLandingPage extends React.PureComponent {
               <div className="right-wrapper__brand">
                 <div className="right-wrapper__brand__top">coming soon</div>
                 <div className="right-wrapper__brand__title">
-                  AI Suggestions Help You Stay On-Brand
+                  AI Suggestions Help
+                  <br />
+                  You Stay On-Brand
                 </div>
               </div>
               <div className="right-wrapper__image">
