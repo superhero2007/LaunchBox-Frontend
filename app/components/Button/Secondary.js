@@ -10,6 +10,7 @@ const Secondary = styled.button`
   text-transform: uppercase;
   color: rgba(150, 125, 135, 0.7);
   width: 60px;
+  border-radius: 7px;
 
   &:hover {
     color: white;

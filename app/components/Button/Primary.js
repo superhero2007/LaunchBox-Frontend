@@ -10,6 +10,7 @@ const Primary = styled.button`
   text-transform: uppercase;
   color: #1b367c;
   width: 60px;
+  border-radius: 7px;
 
   &:hover {
     color: white;

@@ -37,6 +37,7 @@ const Button = styled.button`
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 7px;
 `;
 
 const DropzoneWrapper = styled.div`

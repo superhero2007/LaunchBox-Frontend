@@ -13,6 +13,7 @@ const Button = styled.button`
   cursor: pointer;
   color: #6c4853;
   background: white;
+  border-radius: 7px;
 `;
 
 const SaveButton = styled.button`
@@ -28,6 +29,7 @@ const SaveButton = styled.button`
   text-transform: uppercase;
   color: #fff;
   cursor: pointer;
+  border-radius: 7px;
 
   &:hover {
     color: #1b367c;

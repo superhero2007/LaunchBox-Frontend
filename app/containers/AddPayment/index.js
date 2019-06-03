@@ -96,6 +96,7 @@ const Button = styled.button`
   text-transform: uppercase;
   border: 2px solid #dfe8ff;
   color: #1b367c;
+  border-radius: 7px;
 
   &:hover {
     background: #dfe8ff;

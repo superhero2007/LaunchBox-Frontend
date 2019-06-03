@@ -11,6 +11,7 @@ const AddNewButton = styled.button`
   text-transform: uppercase;
   padding: 10px 11px 6px;
   color: rgba(108, 72, 83, 0.5);
+  border-radius: 7px;
 
   &:hover {
     color: #1b367c;

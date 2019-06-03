@@ -163,6 +163,7 @@ const ForgotPassword = styled.button`
   line-height: 19px;
   color: #7d8291;
   margin-top: 30px;
+  border-radius: 7px;
 `;
 
 const Back = styled.span`
