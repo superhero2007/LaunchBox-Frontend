@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { makeSelectUser } from 'services/api/selectors';
 
 import LogoImage from '../../images/brand_logo.svg';
+import UserImage from '../../images/user.svg';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -69,12 +70,14 @@ const Header = props => (
     </Menu>
     {props.user && (
       <BrandWrapper to="settings">
-        {props.user.photo && (
-          <Brand
-            src={`${process.env.API_ENTRY_PREFIX}${props.user.photo}`}
-            alt="Brand"
-          />
-        )}
+        <Brand
+          src={
+            props.user.photo
+              ? `${process.env.API_ENTRY_PREFIX}${props.user.photo}`
+              : UserImage
+          }
+          alt="Brand"
+        />
         <BrandTitle opened>{props.user.fullName}</BrandTitle>
       </BrandWrapper>
     )}
