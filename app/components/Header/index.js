@@ -69,10 +69,12 @@ const Header = props => (
     </Menu>
     {props.user && (
       <BrandWrapper to="settings">
-        <Brand
-          src={`${process.env.API_ENTRY_PREFIX}${props.user.photo}`}
-          alt="Brand"
-        />
+        {props.user.photo && (
+          <Brand
+            src={`${process.env.API_ENTRY_PREFIX}${props.user.photo}`}
+            alt="Brand"
+          />
+        )}
         <BrandTitle opened>{props.user.fullName}</BrandTitle>
       </BrandWrapper>
     )}
