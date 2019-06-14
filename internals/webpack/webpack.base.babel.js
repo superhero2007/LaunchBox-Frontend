@@ -4,6 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+require('dotenv').config();
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -124,6 +125,11 @@ module.exports = options => ({
           process.env.API_ENTRY_PREFIX
             ? process.env.API_ENTRY_PREFIX
             : 'http://localhost:8080',
+        ),
+        NUMMUSPAY_PUBLIC_KEY: JSON.stringify(
+          process.env.NUMMUSPAY_PUBLIC_KEY
+            ? process.env.NUMMUSPAY_PUBLIC_KEY
+            : '',
         ),
       },
     }),

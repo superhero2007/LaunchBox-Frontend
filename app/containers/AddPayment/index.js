@@ -9,7 +9,7 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ import styled from 'styled-components';
 
 import { makeSelectUser } from 'services/api/selectors';
 import { getUser, updateUser, deleteUser } from 'services/api/actions';
+import Header from 'components/Header';
 
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
@@ -32,6 +33,7 @@ import diners from '../../images/diners.svg';
 import discover from '../../images/discover.svg';
 import jcb from '../../images/jcb.svg';
 import union from '../../images/union.svg';
+import ExitSetings from '../../images/exit-settings.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,7 +46,28 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 
-const Header = styled.div`
+const BackToSettings = styled(Link)`
+  position: absolute;
+  top: 140px;
+  left: 26px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3;
+`;
+
+const Back = styled.span`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 34px;
+  color: #1b367c;
+  margin-left: 20px;
+`;
+
+const PrivateHeader = styled.div`
   position: fixed;
   left: 0;
   top: 0;
@@ -88,6 +111,8 @@ const Form = styled.div`
   background: #fff;
   margin-top: 44px;
   max-width: 100%;
+  border-radius: 7px;
+  overflow: hidden;
 `;
 
 const ButtonWrapper = styled.div`
@@ -106,7 +131,7 @@ const Button = styled.button`
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 2px solid #dfe8ff;
+  border-bottom: 2px solid #dfe8ff;
   color: #1b367c;
 
   &:hover {
@@ -132,6 +157,7 @@ const FormAction = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 8px;
 `;
 
 const FormAddButton = styled.button`
@@ -496,9 +522,9 @@ class AddPayment extends React.PureComponent {
         });
       }
       this.props.history.push('/active-payment');
+    } else {
+      this.props.history.goBack();
     }
-
-    this.props.history.goBack();
   };
 
   getCardType = number => {
@@ -731,15 +757,36 @@ class AddPayment extends React.PureComponent {
         <img src={paypal} alt="Paypal" />
       </Button>
     );
-    return (
-      <Wrapper>
-        {this.state.dialog && modal}
-        <Header>
+
+    let header;
+    if (
+      (user.paypal && user.paypal.email) ||
+      (user.creditCard && user.creditCard.cardNumber)
+    ) {
+      header = (
+        <Fragment>
+          <Header />
+          <BackToSettings to="/settings">
+            <img src={ExitSetings} alt="Exit Settings" />
+            <Back className="settings__exit-title">Back to Settings</Back>
+          </BackToSettings>
+        </Fragment>
+      );
+    } else {
+      header = (
+        <PrivateHeader>
           <Link to="/">
             <Logo src={BrandLogo} alt="Brand Logo" />
           </Link>
           <img src={HeaderMaskImg} alt="Header Mask" />
-        </Header>
+        </PrivateHeader>
+      );
+    }
+
+    return (
+      <Wrapper>
+        {this.state.dialog && modal}
+        {header}
         <Title>Add Payment Method</Title>
         <SubHeader>
           Don’t worry, we won’t charge you anything until your trial has

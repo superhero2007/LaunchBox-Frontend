@@ -18,9 +18,10 @@ import styled from 'styled-components';
 
 import { makeSelectUser } from 'services/api/selectors';
 import { getUser, updateUser } from 'services/api/actions';
+import Header from 'components/Header';
 
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
+import PaymentAdded from '../../images/payment-added.svg';
+import ExitSetings from '../../images/exit-settings.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,28 +34,123 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 
-const Header = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
+const BackToSettings = styled(Link)`
+  position: absolute;
+  top: 140px;
+  left: 26px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3;
 `;
 
-const Logo = styled.img`
-  position: absolute;
-  left: 43px;
-  top: 34px;
+const Back = styled.span`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 34px;
+  color: #1b367c;
+  margin-left: 20px;
 `;
 
 const Form = styled.div`
   width: 688px;
-  height: 558px;
   background: #fff;
-  margin-top: 44px;
   max-width: 100%;
+  text-align: center;
+  margin-top: 100px;
+  border-radius: 7px;
+  overflow: hidden;
+`;
+
+const SuccessForm = styled.div`
+  width: 688px;
+  background: #fff;
+  max-width: 100%;
+  text-align: center;
+  margin-top: 100px;
+  height: 368px;
+  padding: 60px;
+`;
+
+const ConfirmForm = styled.div`
+  width: 688px;
+  background: #fff;
+  max-width: 100%;
+  text-align: center;
+  margin-top: 100px;
+  height: 344px;
+  padding: 80px;
+`;
+
+const ConfirmSubHeader = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
+  border-radius: 7px;
+  margin: 36px 0;
+`;
+
+const SuccessImg = styled.img`
+  width: 120px;
+  margin-bottom: 22px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
+`;
+
+const FormTitle = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 21px;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  color: #1b367c;
+`;
+
+const SubHeader = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
+  opacity: 0.5;
+  margin-top: 13px;
+`;
+
+const Action = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+`;
+
+const FormButton = styled(Link)`
+  width: 272px;
+  height: 48px;
+  border-radius: 7px;
+  background: #1b367c;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Button = styled.button`
@@ -69,8 +165,8 @@ const Button = styled.button`
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 2px solid #dfe8ff;
-  color: #1b367c;
+  border-bottom: 2px solid #dfe8ff;
+  color: #3166ed;
 
   &:hover {
     background: #dfe8ff;
@@ -93,8 +189,54 @@ const FormContent = styled.div`
 
 const FormAction = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+`;
+
+const ConfirmBackButton = styled.button`
+  border: 2px solid #d6dbe9;
+  border-radius: 7px;
+  width: 191px;
+  height: 48px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1b367c;
+  background: #fff;
+  border-radius: 7px;
+
+  &:hover {
+    background: #1b367c;
+    color: #fff;
+  }
+`;
+
+const ConfirmSubmitButton = styled.button`
+  background: #ec6689;
+  border-radius: 7px;
+  width: 208px;
+  height: 48px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-left: 16px;
+
+  &:hover {
+    background: #fff;
+    color: #ec6689;
+    border: 2px solid #ec6689;
+  }
 `;
 
 const FormAddButton = styled.button`
@@ -111,6 +253,7 @@ const FormAddButton = styled.button`
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #fff;
+  margin-left: 24px;
 
   &:hover {
     border: 2px solid #d6dbe9;
@@ -214,6 +357,7 @@ const AdditionalTitle = styled.div`
   text-transform: uppercase;
   color: rgba(27, 54, 124, 0.5);
   border-radius: 7px;
+  text-align: left;
 `;
 
 const AdditionalContent = styled.div`
@@ -273,7 +417,6 @@ const Description = styled.div`
   opacity: 0.5;
   border-radius: 7px;
   margin-top: 38px;
-  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -290,9 +433,11 @@ class Subscribe extends React.PureComponent {
     super(props);
 
     this.state = {
+      confirm: false,
       method: false,
       users: 0,
       brands: 0,
+      success: false,
     };
   }
 
@@ -336,36 +481,117 @@ class Subscribe extends React.PureComponent {
     }));
   };
 
-  handleClick = type => {
-    if (type === 'add') {
-      const { method, users, brands } = this.state;
-      const amount = method
-        ? 12 + users * 6 + brands * 9
-        : 9 + users * 4 + brands * 6;
-      this.props.onUpdateUser({
+  handleClickConfirm = () => {
+    const { method, users, brands } = this.state;
+    const amount = method
+      ? 9 + users * 4 + brands * 6
+      : 12 + users * 6 + brands * 9;
+    this.props.onUpdateUser({
+      subscription: {
         amount,
         method,
         users,
         brands,
-      });
-    }
+        status: 2,
+        date: new Date(),
+      },
+    });
+    this.setState({ success: true });
+  };
 
+  handleClickCancel = () => {
     this.props.history.goBack();
   };
 
+  handleToggleConfirm = () => {
+    this.setState(state => ({
+      confirm: !state.confirm,
+    }));
+  };
+
+  handleCancelSubscription = () => {
+    this.props.onUpdateUser({
+      subscription: {
+        amount: 0,
+        method: false,
+        users: 0,
+        brands: 0,
+        status: 3,
+        date: new Date(),
+      },
+    });
+    this.props.history.push('/settings');
+  };
+
   render() {
-    const { method, users, brands } = this.state;
+    const { method, users, brands, success, confirm } = this.state;
     const { user } = this.props;
+
+    if (confirm) {
+      const subscriptionDate = new Date(user.subscription.date);
+      return (
+        <Wrapper>
+          <Header />
+          <BackToSettings to="/settings">
+            <img src={ExitSetings} alt="Exit Settings" />
+            <Back className="settings__exit-title">Back to Settings</Back>
+          </BackToSettings>
+          <ConfirmForm>
+            <FormTitle>
+              Are you sure you want to cancel your monthly Brandguide
+              subscription?
+            </FormTitle>
+            <ConfirmSubHeader>
+              Subscription will still be valid until&nbsp;
+              {subscriptionDate
+                .toDateString()
+                .split(' ')
+                .slice(1)
+                .join(' ')}
+            </ConfirmSubHeader>
+            <FormAction>
+              <ConfirmBackButton onClick={this.handleToggleConfirm}>
+                BACK
+              </ConfirmBackButton>
+              <ConfirmSubmitButton onClick={this.handleCancelSubscription}>
+                SUBMIT
+              </ConfirmSubmitButton>
+            </FormAction>
+          </ConfirmForm>
+        </Wrapper>
+      );
+    }
+
+    if (success) {
+      return (
+        <Wrapper>
+          <Header />
+          <BackToSettings to="/settings">
+            <img src={ExitSetings} alt="Exit Settings" />
+            <Back className="settings__exit-title">Back to Settings</Back>
+          </BackToSettings>
+          <SuccessForm>
+            <SuccessImg src={PaymentAdded} alt="Registration Confirm" />
+            <FormTitle>Subscription Successfully Updated</FormTitle>
+            <SubHeader>Now, let’s get back to work!</SubHeader>
+            <Action>
+              <FormButton to="/home">GO TO BRAND PAGE</FormButton>
+            </Action>
+          </SuccessForm>
+        </Wrapper>
+      );
+    }
+
     const amount = method
-      ? 12 + users * 6 + brands * 9
-      : 9 + users * 4 + brands * 6;
+      ? 9 + users * 4 + brands * 6
+      : 12 + users * 6 + brands * 9;
 
     const formAction = (
       <FormAction>
-        <FormCancelButton onClick={() => this.handleClick('cancel')}>
+        <FormCancelButton onClick={this.handleClickCancel}>
           Cancel
         </FormCancelButton>
-        <FormAddButton onClick={() => this.handleClick('add')}>
+        <FormAddButton onClick={this.handleClickConfirm}>
           Confirm ($
           {amount})
         </FormAddButton>
@@ -381,7 +607,7 @@ class Subscribe extends React.PureComponent {
           </FormRow>
           <FormRow>
             <FormRowContent>
-              <Price>{amount}</Price>
+              <Price>${amount}</Price>
               <SubTitle>per month</SubTitle>
             </FormRowContent>
           </FormRow>
@@ -391,7 +617,7 @@ class Subscribe extends React.PureComponent {
                 ADDITIONAL BRANDS (TOTAL ${9 * brands})
               </AdditionalTitle>
               <AdditionalContent>
-                <AdditionalValue>7</AdditionalValue>
+                <AdditionalValue>{brands}</AdditionalValue>
                 <AdditionalButton
                   type="plus"
                   onClick={() => this.handleBrandsChange(brands + 1)}
@@ -411,7 +637,7 @@ class Subscribe extends React.PureComponent {
                 ADDITIONAL USERS (TOTAL ${6 * users})
               </AdditionalTitle>
               <AdditionalContent>
-                <AdditionalValue>4</AdditionalValue>
+                <AdditionalValue>{users}</AdditionalValue>
                 <AdditionalButton
                   type="plus"
                   onClick={() => this.handleUsersChange(users + 1)}
@@ -433,7 +659,9 @@ class Subscribe extends React.PureComponent {
               Monthly subscription starts at $12 and includes 1 Brand and 3
               Users.&nbsp;
               {user ? (
-                <CancelSubscription>Cancel Subscription</CancelSubscription>
+                <CancelSubscription onClick={this.handleToggleConfirm}>
+                  Cancel Subscription
+                </CancelSubscription>
               ) : (
                 'You can add more later.'
               )}
@@ -449,11 +677,11 @@ class Subscribe extends React.PureComponent {
           </FormRow>
           <FormRow>
             <FormRowContent opacity>
-              <Price>{amount}</Price>
+              <Price>${amount}</Price>
               <SubTitle>per month</SubTitle>
             </FormRowContent>
             <FormRowContent>
-              <Price>{amount * 12}</Price>
+              <Price>${amount * 12}</Price>
               <SubTitle>per year</SubTitle>
             </FormRowContent>
           </FormRow>
@@ -463,7 +691,7 @@ class Subscribe extends React.PureComponent {
                 ADDITIONAL BRANDS (TOTAL ${6 * brands})
               </AdditionalTitle>
               <AdditionalContent>
-                <AdditionalValue>7</AdditionalValue>
+                <AdditionalValue>{brands}</AdditionalValue>
                 <AdditionalButton
                   type="plus"
                   onClick={() => this.handleBrandsChange(brands + 1)}
@@ -483,7 +711,7 @@ class Subscribe extends React.PureComponent {
                 ADDITIONAL USERS (TOTAL ${4 * users})
               </AdditionalTitle>
               <AdditionalContent>
-                <AdditionalValue>4</AdditionalValue>
+                <AdditionalValue>{users}</AdditionalValue>
                 <AdditionalButton
                   type="plus"
                   onClick={() => this.handleUsersChange(users + 1)}
@@ -537,12 +765,11 @@ class Subscribe extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Header>
-          <Link to="/">
-            <Logo src={BrandLogo} alt="Brand Logo" />
-          </Link>
-          <img src={HeaderMaskImg} alt="Header Mask" />
-        </Header>
+        <Header />
+        <BackToSettings to="/settings">
+          <img src={ExitSetings} alt="Exit Settings" />
+          <Back className="settings__exit-title">Back to Settings</Back>
+        </BackToSettings>
         <Form>
           <ButtonWrapper>
             {monthlyButton}

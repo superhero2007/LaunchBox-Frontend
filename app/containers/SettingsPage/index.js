@@ -39,8 +39,7 @@ import DeleteAccount from './components/DeleteAccount';
 import './style.scss';
 import ExitSetings from '../../images/exit-settings.svg';
 
-const publicKey =
-  'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoOSqMO9ou1LU2ZIMahOxhwLelfaAaXtIMIGRskFf+6T6ycrmhsnsrkxK8QcwbKjG1obQLNTz56IPCYMN6myU4Et1sQQ/JA+yzVnCBuOc/5nuEL/1kYUEAQBLc5Wujbj071qe0muTFD2vyX1aZY+zb3+ArzBAEjbNryxyM0oy5UXXwY9NqyBWCpO5Gm+6GscB2jt/d6EhDQF7JMvJEOwBjtVOBmSeiIJ9+i4myfM4469+JfydVnmhfPetZqV3MLXaFzTSsIv89qWco5oToXeirEkxL3Iay/9hb27s9CFNSo6seU7+CsADDTFlPdgvsTSy+281L93ylNUKhxm144hylQIDAQAB';
+const publicKey = process.env.NUMMUSPAY_PUBLIC_KEY;
 
 /* eslint-disable react/prefer-stateless-function */
 class SettingsPage extends React.PureComponent {
@@ -166,19 +165,13 @@ class SettingsPage extends React.PureComponent {
             <div className="settings__payment-subscription">
               <div className="settings__title">Subscription</div>
               <div className="settings__payment-subscription__content">
-                <Subscription
-                  onUpdate={this.handleSubscription}
-                  subscription={this.props.user.subscription}
-                />
+                <Subscription subscription={this.props.user.subscription} />
               </div>
             </div>
             <div className="settings__payment-method">
               <div className="settings__title">Payment method</div>
               <div className="settings__payment-method__content">
-                <Payment
-                  user={this.props.user}
-                  onUpdateUser={this.props.onUpdateUser}
-                />
+                <Payment user={this.props.user} />
               </div>
             </div>
           </div>

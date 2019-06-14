@@ -133,28 +133,6 @@ const ChangeMethod = styled(Link)`
   }
 `;
 
-const DeleteMethod = styled.button`
-  width: 200px;
-  height: 48px;
-  border: 2px solid rgba(227, 120, 152, 0.2);
-  border-radius: 7px;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #e37898;
-  margin-top: 16px;
-
-  &:hover {
-    color: #fff;
-    background: #e37898;
-  }
-`;
-
 class Payment extends React.PureComponent {
   getCardType = number => {
     // visa
@@ -220,22 +198,6 @@ class Payment extends React.PureComponent {
     return '';
   };
 
-  handleDelete = () => {
-    this.props.onUpdateUser({
-      paypal: {
-        email: '',
-        firstName: '',
-        lastName: '',
-      },
-      creditCard: {
-        cardNumber: '',
-        holderName: '',
-        expiry: '',
-        cvc: '',
-      },
-    });
-  };
-
   render() {
     const { user } = this.props;
     if (user.creditCard && user.creditCard.cardNumber) {
@@ -261,7 +223,6 @@ class Payment extends React.PureComponent {
           </CardContent>
           <CardAction>
             <ChangeMethod to="/add-payment">Change Method</ChangeMethod>
-            <DeleteMethod onClick={this.handleDelete}>Remove</DeleteMethod>
           </CardAction>
         </Wrapper>
       );
@@ -285,7 +246,6 @@ class Payment extends React.PureComponent {
           </CardContent>
           <CardAction>
             <ChangeMethod to="/add-payment">Change Method</ChangeMethod>
-            <DeleteMethod onClick={this.handleDelete}>Remove</DeleteMethod>
           </CardAction>
         </Wrapper>
       );
@@ -303,7 +263,6 @@ class Payment extends React.PureComponent {
 
 Payment.propTypes = {
   user: PropTypes.object,
-  onUpdateUser: PropTypes.func,
 };
 
 export default Payment;
