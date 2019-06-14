@@ -39,6 +39,7 @@ import Confirmation from 'containers/Confirmation/Loadable';
 import EmailConfirmation from 'containers/EmailConfirmation/Loadable';
 import AccountActive from 'containers/AccountActive/Loadable';
 import AddPayment from 'containers/AddPayment/Loadable';
+import Subscribe from 'containers/Subscribe/Loadable';
 import ActivePayment from 'containers/ActivePayment/Loadable';
 import ChangeEmail from 'containers/ChangeEmail/Loadable';
 import ChangePassword from 'containers/ChangePassword/Loadable';
@@ -138,6 +139,12 @@ class App extends React.Component {
             isConfirmed={isConfirmed}
             path="/add-payment"
             component={AddPayment}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/subscribe"
+            component={Subscribe}
           />
           <RoutePrivate
             isAuthenticated={isAuthenticated}

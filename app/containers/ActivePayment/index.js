@@ -106,7 +106,9 @@ class ActivePayment extends React.PureComponent {
         <Form>
           <img src={PaymentAdded} alt="Registration Confirm" />
           <FormTitle>Payment Method Added!</FormTitle>
-          <SubHeader>You can now start enjoying your free trial.</SubHeader>
+          <SubHeader>
+            You can now start enjoying your 7-day free trial.
+          </SubHeader>
           <Action>
             <Button to="home">LAUNCH BRANDGUIDE</Button>
           </Action>

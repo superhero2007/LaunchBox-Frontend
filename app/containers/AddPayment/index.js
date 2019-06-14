@@ -11,15 +11,27 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { makeSelectUser } from 'services/api/selectors';
+import { getUser, updateUser, deleteUser } from 'services/api/actions';
+
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
 import creditCard from '../../images/creditcard.svg';
 import paypal from '../../images/paypal.svg';
 import creditCardActive from '../../images/creditcard-active.svg';
 import paypalActive from '../../images/paypal-active.svg';
-import card from '../../images/card.svg';
+import master from '../../images/master.svg';
+import visa from '../../images/visa.svg';
+import american from '../../images/american.svg';
+import diners from '../../images/diners.svg';
+import discover from '../../images/discover.svg';
+import jcb from '../../images/jcb.svg';
+import union from '../../images/union.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -96,7 +108,6 @@ const Button = styled.button`
   text-transform: uppercase;
   border: 2px solid #dfe8ff;
   color: #1b367c;
-  border-radius: 7px;
 
   &:hover {
     background: #dfe8ff;
@@ -236,12 +247,96 @@ const CardImage = styled.img`
   top: 17px;
 `;
 
+const ModalWrapper = styled.div`
+  background: rgba(10, 19, 41, 0.7);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalContent = styled.div`
+  width: 416px;
+  height: 311px;
+  background: #fff;
+  border-radius: 7px;
+  position: absolute;
+  padding: 40px 36px;
+  z-index: 1;
+`;
+
+const ModalTitle = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 21px;
+  text-align: center;
+  color: #1b367c;
+`;
+
+const ModalDescription = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
+  margin: 28px 36px;
+`;
+
+const CancelButton = styled.button`
+  width: 164px;
+  height: 40px;
+  border: 2px solid #d6dbe9;
+  border-radius: 7px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1b367c;
+
+  &:hover {
+    background: #1b367c;
+    color: #fff;
+  }
+`;
+
+const ConfirmButton = styled.button`
+  width: 164px;
+  height: 40px;
+  background: #ec6689;
+  border-radius: 7px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+
+  &:hover {
+    color: #ec6689;
+    background: #fff;
+    border: 2px solid #ec6689;
+  }
+`;
+
 /* eslint-disable react/prefer-stateless-function */
 class AddPayment extends React.PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
+      dialog: false,
       method: false,
       paypal: {
         email: '',
@@ -256,6 +351,34 @@ class AddPayment extends React.PureComponent {
       },
     };
   }
+
+  componentDidMount = () => {
+    const token = localStorage.getItem('token');
+    if (token && !this.props.user) {
+      this.props.OnGetUser();
+    }
+    this.updateState();
+  };
+
+  componentWillReceiveProps(newProps) {
+    this.updateState(newProps);
+  }
+
+  updateState = newProps => {
+    const props = newProps || this.props;
+    if (props.user.paypal && props.user.paypal.email) {
+      this.setState({
+        paypal: props.user.paypal,
+        method: true,
+      });
+    }
+    if (props.user.creditCard && props.user.creditCard.cardNumber) {
+      this.setState({
+        creditCard: props.user.creditCard,
+        method: false,
+      });
+    }
+  };
 
   handlePaypalEmailChange = e => {
     const { value } = e.target;
@@ -341,25 +464,156 @@ class AddPayment extends React.PureComponent {
   };
 
   handleClick = type => {
-    if (type === 'add') {
-      console.log('Add');
+    const { user } = this.props;
+    if (
+      type === 'cancel' &&
+      !(user.paypal && user.paypal.email) &&
+      !(user.creditCard && user.creditCard.cardNumber)
+    ) {
+      this.setState({ dialog: true });
+      return;
     }
 
-    if (this.props.location.state && this.props.location.state.redirect) {
-      this.props.history.push(this.props.location.state.redirect);
-    } else {
-      this.props.history.goBack();
+    if (type === 'add') {
+      if (this.state.method) {
+        this.props.onUpdateUser({
+          paypal: this.state.paypal,
+          creditCard: {
+            cardNumber: '',
+            holderName: '',
+            expiry: '',
+            cvc: '',
+          },
+        });
+      } else {
+        this.props.onUpdateUser({
+          paypal: {
+            email: '',
+            firstName: '',
+            lastName: '',
+          },
+          creditCard: this.state.creditCard,
+        });
+      }
+      this.props.history.push('/active-payment');
     }
+
+    this.props.history.goBack();
+  };
+
+  getCardType = number => {
+    // visa
+    let re = new RegExp('^4');
+    if (number.match(re) != null) {
+      return visa;
+    }
+
+    // Mastercard
+    // Updated for Mastercard 2017 BINs expansion
+    if (
+      /^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(
+        number,
+      )
+    ) {
+      return master;
+    }
+
+    // AMEX
+    re = new RegExp('^3[47]');
+    if (number.match(re) != null) {
+      return american;
+    }
+
+    // Discover
+    re = new RegExp(
+      '^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)',
+    );
+    if (number.match(re) != null) {
+      return discover;
+    }
+
+    // Diners
+    re = new RegExp('^36');
+    if (number.match(re) != null) {
+      return diners;
+    }
+
+    // Diners - Carte Blanche
+    re = new RegExp('^30[0-5]');
+    if (number.match(re) != null) {
+      return diners;
+    }
+
+    // JCB
+    re = new RegExp('^35(2[89]|[3-8][0-9])');
+    if (number.match(re) != null) {
+      return jcb;
+    }
+
+    // Visa Electron
+    re = new RegExp('^(4026|417500|4508|4844|491(3|7))');
+    if (number.match(re) != null) {
+      return visa;
+    }
+
+    // China Union
+    re = new RegExp('^62');
+    if (number.match(re) != null) {
+      return union;
+    }
+
+    return '';
+  };
+
+  handleCancelButton = () => {
+    this.setState({ dialog: false });
+  };
+
+  handleConfirmButton = () => {
+    this.setState({ dialog: false });
+    this.props.onDeleteUser();
   };
 
   render() {
+    const cardImage =
+      this.state.creditCard && this.state.creditCard.cardNumber
+        ? this.getCardType(this.state.creditCard.cardNumber)
+        : '';
+    const { user } = this.props;
+
+    const modal = (
+      <ModalWrapper>
+        <ModalContent>
+          <ModalTitle>Cancel Signup</ModalTitle>
+          <ModalDescription>
+            Are you sure you want to cancel your signup for Brandguide?
+            <br />
+            <br />
+            Don’t worry, you can always come back later and finish setting up
+            your account.
+          </ModalDescription>
+          <FormAction>
+            <CancelButton onClick={this.handleCancelButton}>
+              CANCEL
+            </CancelButton>
+            <ConfirmButton onClick={this.handleConfirmButton}>
+              CONFIRM
+            </ConfirmButton>
+          </FormAction>
+        </ModalContent>
+      </ModalWrapper>
+    );
+
     const formAction = (
       <FormAction>
         <FormCancelButton onClick={() => this.handleClick('cancel')}>
           Cancel
         </FormCancelButton>
         <FormAddButton onClick={() => this.handleClick('add')}>
-          Add
+          {(user.paypal && user.paypal.email) ||
+          (user.creditCard && user.creditCard.cardNumber)
+            ? 'Update'
+            : 'Add'}
         </FormAddButton>
       </FormAction>
     );
@@ -418,7 +672,7 @@ class AddPayment extends React.PureComponent {
                 className={this.state.creditCard.cardNumber ? 'focus' : ''}
               />
               <Label htmlFor="cardNumber">Card Number</Label>
-              <CardImage src={card} alt="Card" />
+              {cardImage && <CardImage src={cardImage} alt="Card" />}
             </Input>
             <Input>
               <InputElement
@@ -479,6 +733,7 @@ class AddPayment extends React.PureComponent {
     );
     return (
       <Wrapper>
+        {this.state.dialog && modal}
         <Header>
           <Link to="/">
             <Logo src={BrandLogo} alt="Brand Logo" />
@@ -487,7 +742,8 @@ class AddPayment extends React.PureComponent {
         </Header>
         <Title>Add Payment Method</Title>
         <SubHeader>
-          Please add a payment method to start using Launch Box
+          Don’t worry, we won’t charge you anything until your trial has
+          expired.
         </SubHeader>
         <Form>
           <ButtonWrapper>
@@ -502,8 +758,24 @@ class AddPayment extends React.PureComponent {
 }
 
 AddPayment.propTypes = {
+  user: PropTypes.object,
+  OnGetUser: PropTypes.func,
+  onUpdateUser: PropTypes.func,
+  onDeleteUser: PropTypes.func,
   history: PropTypes.object,
-  location: PropTypes.object,
 };
 
-export default AddPayment;
+const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  OnGetUser: () => dispatch(getUser.request()),
+  onUpdateUser: value => dispatch(updateUser.request(value)),
+  onDeleteUser: () => dispatch(deleteUser.request()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddPayment);

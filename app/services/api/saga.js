@@ -17,6 +17,7 @@ import {
   DELETE_USER_REQUEST,
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
+  USER_SUBSCRIPTION_REQUEST,
 } from './constants';
 
 const {
@@ -35,6 +36,7 @@ const {
   deleteUser,
   uploadPhoto,
   deletePhoto,
+  userSubscribe,
 } = apiActions;
 
 /**
@@ -284,6 +286,22 @@ export function* watchDeletePhoto() {
 }
 
 /**
+ * Request user subscribe request/response handler
+ */
+export function* UserSubscribeRequest(action) {
+  const { response, error } = yield call(api.userSubscribe, action);
+  if (response) {
+    yield put(userSubscribe.success(response));
+  } else {
+    yield put(userSubscribe.failure(error));
+  }
+}
+
+export function* watchSubscribe() {
+  yield takeLatest(USER_SUBSCRIPTION_REQUEST.REQUEST, UserSubscribeRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -304,5 +322,6 @@ export default function* rootSaga() {
     watchDeleteUser(),
     watchUploadPhoto(),
     watchDeletePhoto(),
+    watchSubscribe(),
   ]);
 }

@@ -381,7 +381,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onDeleteUser: value => dispatch(deleteUser.request(value)),
+  onDeleteUser: () => dispatch(deleteUser.request()),
 });
 
 export default connect(

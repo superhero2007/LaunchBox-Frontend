@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import AddPayment from '../index';
+import Subscribe from '../index';
 
-describe('<AddPayment />', () => {
+describe('<Subscribe />', () => {
   it('should render the page message', () => {
-    shallow(<AddPayment />);
+    shallow(<Subscribe />);
   });
 });

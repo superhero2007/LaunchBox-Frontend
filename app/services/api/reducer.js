@@ -15,6 +15,7 @@ import {
   DELETE_USER_REQUEST,
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
+  USER_SUBSCRIPTION_REQUEST,
 } from './constants';
 
 // The initial state of the App
@@ -167,6 +168,17 @@ function ServiceReducer(state = initialState, action) {
         .set('error', false)
         .set('user', action.response.user);
     case DELETE_PHOTO_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case USER_SUBSCRIPTION_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case USER_SUBSCRIPTION_REQUEST.SUCCESS:
+      localStorage.setItem('token', action.response.user.token);
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('user', action.response.user);
+    case USER_SUBSCRIPTION_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
     default:
       return state;

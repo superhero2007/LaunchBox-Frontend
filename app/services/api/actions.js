@@ -14,6 +14,7 @@ import {
   DELETE_USER_REQUEST,
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
+  USER_SUBSCRIPTION_REQUEST,
 } from './constants';
 
 function action(type, payload = {}) {
@@ -157,4 +158,13 @@ export const deletePhoto = {
   request: () => action(DELETE_PHOTO_REQUEST.REQUEST),
   success: response => action(DELETE_PHOTO_REQUEST.SUCCESS, { response }),
   failure: error => action(DELETE_PHOTO_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to delete user's photo
+ */
+export const userSubscribe = {
+  request: value => action(USER_SUBSCRIPTION_REQUEST.REQUEST, { value }),
+  success: response => action(USER_SUBSCRIPTION_REQUEST.SUCCESS, { response }),
+  failure: error => action(USER_SUBSCRIPTION_REQUEST.FAILURE, { error }),
 };

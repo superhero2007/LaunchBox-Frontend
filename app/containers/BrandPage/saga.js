@@ -1,8 +1,4 @@
 /* eslint-disable prefer-destructuring */
-/**
- * Gets the inputElements
- */
-
 import {
   all,
   call,

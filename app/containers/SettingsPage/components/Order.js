@@ -87,7 +87,6 @@ class Order extends React.PureComponent {
         <Td>{element.date}</Td>
         <Td>{element.type}</Td>
         <Td>
-          <Button>HTML</Button>
           <Button>PDF</Button>
         </Td>
       </Row>

@@ -21,6 +21,7 @@ import {
   updateUser,
   uploadPhoto,
   deletePhoto,
+  userSubscribe,
 } from 'services/api/actions';
 
 import Header from 'components/Header';
@@ -38,6 +39,9 @@ import DeleteAccount from './components/DeleteAccount';
 import './style.scss';
 import ExitSetings from '../../images/exit-settings.svg';
 
+const publicKey =
+  'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoOSqMO9ou1LU2ZIMahOxhwLelfaAaXtIMIGRskFf+6T6ycrmhsnsrkxK8QcwbKjG1obQLNTz56IPCYMN6myU4Et1sQQ/JA+yzVnCBuOc/5nuEL/1kYUEAQBLc5Wujbj071qe0muTFD2vyX1aZY+zb3+ArzBAEjbNryxyM0oy5UXXwY9NqyBWCpO5Gm+6GscB2jt/d6EhDQF7JMvJEOwBjtVOBmSeiIJ9+i4myfM4469+JfydVnmhfPetZqV3MLXaFzTSsIv89qWco5oToXeirEkxL3Iay/9hb27s9CFNSo6seU7+CsADDTFlPdgvsTSy+281L93ylNUKhxm144hylQIDAQAB';
+
 /* eslint-disable react/prefer-stateless-function */
 class SettingsPage extends React.PureComponent {
   componentDidMount = () => {
@@ -45,6 +49,40 @@ class SettingsPage extends React.PureComponent {
     if (token && !this.props.user) {
       this.props.OnGetUser();
     }
+  };
+
+  handleSubscription = () => {
+    const { user } = this.props;
+    const data = {
+      email: user.email,
+      firstName: user.fullName
+        .split(' ')
+        .slice(0, -1)
+        .join(' '),
+      lastName: user.fullName
+        .split(' ')
+        .slice(-1)
+        .join(' '),
+      billingAddress: '1700-1712 Cadiz St',
+      zip: '16777',
+      number: '4242424242424242',
+      month: '10',
+      year: '2020',
+      cvv: '735',
+    };
+
+    // eslint-disable-next-line no-undef
+    const nummuspay = Nummuspay || {};
+    nummuspay.SetPublicKey(publicKey);
+    nummuspay
+      .CreateToken(data)
+      .done(token => {
+        this.props.onSubscription({
+          paymentToken: token,
+          amount: 12,
+        });
+      })
+      .fail(() => {});
   };
 
   render() {
@@ -128,13 +166,19 @@ class SettingsPage extends React.PureComponent {
             <div className="settings__payment-subscription">
               <div className="settings__title">Subscription</div>
               <div className="settings__payment-subscription__content">
-                <Subscription onCancel={() => {}} />
+                <Subscription
+                  onUpdate={this.handleSubscription}
+                  subscription={this.props.user.subscription}
+                />
               </div>
             </div>
             <div className="settings__payment-method">
               <div className="settings__title">Payment method</div>
               <div className="settings__payment-method__content">
-                <Payment value={null} />
+                <Payment
+                  user={this.props.user}
+                  onUpdateUser={this.props.onUpdateUser}
+                />
               </div>
             </div>
           </div>
@@ -166,6 +210,7 @@ SettingsPage.propTypes = {
   onUpdateUser: PropTypes.func,
   onUploadPhoto: PropTypes.func,
   onDeletePhoto: PropTypes.func,
+  onSubscription: PropTypes.func,
   // onSocialAdd: PropTypes.func,
 };
 
@@ -178,6 +223,7 @@ const mapDispatchToProps = dispatch => ({
   onUpdateUser: value => dispatch(updateUser.request(value)),
   onUploadPhoto: value => dispatch(uploadPhoto.request(value)),
   onDeletePhoto: () => dispatch(deletePhoto.request()),
+  onSubscription: value => dispatch(userSubscribe.request(value)),
 });
 
 export default connect(

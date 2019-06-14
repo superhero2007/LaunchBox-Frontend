@@ -272,6 +272,27 @@ class BrandLandingPage extends React.PureComponent {
                   <div className="section6__content__item__content__button">
                     <SecondaryButton to="/">Choose Plan</SecondaryButton>
                   </div>
+                  <div className="section6__content__item__content__description">
+                    <div className="section6__content__item__content__description-item">
+                      <span className="section6__content__item__content__description-item__price">
+                        $9&nbsp;
+                      </span>
+                      <span className="section6__content__item__content__description-item__text">
+                        per&nbsp;
+                        <strong>Additional Brand</strong>
+                      </span>
+                    </div>
+
+                    <div className="section6__content__item__content__description-item">
+                      <span className="section6__content__item__content__description-item__price">
+                        $6&nbsp;
+                      </span>
+                      <span className="section6__content__item__content__description-item__text">
+                        per&nbsp;
+                        <strong>Additional User</strong>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="section6__content__item">
@@ -304,6 +325,27 @@ class BrandLandingPage extends React.PureComponent {
                   </div>
                   <div className="section6__content__item__content__button">
                     <SecondaryButton to="/">Choose Plan</SecondaryButton>
+                  </div>
+                  <div className="section6__content__item__content__description">
+                    <div className="section6__content__item__content__description-item">
+                      <span className="section6__content__item__content__description-item__price">
+                        $7&nbsp;
+                      </span>
+                      <span className="section6__content__item__content__description-item__text">
+                        per&nbsp;
+                        <strong>Additional Brand</strong>
+                      </span>
+                    </div>
+
+                    <div className="section6__content__item__content__description-item">
+                      <span className="section6__content__item__content__description-item__price">
+                        $4&nbsp;
+                      </span>
+                      <span className="section6__content__item__content__description-item__text">
+                        per&nbsp;
+                        <strong>Additional User</strong>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className="section6__content__item-mark">

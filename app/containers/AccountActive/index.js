@@ -107,17 +107,10 @@ class AccountActive extends React.PureComponent {
           <img src={ActiveImage} alt="Registration Confirm" />
           <FormTitle>Account Verified!</FormTitle>
           <SubHeader>
-            Please add a payment method before starting your free trial.
+            Please add a payment method before starting your 7-day free trial.
           </SubHeader>
           <Action>
-            <Button
-              to={{
-                pathname: 'add-payment',
-                state: { redirect: 'active-payment' },
-              }}
-            >
-              ADD PAYMENT METHOD
-            </Button>
+            <Button to="add-payment">ADD PAYMENT METHOD</Button>
           </Action>
         </Form>
       </Wrapper>

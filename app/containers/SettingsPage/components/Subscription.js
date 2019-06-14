@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const Title = styled.div`
   line-height: 26px;
   text-align: center;
   color: #1b367c;
+  margin-top: 8px;
 `;
 
 const SubTitle = styled.div`
@@ -36,7 +38,7 @@ const SubTitle = styled.div`
   margin-top: 12px;
 `;
 
-const Button = styled.button`
+const Button = styled(Link)`
   border: 2px solid #dfe8ff;
   font-family: Muli;
   font-style: normal;
@@ -51,6 +53,10 @@ const Button = styled.button`
   width: 252px;
   height: 48px;
   margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 
   &:hover {
     background: #3166ed;
@@ -58,22 +64,87 @@ const Button = styled.button`
   }
 `;
 
+const ProgressWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  background: #d6dbe9;
+  border-radius: 48px;
+  height: 8px;
+  margin-top: 28px;
+`;
+
+const Progress = styled.div`
+  width: ${props => props.width}%;
+  background: #1b367c;
+  border-radius: 48px;
+  height: 8px;
+  position: absolute;
+`;
+
 class Subscription extends React.PureComponent {
   render() {
+    const { subscription } = this.props;
+
+    const now = new Date();
+    const subscriptionDate = new Date(subscription.date);
+    const diffTime = Math.abs(now.getTime() - subscriptionDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (
+      subscription.status === 1 ||
+      (subscription.status === 0 && diffDays > 8)
+    ) {
+      return (
+        <Wrapper>
+          <Title>Your trial period is over</Title>
+          <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
+          <Button to="/subscribe">SUBSCRIBE</Button>
+        </Wrapper>
+      );
+    }
+
+    if (subscription.status === 2) {
+      return (
+        <Wrapper>
+          <Title>Monthly Subscription</Title>
+          <SubTitle>
+            Next payment of ${subscription.amount} occurs on&nbsp;
+            {subscriptionDate
+              .toDateString()
+              .split(' ')
+              .slice(1)
+              .join(' ')}
+          </SubTitle>
+          <Button to="/subscribe">Edit Subscription</Button>
+        </Wrapper>
+      );
+    }
+
+    if (subscription.status === 3) {
+      return (
+        <Wrapper>
+          <Title>Your subscription has ended</Title>
+          <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
+          <Button to="/subscribe">SUBSCRIBE</Button>
+        </Wrapper>
+      );
+    }
+
     return (
       <Wrapper>
-        <Title>Monthly Subscription</Title>
-        <SubTitle>Next payment of $12 occurs on May 31, 2019.</SubTitle>
-        <Button type="button" onClick={this.props.onCancel}>
-          Cancel Subscription
-        </Button>
+        <SubTitle>Trial period ends after</SubTitle>
+        <Title>{8 - diffDays} days</Title>
+        <ProgressWrapper>
+          <Progress width={(8 - diffDays) * 12.5} />
+        </ProgressWrapper>
+        <Button to="/subscribe">SUBSCRIBE</Button>
       </Wrapper>
     );
   }
 }
 
 Subscription.propTypes = {
-  onCancel: PropTypes.func,
+  subscription: PropTypes.object,
 };
 
 export default Subscription;

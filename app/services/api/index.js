@@ -176,3 +176,9 @@ export const deletePhoto = () => {
   const url = `api/user/photo`;
   return callApi(url, 'DELETE');
 };
+
+// API to post user's subscribe
+export const userSubscribe = query => {
+  const url = `api/user/subscribe`;
+  return callApi(url, 'POST', query.value);
+};

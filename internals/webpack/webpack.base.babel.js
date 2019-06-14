@@ -123,7 +123,7 @@ module.exports = options => ({
         API_ENTRY_PREFIX: JSON.stringify(
           process.env.API_ENTRY_PREFIX
             ? process.env.API_ENTRY_PREFIX
-            : 'http://52.87.189.185',
+            : 'http://localhost:8080',
         ),
       },
     }),
