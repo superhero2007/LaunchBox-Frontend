@@ -124,7 +124,7 @@ module.exports = options => ({
         API_ENTRY_PREFIX: JSON.stringify(
           process.env.API_ENTRY_PREFIX
             ? process.env.API_ENTRY_PREFIX
-            : 'http://52.87.189.185',
+            : 'https://api.brandguide.app',
         ),
         NUMMUSPAY_PUBLIC_KEY: JSON.stringify(
           process.env.NUMMUSPAY_PUBLIC_KEY
