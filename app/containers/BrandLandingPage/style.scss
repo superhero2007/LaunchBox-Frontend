@@ -438,11 +438,10 @@ $screen-xl-min: 1200px;
   }
 }
 
-
 .section7 {
   text-align: center;
   margin-top: 73px;
-  margin-bottom: 175px;
+  margin-bottom: 120px;
 
   &__title {
     font-family: Catamaran;
@@ -671,14 +670,23 @@ $screen-xl-min: 1200px;
 
 @media screen and (max-width: $screen-md-min) {
   .menu {
+    justify-content: center;
+    &-brand {
+      width: 80%;
+
+      &__logo {
+        width: 100%;
+      }
+    }
     &-button {
       display: none;
     }
   }
 
   .section1 {
-    margin-top: 80px;
+    margin-top: 40px;
     display: block;
+    text-align: center;
 
     .left-wrapper {
       width: 100%;
@@ -726,6 +734,7 @@ $screen-xl-min: 1200px;
   .section2 {
     margin-top: 150px;
     display: block;
+    text-align: center;
 
     .right-wrapper {
       width: 100%;
@@ -773,6 +782,7 @@ $screen-xl-min: 1200px;
   .section3 {
     margin-top: 150px;
     display: block;
+    text-align: center;
 
     .left-wrapper {
       width: 100%;
@@ -820,6 +830,7 @@ $screen-xl-min: 1200px;
   .section4 {
     margin-top: 150px;
     display: block;
+    text-align: center;
 
     .right-wrapper {
       width: 100%;
@@ -986,11 +997,11 @@ $screen-xl-min: 1200px;
     }
 
     &-mobile-icon {
-      margin: 40px 0;
+      margin: 40px auto;
       padding: 0;
       display: flex;
       align-items: center;
-      width: 100%;
+      width: 80%;
       justify-content: center;
 
       &__title {
@@ -1009,6 +1020,7 @@ $screen-xl-min: 1200px;
 
       &-element {
         margin-bottom: 20px;
+        display: block;
       }
     }
   }
