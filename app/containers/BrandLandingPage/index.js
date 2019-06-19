@@ -158,11 +158,11 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="left-wrapper__description">
                 <span>
-                  Keep life simple and store your entire brand in one
+                  Keep life simple and store all brand assets in one
                   place.&nbsp;
                 </span>
                 <span>
-                  Upload logos, fonts and colors. Access and share forever.
+                  Upload logos, fonts, and colors. Access and share forever.
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
@@ -180,8 +180,9 @@ class BrandLandingPage extends React.PureComponent {
             <div className="right-wrapper">
               <div className="right-wrapper__brand">
                 <div className="right-wrapper__brand__title">
-                  Better Branding with a<br />
-                  Single Source of Truth
+                  Keep All Brand Assets
+                  <br />
+                  Organized and Accessible
                 </div>
               </div>
               <div className="right-wrapper__image">
@@ -189,10 +190,12 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="right-wrapper__description">
                 <span>
-                  Brandguide makes sure your company is represented by the
-                  latest and greatest brand assets at all times. Everyone at
-                  your company can now easily access brand assets, controlled by
-                  dedicated admins.
+                  Sharing brand assets and pdf guidelines through email was
+                  getting old. So we combined the two, into one.
+                  <br />
+                  Branguide is a one-page interactive brand guideline which
+                  stores all your brand assets and allows you to keep them safe,
+                  organized and easily shareable.
                 </span>
               </div>
             </div>
@@ -201,9 +204,8 @@ class BrandLandingPage extends React.PureComponent {
             <div className="left-wrapper">
               <div className="left-wrapper__brand">
                 <div className="left-wrapper__brand__title">
-                  Edits Made in Brandguide
-                  <br />
-                  Take Effect Everywhere Else.
+                  Better Branding with
+                  <br /> A Single Source of Truth
                 </div>
               </div>
               <div className="left-wrapper__image">
@@ -211,10 +213,11 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="left-wrapper__description">
                 <span>
-                  Each brand asset has a unique url which can be shared and
-                  embeded around the web. Instead of sending files, share a link
-                  from Brandguide and now you can update assets anytime,
-                  wherever they might be.
+                  Brandguide makes sure your company is represented by the
+                  latest and greatest brand assets at all times. No more old
+                  files in circulation. All team members can now easily access
+                  all brand assets in one place - controlled and updated by
+                  dedicated admins.
                 </span>
               </div>
             </div>
