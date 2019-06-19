@@ -972,6 +972,11 @@ $screen-xl-min: 1200px;
   .footer {
     text-align: center;
     padding: 0;
+    background: #F3F3FF;
+
+    &::before {
+      display: none;
+    }
 
     &-element {
       width: 100%;
@@ -997,8 +1002,8 @@ $screen-xl-min: 1200px;
     }
 
     &-mobile-icon {
-      margin: 40px auto;
-      padding: 0;
+      margin: 0 auto;
+      padding: 20px 0 40px;
       display: flex;
       align-items: center;
       width: 80%;
