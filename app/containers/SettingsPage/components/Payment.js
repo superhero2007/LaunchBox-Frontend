@@ -199,26 +199,26 @@ class Payment extends React.PureComponent {
   };
 
   render() {
-    const { user } = this.props;
-    if (user.creditCard && user.creditCard.cardNumber) {
-      const cardType = this.getCardType(user.creditCard.cardNumber);
+    const { company } = this.props;
+    if (company.method === 'Credit Card') {
+      const cardType = this.getCardType(company.creditCard.cardNumber);
       return (
         <Wrapper>
           <CardContent>
             {cardType && <CardImage src={cardType} alt="Card Image" />}
             <SubTitle>Card Holder</SubTitle>
             <CardName size={17} height={21}>
-              {user.creditCard.holderName}
+              {company.creditCard.holderName}
             </CardName>
             <SubTitle>Card Number</SubTitle>
             <CardName size={21} height={26}>
-              {`**** **** **** ${user.creditCard.cardNumber.substr(
-                user.creditCard.cardNumber.length - 4,
+              {`**** **** **** ${company.creditCard.cardNumber.substr(
+                company.creditCard.cardNumber.length - 4,
               )}`}
             </CardName>
             <SubTitle>Expiry</SubTitle>
             <CardName size={15} height={19}>
-              {user.creditCard.expiry}
+              {company.creditCard.expiry}
             </CardName>
           </CardContent>
           <CardAction>
@@ -228,19 +228,19 @@ class Payment extends React.PureComponent {
       );
     }
 
-    if (user.paypal && user.paypal.email) {
+    if (company.method === 'Paypal') {
       return (
         <Wrapper>
           <CardContent>
             <CardImage src={paypal} alt="Card Image" />
             <SubTitle>Name</SubTitle>
             <CardName size={17} height={21}>
-              {`${user.paypal.firstName} ${user.paypal.lastName}`}
+              {`${company.paypal.firstName} ${company.paypal.lastName}`}
             </CardName>
             <SubTitle>Email</SubTitle>
             <CardName size={21} height={26}>
-              {`********${user.paypal.email.substr(
-                user.paypal.email.length - 10,
+              {`********${company.paypal.email.substr(
+                company.paypal.email.length - 10,
               )}`}
             </CardName>
           </CardContent>
@@ -262,7 +262,7 @@ class Payment extends React.PureComponent {
 }
 
 Payment.propTypes = {
-  user: PropTypes.object,
+  company: PropTypes.object,
 };
 
 export default Payment;

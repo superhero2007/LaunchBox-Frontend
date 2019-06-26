@@ -20,7 +20,7 @@ import saga from 'containers/BrandPage/saga';
 
 import Header from 'components/Header';
 
-import InputContainer from './components/InputContainer';
+import BrandContainer from './components/BrandContainer';
 import PresenceContainer from './components/PresenceContainer';
 import LogoContainer from './components/LogoContainer';
 import FontContainer from './components/FontContainer';
@@ -39,7 +39,7 @@ class BrandPage extends React.PureComponent {
       <div>
         <Header />
         <Wrapper>
-          <InputContainer />
+          <BrandContainer />
           <PresenceContainer />
 
           <Title>Design</Title>

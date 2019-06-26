@@ -18,6 +18,8 @@ import {
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
   USER_SUBSCRIPTION_REQUEST,
+  GET_COMPANY_REQUEST,
+  UPDATE_COMPANY_REQUEST,
 } from './constants';
 
 const {
@@ -37,6 +39,8 @@ const {
   uploadPhoto,
   deletePhoto,
   userSubscribe,
+  getCompany,
+  updateCompany,
 } = apiActions;
 
 /**
@@ -139,22 +143,6 @@ export function* watchResetPassword() {
 }
 
 /**
- * Update user request/response handler
- */
-export function* UpdateUserRequest(action) {
-  const { response, error } = yield call(api.updateUser, action);
-  if (response) {
-    yield put(updateUser.success(response));
-  } else {
-    yield put(updateUser.failure(error));
-  }
-}
-
-export function* watchUpdateUser() {
-  yield takeLatest(UPDATE_USER_REQUEST.REQUEST, UpdateUserRequest);
-}
-
-/**
  * Update email request/response handler
  */
 export function* UpdateEmailRequest(action) {
@@ -254,6 +242,22 @@ export function* watchGetUser() {
 }
 
 /**
+ * Update user request/response handler
+ */
+export function* UpdateUserRequest(action) {
+  const { response, error } = yield call(api.updateUser, action);
+  if (response) {
+    yield put(updateUser.success(response));
+  } else {
+    yield put(updateUser.failure(error));
+  }
+}
+
+export function* watchUpdateUser() {
+  yield takeLatest(UPDATE_USER_REQUEST.REQUEST, UpdateUserRequest);
+}
+
+/**
  * Upload user photo request/response handler
  */
 export function* UploadPhotoRequest(action) {
@@ -302,6 +306,38 @@ export function* watchSubscribe() {
 }
 
 /**
+ * Get company request/response handler
+ */
+export function* GetCompanyRequest(action) {
+  const { response, error } = yield call(api.getCompany, action);
+  if (response) {
+    yield put(getCompany.success(response));
+  } else {
+    yield put(getCompany.failure(error));
+  }
+}
+
+export function* watchGetCompany() {
+  yield takeLatest(GET_COMPANY_REQUEST.REQUEST, GetCompanyRequest);
+}
+
+/**
+ * Update company request/response handler
+ */
+export function* UpdateCompanyRequest(action) {
+  const { response, error } = yield call(api.updateCompany, action);
+  if (response) {
+    yield put(updateCompany.success(response));
+  } else {
+    yield put(updateCompany.failure(error));
+  }
+}
+
+export function* watchUpdateCompany() {
+  yield takeLatest(UPDATE_COMPANY_REQUEST.REQUEST, UpdateCompanyRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -323,5 +359,7 @@ export default function* rootSaga() {
     watchUploadPhoto(),
     watchDeletePhoto(),
     watchSubscribe(),
+    watchGetCompany(),
+    watchUpdateCompany(),
   ]);
 }

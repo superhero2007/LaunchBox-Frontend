@@ -55,7 +55,7 @@ class ChangePassword extends React.PureComponent {
     }
 
     return (
-      <Wrapper to="change-password">
+      <Wrapper to="/change-password">
         <div>Change Password</div>
         <img className="origin" src={rightArrow} alt="Right Arrow" />
         <img className="hover" src={rightArrowHover} alt="Right Arrow Hover" />

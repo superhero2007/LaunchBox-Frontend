@@ -17,8 +17,12 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import { selectState, makeSelectUser } from 'services/api/selectors';
-import { getUser } from 'services/api/actions';
+import {
+  selectState,
+  makeSelectUser,
+  makeSelectCompany,
+} from 'services/api/selectors';
+import { getUser, getCompany } from 'services/api/actions';
 import reducer from 'services/api/reducer';
 import saga from 'services/api/saga';
 
@@ -34,6 +38,7 @@ import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
 import ResetPasswordRequest from 'containers/ResetPasswordRequest/Loadable';
 import ResetPassword from 'containers/ResetPassword/Loadable';
+import InvitationAccept from 'containers/InvitationAccept/Loadable';
 import RegisterConfirm from 'containers/RegisterConfirm/Loadable';
 import Confirmation from 'containers/Confirmation/Loadable';
 import EmailConfirmation from 'containers/EmailConfirmation/Loadable';
@@ -44,6 +49,8 @@ import ActivePayment from 'containers/ActivePayment/Loadable';
 import ChangeEmail from 'containers/ChangeEmail/Loadable';
 import ChangePassword from 'containers/ChangePassword/Loadable';
 import ClearAccount from 'containers/ClearAccount/Loadable';
+import EditMembers from 'containers/EditMembers/Loadable';
+import EditBrands from 'containers/EditBrands/Loadable';
 import DeleteAccount from 'containers/DeleteAccount/Loadable';
 import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -54,13 +61,14 @@ class App extends React.Component {
   componentDidMount = () => {
     const token = localStorage.getItem('token');
     if (token && !this.props.user) {
-      this.props.OnGetUser();
+      this.props.onGetUser();
+      this.props.onGetCompany();
     }
   };
 
   render() {
     const token = localStorage.getItem('token');
-    if (this.props.state && token && !this.props.user) {
+    if (this.props.state && token && !this.props.user && !this.props.company) {
       return <div />;
     }
 
@@ -97,6 +105,11 @@ class App extends React.Component {
             path="/reset_password/:token"
             component={ResetPassword}
           />
+          <RoutePublic
+            isAuthenticated={isAuthenticated}
+            path="/invitation/:token"
+            component={InvitationAccept}
+          />
           <RouteConfirm
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
@@ -108,6 +121,18 @@ class App extends React.Component {
             isConfirmed={isConfirmed}
             path="/clear-account"
             component={ClearAccount}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/edit-members"
+            component={EditMembers}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/edit-brands"
+            component={EditBrands}
           />
           <RoutePrivate
             isAuthenticated={isAuthenticated}
@@ -175,17 +200,21 @@ class App extends React.Component {
 
 App.propTypes = {
   user: PropTypes.object,
+  company: PropTypes.object,
   state: PropTypes.object,
-  OnGetUser: PropTypes.func,
+  onGetUser: PropTypes.func,
+  onGetCompany: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectUser(),
+  company: makeSelectCompany(),
   state: selectState,
 });
 
 const mapDispatchToProps = dispatch => ({
-  OnGetUser: () => dispatch(getUser.request()),
+  onGetUser: () => dispatch(getUser.request()),
+  onGetCompany: () => dispatch(getCompany.request()),
 });
 
 const withConnect = connect(

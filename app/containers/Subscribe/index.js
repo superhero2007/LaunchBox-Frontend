@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { makeSelectUser } from 'services/api/selectors';
-import { getUser, updateUser } from 'services/api/actions';
+import { makeSelectCompany } from 'services/api/selectors';
+import { updateCompany } from 'services/api/actions';
 import Header from 'components/Header';
 
 import PaymentAdded from '../../images/payment-added.svg';
@@ -442,10 +442,6 @@ class Subscribe extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const token = localStorage.getItem('token');
-    if (token && !this.props.user) {
-      this.props.OnGetUser();
-    }
     this.updateState();
   };
 
@@ -455,10 +451,14 @@ class Subscribe extends React.PureComponent {
 
   updateState = newProps => {
     const props = newProps || this.props;
-    this.setState({
-      users: parseInt(props.user.subscription.users, 10),
-      brands: parseInt(props.user.subscription.brands, 10),
-    });
+    const { subscription } = props.company;
+    if (subscription) {
+      this.setState({
+        users: parseInt(subscription.users, 10),
+        brands: parseInt(subscription.brands, 10),
+        method: subscription.method,
+      });
+    }
   };
 
   handleUsersChange = value => {
@@ -486,13 +486,13 @@ class Subscribe extends React.PureComponent {
     const amount = method
       ? 9 + users * 4 + brands * 6
       : 12 + users * 6 + brands * 9;
-    this.props.onUpdateUser({
+    this.props.onUpdateCompany({
       subscription: {
         amount,
         method,
         users,
         brands,
-        status: 2,
+        status: 1,
         date: new Date(),
       },
     });
@@ -510,13 +510,13 @@ class Subscribe extends React.PureComponent {
   };
 
   handleCancelSubscription = () => {
-    this.props.onUpdateUser({
+    this.props.onUpdateCompany({
       subscription: {
         amount: 0,
         method: false,
         users: 0,
         brands: 0,
-        status: 3,
+        status: 2,
         date: new Date(),
       },
     });
@@ -525,10 +525,10 @@ class Subscribe extends React.PureComponent {
 
   render() {
     const { method, users, brands, success, confirm } = this.state;
-    const { user } = this.props;
+    const { company } = this.props;
 
     if (confirm) {
-      const subscriptionDate = new Date(user.subscription.date);
+      const subscriptionDate = new Date(company.subscription.date);
       return (
         <Wrapper>
           <Header />
@@ -658,8 +658,8 @@ class Subscribe extends React.PureComponent {
             <Description>
               Monthly subscription starts at $12 and includes 1 Brand and 3
               Users.&nbsp;
-              {user ? (
-                <CancelSubscription onClick={this.handleToggleConfirm}>
+              {company.subscription ? (
+                <CancelSubscription onClick={this.handleCancelSubscription}>
                   Cancel Subscription
                 </CancelSubscription>
               ) : (
@@ -732,10 +732,8 @@ class Subscribe extends React.PureComponent {
             <Description>
               Annual subscription starts at $9 and includes 1 Brand and 3
               Users.&nbsp;
-              {user ? (
-                <CancelSubscription
-                  onClick={() => this.handleCancelSubscription}
-                >
+              {company.subscription ? (
+                <CancelSubscription onClick={this.handleCancelSubscription}>
                   Cancel Subscription
                 </CancelSubscription>
               ) : (
@@ -783,19 +781,17 @@ class Subscribe extends React.PureComponent {
 }
 
 Subscribe.propTypes = {
-  user: PropTypes.object,
-  OnGetUser: PropTypes.func,
-  onUpdateUser: PropTypes.func,
+  company: PropTypes.object,
+  onUpdateCompany: PropTypes.func,
   history: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: makeSelectUser(),
+  company: makeSelectCompany(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  OnGetUser: () => dispatch(getUser.request()),
-  onUpdateUser: value => dispatch(updateUser.request(value)),
+  onUpdateCompany: value => dispatch(updateCompany.request(value)),
 });
 
 export default connect(

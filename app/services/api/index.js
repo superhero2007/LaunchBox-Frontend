@@ -182,3 +182,15 @@ export const userSubscribe = query => {
   const url = `api/user/subscribe`;
   return callApi(url, 'POST', query.value);
 };
+
+// API to get company
+export const getCompany = () => {
+  const url = `api/company`;
+  return callApi(url, 'GET');
+};
+
+// API to update company
+export const updateCompany = query => {
+  const url = `api/company`;
+  return callApi(url, 'POST', query.value);
+};

@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import facebook from '../../../../images/facebook.svg';
+import twitter from '../../../../images/twitter.svg';
+import instagram from '../../../../images/instagram.svg';
+import youtube from '../../../../images/play.svg';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,6 +42,7 @@ const ModalInput = styled.input`
   padding: 19px 17px 18px;
   margin-bottom: 21px;
   color: #1b367c;
+  border-radius: 7px;
 
   &::placeholder {
     color: rgba(66, 77, 107, 0.5);
@@ -85,11 +91,72 @@ const CancelButton = styled(Button)`
   }
 `;
 
+const ModalPresences = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 23px;
+`;
+
+const ModalPresence = styled.div`
+  width: 38px;
+  height: 38px;
+  background: ${props => props.color};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  color: #fff;
+  opacity: ${props => (props.active ? 1 : 0.5)};
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & + & {
+    margin-left: 19px;
+  }
+`;
+
 class ModalDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: props.element.value,
+      list: [
+        {
+          id: 1,
+          img: <img src={facebook} alt="Facebook" />,
+          color: '#3B5998',
+        },
+        {
+          id: 2,
+          img: <img src={twitter} alt="Twitter" />,
+          color: '#1CA1F1',
+        },
+        {
+          id: 3,
+          img: <img src={instagram} alt="Instagram" />,
+          color: '#E1306C',
+        },
+        {
+          id: 4,
+          img: <img src={youtube} alt="Youtube" />,
+          color: '#F61C0D',
+        },
+        {
+          id: 5,
+          img: null,
+          color: '#1CA1F2',
+        },
+        {
+          id: 6,
+          img: <span>{'</>'}</span>,
+          color: '#3166ED',
+        },
+      ],
+      type: props.element.type,
     };
   }
 
@@ -97,6 +164,7 @@ class ModalDialog extends React.Component {
     this.props.onAdd({
       _id: this.props.element._id,
       value: this.state.value,
+      type: this.state.type,
     });
   };
 
@@ -104,7 +172,23 @@ class ModalDialog extends React.Component {
     this.setState({ value: e.target.value });
   };
 
+  handleTypeClick = id => {
+    this.setState({ type: id });
+  };
+
   render() {
+    const { list, type } = this.state;
+    const presences = list.map(presence => (
+      <ModalPresence
+        key={presence.color}
+        color={presence.color}
+        active={presence.id === type}
+        onClick={() => this.handleTypeClick(presence.id)}
+      >
+        {presence.img}
+      </ModalPresence>
+    ));
+
     return (
       <Wrapper>
         <ModalHeader>
@@ -113,8 +197,9 @@ class ModalDialog extends React.Component {
               ? 'Edit Online Presence'
               : 'Add New Online Presence'}
           </ModalText>
+          <ModalPresences>{presences}</ModalPresences>
           <ModalInput
-            placeholder="URL"
+            placeholder="Type username or paste link"
             value={this.state.value}
             onChange={this.handleChangeInput}
           />

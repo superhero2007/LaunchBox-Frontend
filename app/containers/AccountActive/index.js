@@ -10,8 +10,14 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+
+import { makeSelectUser } from 'services/api/selectors';
+
 import BrandLogo from '../../images/brand_logo.svg';
 import HeaderMaskImg from '../../images/header_mask.svg';
 import ActiveImage from '../../images/active-image.svg';
@@ -110,7 +116,11 @@ class AccountActive extends React.PureComponent {
             Please add a payment method before starting your 7-day free trial.
           </SubHeader>
           <Action>
-            <Button to="add-payment">ADD PAYMENT METHOD</Button>
+            {this.props.user.role === 'Admin' ? (
+              <Button to="/add-payment">ADD PAYMENT METHOD</Button>
+            ) : (
+              <Button to="/home">LAUNCH BRANDGUIDE</Button>
+            )}
           </Action>
         </Form>
       </Wrapper>
@@ -118,4 +128,12 @@ class AccountActive extends React.PureComponent {
   }
 }
 
-export default AccountActive;
+AccountActive.propTypes = {
+  user: PropTypes.object,
+};
+
+const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
+});
+
+export default connect(mapStateToProps)(AccountActive);

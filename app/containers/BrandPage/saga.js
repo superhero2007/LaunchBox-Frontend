@@ -8,10 +8,10 @@ import {
   actionChannel,
 } from 'redux-saga/effects';
 import {
-  GET_INPUT_ELEMENTS_REQUEST,
-  CREATE_INPUT_ELEMENT_REQUEST,
-  UPDATE_INPUT_ELEMENT_REQUEST,
-  DELETE_INPUT_ELEMENT_REQUEST,
+  GET_BRANDS_REQUEST,
+  CREATE_BRAND_REQUEST,
+  UPDATE_BRAND_REQUEST,
+  DELETE_BRAND_REQUEST,
   GET_PRESENCES_REQUEST,
   CREATE_PRESENCE_REQUEST,
   UPDATE_PRESENCE_REQUEST,
@@ -36,12 +36,20 @@ import {
   CREATE_ICON_REQUEST,
   UPDATE_ICON_REQUEST,
   DELETE_ICON_REQUEST,
+  GET_MEMBERS_REQUEST,
+  CREATE_MEMBER_REQUEST,
+  UPDATE_MEMBER_REQUEST,
+  DELETE_MEMBER_REQUEST,
+  GET_INVITATIONS_REQUEST,
+  CREATE_INVITATION_REQUEST,
+  UPDATE_INVITATION_REQUEST,
+  DELETE_INVITATION_REQUEST,
 } from './constants';
 import {
-  getInputElements,
-  createInputElement,
-  updateInputElement,
-  deleteInputElement,
+  getBrands,
+  createBrand,
+  updateBrand,
+  deleteBrand,
   getPresences,
   createPresence,
   updatePresence,
@@ -66,96 +74,95 @@ import {
   createIcon,
   updateIcon,
   deleteIcon,
+  getMembers,
+  createMember,
+  updateMember,
+  deleteMember,
+  getInvitations,
+  createInvitation,
+  updateInvitation,
+  deleteInvitation,
 } from './actions';
 import * as api from './service';
 
 /**
- * Get InputElements request/response handler
+ * Get brands request/response handler
  */
-export function* getInputElementsRequest() {
-  const { response, error } = yield call(api.getElementsService, 'input', null);
+export function* getBrandsRequest() {
+  const { response, error } = yield call(api.getElementsService, 'brand', null);
   if (response) {
-    yield put(getInputElements.success(response));
+    yield put(getBrands.success(response));
   } else {
-    yield put(getInputElements.failure(error));
+    yield put(getBrands.failure(error));
   }
 }
 
 /**
- * Create InputElement request/response handler
+ * Create brand request/response handler
  */
-export function* createInputElementRequest(action) {
+export function* createBrandRequest(action) {
   const { response, error } = yield call(
     api.createElementService,
-    'input',
-    action.inputElement,
+    'brand',
+    action.brand,
   );
   if (response) {
-    yield put(createInputElement.success(response));
+    yield put(createBrand.success(response));
   } else {
-    yield put(createInputElement.failure(error));
+    yield put(createBrand.failure(error));
   }
 }
 
 /**
- * Update InputElement request/response handler
+ * Update brand request/response handler
  */
-export function* updateInputElementRequest(action) {
+export function* updateBrandRequest(action) {
   const { response, error } = yield call(
     api.updateElementService,
-    'input',
-    action.inputElement,
+    'brand',
+    action.brand,
   );
   if (response) {
-    yield put(updateInputElement.success(response));
+    yield put(updateBrand.success(response));
   } else {
-    yield put(updateInputElement.failure(error));
+    yield put(updateBrand.failure(error));
   }
 }
 
 /**
- * Delete InputElement request/response handler
+ * Delete brand request/response handler
  */
-export function* deleteInputElementRequest(action) {
+export function* deleteBrandRequest(action) {
   const { response, error } = yield call(
     api.deleteElementService,
-    'input',
+    'brand',
     action._id,
   );
   if (response) {
-    yield put(deleteInputElement.success(response));
+    yield put(deleteBrand.success(response));
   } else {
-    yield put(deleteInputElement.failure(error));
+    yield put(deleteBrand.failure(error));
   }
 }
 
-export function* watchFetchInputElements() {
-  const subChannel = yield actionChannel(GET_INPUT_ELEMENTS_REQUEST.REQUEST);
+export function* watchFetchBrands() {
+  const subChannel = yield actionChannel(GET_BRANDS_REQUEST.REQUEST);
   while (true) {
     const action = yield take(subChannel);
-    yield call(getInputElementsRequest, action);
+    yield call(getBrandsRequest, action);
   }
 }
 
-export function* watchCreateInputElement() {
-  yield takeLatest(
-    CREATE_INPUT_ELEMENT_REQUEST.REQUEST,
-    createInputElementRequest,
-  );
+export function* watchCreateBrand() {
+  yield takeLatest(CREATE_BRAND_REQUEST.REQUEST, createBrandRequest);
 }
 
-export function* watchUpdateInputElement() {
-  yield takeLatest(
-    UPDATE_INPUT_ELEMENT_REQUEST.REQUEST,
-    updateInputElementRequest,
-  );
+export function* watchUpdateBrand() {
+  yield takeLatest(UPDATE_BRAND_REQUEST.REQUEST, updateBrandRequest);
 }
 
-export function* watchDeleteInputElement() {
-  yield takeLatest(
-    DELETE_INPUT_ELEMENT_REQUEST.REQUEST,
-    deleteInputElementRequest,
-  );
+export function* watchDeleteBrand() {
+  yield takeLatest(DELETE_BRAND_REQUEST.REQUEST, deleteBrandRequest);
 }
 
 /**
@@ -651,15 +658,183 @@ export function* watchDeleteIcon() {
 }
 
 /**
+ * Get Members request/response handler
+ */
+export function* getMembersRequest() {
+  const { response, error } = yield call(
+    api.getElementsService,
+    'member',
+    null,
+  );
+  if (response) {
+    yield put(getMembers.success(response));
+  } else {
+    yield put(getMembers.failure(error));
+  }
+}
+
+/**
+ * Create Member request/response handler
+ */
+export function* createMemberRequest(action) {
+  const { response, error } = yield call(
+    api.createElementService,
+    'member',
+    action.member,
+  );
+  if (response) {
+    yield put(createMember.success(response));
+  } else {
+    yield put(createMember.failure(error));
+  }
+}
+
+/**
+ * Update Member request/response handler
+ */
+export function* updateMemberRequest(action) {
+  const { response, error } = yield call(
+    api.updateElementService,
+    'member',
+    action.member,
+  );
+  if (response) {
+    yield put(updateMember.success(response));
+  } else {
+    yield put(updateMember.failure(error));
+  }
+}
+
+/**
+ * Delete Member request/response handler
+ */
+export function* deleteMemberRequest(action) {
+  const { response, error } = yield call(
+    api.deleteElementService,
+    'member',
+    action._id,
+  );
+  if (response) {
+    yield put(deleteMember.success(response));
+  } else {
+    yield put(deleteMember.failure(error));
+  }
+}
+
+export function* watchFetchMembers() {
+  const subChannel = yield actionChannel(GET_MEMBERS_REQUEST.REQUEST);
+  while (true) {
+    const action = yield take(subChannel);
+    yield call(getMembersRequest, action);
+  }
+}
+
+export function* watchCreateMember() {
+  yield takeLatest(CREATE_MEMBER_REQUEST.REQUEST, createMemberRequest);
+}
+
+export function* watchUpdateMember() {
+  yield takeLatest(UPDATE_MEMBER_REQUEST.REQUEST, updateMemberRequest);
+}
+
+export function* watchDeleteMember() {
+  yield takeLatest(DELETE_MEMBER_REQUEST.REQUEST, deleteMemberRequest);
+}
+
+/**
+ * Get Invitations request/response handler
+ */
+export function* getInvitationsRequest() {
+  const { response, error } = yield call(
+    api.getElementsService,
+    'invitation',
+    null,
+  );
+  if (response) {
+    yield put(getInvitations.success(response));
+  } else {
+    yield put(getInvitations.failure(error));
+  }
+}
+
+/**
+ * Create Invitation request/response handler
+ */
+export function* createInvitationRequest(action) {
+  const { response, error } = yield call(
+    api.createElementService,
+    'invitation',
+    action.invitation,
+  );
+  if (response) {
+    yield put(createInvitation.success(response));
+  } else {
+    yield put(createInvitation.failure(error));
+  }
+}
+
+/**
+ * Update Invitation request/response handler
+ */
+export function* updateInvitationRequest(action) {
+  const { response, error } = yield call(
+    api.updateElementService,
+    'invitation',
+    action.invitation,
+  );
+  if (response) {
+    yield put(updateInvitation.success(response));
+  } else {
+    yield put(updateInvitation.failure(error));
+  }
+}
+
+/**
+ * Delete Invitation request/response handler
+ */
+export function* deleteInvitationRequest(action) {
+  const { response, error } = yield call(
+    api.deleteElementService,
+    'invitation',
+    action._id,
+  );
+  if (response) {
+    yield put(deleteInvitation.success(response));
+  } else {
+    yield put(deleteInvitation.failure(error));
+  }
+}
+
+export function* watchFetchInvitations() {
+  const subChannel = yield actionChannel(GET_INVITATIONS_REQUEST.REQUEST);
+  while (true) {
+    const action = yield take(subChannel);
+    yield call(getInvitationsRequest, action);
+  }
+}
+
+export function* watchCreateInvitation() {
+  yield takeLatest(CREATE_INVITATION_REQUEST.REQUEST, createInvitationRequest);
+}
+
+export function* watchUpdateInvitation() {
+  yield takeLatest(UPDATE_INVITATION_REQUEST.REQUEST, updateInvitationRequest);
+}
+
+export function* watchDeleteInvitation() {
+  yield takeLatest(DELETE_INVITATION_REQUEST.REQUEST, deleteInvitationRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
 export default function* rootSaga() {
   yield all([
-    watchFetchInputElements(),
-    watchCreateInputElement(),
-    watchUpdateInputElement(),
-    watchDeleteInputElement(),
+    watchFetchBrands(),
+    watchCreateBrand(),
+    watchUpdateBrand(),
+    watchDeleteBrand(),
     watchFetchPresences(),
     watchCreatePresence(),
     watchUpdatePresence(),
@@ -684,5 +859,13 @@ export default function* rootSaga() {
     watchCreateIcon(),
     watchUpdateIcon(),
     watchDeleteIcon(),
+    watchFetchMembers(),
+    watchCreateMember(),
+    watchUpdateMember(),
+    watchDeleteMember(),
+    watchFetchInvitations(),
+    watchCreateInvitation(),
+    watchUpdateInvitation(),
+    watchDeleteInvitation(),
   ]);
 }

@@ -110,7 +110,7 @@ class ActivePayment extends React.PureComponent {
             You can now start enjoying your 7-day free trial.
           </SubHeader>
           <Action>
-            <Button to="home">LAUNCH BRANDGUIDE</Button>
+            <Button to="/home">LAUNCH BRANDGUIDE</Button>
           </Action>
         </Form>
       </Wrapper>

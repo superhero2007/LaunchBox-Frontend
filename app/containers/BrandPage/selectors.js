@@ -2,10 +2,8 @@ import { createSelector } from 'reselect';
 
 const selectBrand = state => state.get('brand');
 
-const makeSelectInputElements = () =>
-  createSelector(selectBrand, brandState =>
-    brandState.get('inputElements').toJS(),
-  );
+const makeSelectBrands = () =>
+  createSelector(selectBrand, brandState => brandState.get('brands').toJS());
 
 const makeSelectPresences = () =>
   createSelector(selectBrand, brandState => brandState.get('presences').toJS());
@@ -29,13 +27,23 @@ const makeSelectBrandColors = () =>
 const makeSelectIcons = () =>
   createSelector(selectBrand, brandState => brandState.get('icons').toJS());
 
+const makeSelectMembers = () =>
+  createSelector(selectBrand, brandState => brandState.get('members').toJS());
+
+const makeSelectInvitations = () =>
+  createSelector(selectBrand, brandState =>
+    brandState.get('invitations').toJS(),
+  );
+
 export {
   selectBrand,
-  makeSelectInputElements,
+  makeSelectBrands,
   makeSelectPresences,
   makeSelectLogos,
   makeSelectFonts,
   makeSelectFontColors,
   makeSelectBrandColors,
   makeSelectIcons,
+  makeSelectMembers,
+  makeSelectInvitations,
 };

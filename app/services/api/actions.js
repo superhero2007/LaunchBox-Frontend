@@ -15,6 +15,8 @@ import {
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
   USER_SUBSCRIPTION_REQUEST,
+  GET_COMPANY_REQUEST,
+  UPDATE_COMPANY_REQUEST,
 } from './constants';
 
 function action(type, payload = {}) {
@@ -94,6 +96,24 @@ export const updateUser = {
   request: value => action(UPDATE_USER_REQUEST.REQUEST, { value }),
   success: response => action(UPDATE_USER_REQUEST.SUCCESS, { response }),
   failure: error => action(UPDATE_USER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to get company
+ */
+export const getCompany = {
+  request: () => action(GET_COMPANY_REQUEST.REQUEST),
+  success: response => action(GET_COMPANY_REQUEST.SUCCESS, { response }),
+  failure: error => action(GET_COMPANY_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update company
+ */
+export const updateCompany = {
+  request: value => action(UPDATE_COMPANY_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_COMPANY_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_COMPANY_REQUEST.FAILURE, { error }),
 };
 
 /*

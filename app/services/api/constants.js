@@ -33,3 +33,6 @@ export const DELETE_PHOTO_REQUEST = createRequestTypes('DELETE_PHOTO');
 export const USER_SUBSCRIPTION_REQUEST = createRequestTypes(
   'USER_SUBSCRIPTION',
 );
+
+export const GET_COMPANY_REQUEST = createRequestTypes('GET_COMPANY');
+export const UPDATE_COMPANY_REQUEST = createRequestTypes('UPDATE_COMPANY');

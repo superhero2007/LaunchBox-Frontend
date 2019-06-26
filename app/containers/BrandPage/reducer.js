@@ -1,10 +1,10 @@
 import { fromJS } from 'immutable';
 
 import {
-  GET_INPUT_ELEMENTS_REQUEST,
-  CREATE_INPUT_ELEMENT_REQUEST,
-  UPDATE_INPUT_ELEMENT_REQUEST,
-  DELETE_INPUT_ELEMENT_REQUEST,
+  GET_BRANDS_REQUEST,
+  CREATE_BRAND_REQUEST,
+  UPDATE_BRAND_REQUEST,
+  DELETE_BRAND_REQUEST,
   GET_PRESENCES_REQUEST,
   CREATE_PRESENCE_REQUEST,
   UPDATE_PRESENCE_REQUEST,
@@ -29,41 +29,49 @@ import {
   CREATE_ICON_REQUEST,
   UPDATE_ICON_REQUEST,
   DELETE_ICON_REQUEST,
+  GET_MEMBERS_REQUEST,
+  CREATE_MEMBER_REQUEST,
+  UPDATE_MEMBER_REQUEST,
+  DELETE_MEMBER_REQUEST,
+  GET_INVITATIONS_REQUEST,
+  CREATE_INVITATION_REQUEST,
+  UPDATE_INVITATION_REQUEST,
+  DELETE_INVITATION_REQUEST,
 } from './constants';
 
 export const initialState = fromJS({
-  inputElements: [],
+  brands: [],
   presences: [],
   logos: [],
   fonts: [],
   fontColors: [],
   brandColors: [],
   icons: [],
+  members: [],
+  invitations: [],
 });
 
 function BrandReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_INPUT_ELEMENTS_REQUEST.SUCCESS:
-      return state.set('inputElements', fromJS(action.response.inputElements));
-    case CREATE_INPUT_ELEMENT_REQUEST.SUCCESS:
-      return state.update('inputElements', inputElements =>
-        inputElements.push(action.response.inputElement),
+    case GET_BRANDS_REQUEST.SUCCESS:
+      return state.set('brands', fromJS(action.response.brands));
+    case CREATE_BRAND_REQUEST.SUCCESS:
+      return state.update('brands', brands =>
+        brands.push(action.response.brand),
       );
-    case UPDATE_INPUT_ELEMENT_REQUEST.SUCCESS:
-      return state.update('inputElements', inputElements => {
-        const elements = inputElements.toJS();
+    case UPDATE_BRAND_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.inputElement._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.inputElement;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_INPUT_ELEMENT_REQUEST.SUCCESS:
-      return state.update('inputElements', inputElements =>
+    case DELETE_BRAND_REQUEST.SUCCESS:
+      return state.update('brands', brands =>
         fromJS(
-          inputElements
-            .toJS()
-            .filter(inputElement => inputElement._id !== action.response._id),
+          brands.toJS().filter(brand => brand._id !== action.response._id),
         ),
       );
     case GET_PRESENCES_REQUEST.SUCCESS:
@@ -169,6 +177,7 @@ function BrandReducer(state = initialState, action) {
             .filter(brandColor => brandColor._id !== action.response._id),
         ),
       );
+
     case GET_ICONS_REQUEST.SUCCESS:
       return state.set('icons', fromJS(action.response.icons));
     case CREATE_ICON_REQUEST.SUCCESS:
@@ -187,6 +196,52 @@ function BrandReducer(state = initialState, action) {
     case DELETE_ICON_REQUEST.SUCCESS:
       return state.update('icons', icons =>
         fromJS(icons.toJS().filter(icon => icon._id !== action.response._id)),
+      );
+
+    case GET_MEMBERS_REQUEST.SUCCESS:
+      return state.set('members', fromJS(action.response.members));
+    case CREATE_MEMBER_REQUEST.SUCCESS:
+      return state.update('members', members =>
+        members.push(action.response.member),
+      );
+    case UPDATE_MEMBER_REQUEST.SUCCESS:
+      return state.update('members', members => {
+        const elements = members.toJS();
+        const index = elements.findIndex(
+          element => element._id === action.response.member._id,
+        );
+        elements[index] = action.response.member;
+        return fromJS(elements);
+      });
+    case DELETE_MEMBER_REQUEST.SUCCESS:
+      return state.update('members', members =>
+        fromJS(
+          members.toJS().filter(member => member._id !== action.response._id),
+        ),
+      );
+
+    case GET_INVITATIONS_REQUEST.SUCCESS:
+      return state.set('invitations', fromJS(action.response.invitations));
+    case CREATE_INVITATION_REQUEST.SUCCESS:
+      return state.update('invitations', invitations =>
+        invitations.push(action.response.invitation),
+      );
+    case UPDATE_INVITATION_REQUEST.SUCCESS:
+      return state.update('invitations', invitations => {
+        const elements = invitations.toJS();
+        const index = elements.findIndex(
+          element => element._id === action.response.invitation._id,
+        );
+        elements[index] = action.response.invitation;
+        return fromJS(elements);
+      });
+    case DELETE_INVITATION_REQUEST.SUCCESS:
+      return state.update('invitations', invitations =>
+        fromJS(
+          invitations
+            .toJS()
+            .filter(invitation => invitation._id !== action.response._id),
+        ),
       );
     default:
       return state;

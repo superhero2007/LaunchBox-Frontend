@@ -16,6 +16,8 @@ import {
   UPLOAD_PHOTO_REQUEST,
   DELETE_PHOTO_REQUEST,
   USER_SUBSCRIPTION_REQUEST,
+  GET_COMPANY_REQUEST,
+  UPDATE_COMPANY_REQUEST,
 } from './constants';
 
 // The initial state of the App
@@ -23,6 +25,7 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   user: null,
+  company: null,
 });
 
 function ServiceReducer(state = initialState, action) {
@@ -179,6 +182,26 @@ function ServiceReducer(state = initialState, action) {
         .set('error', false)
         .set('user', action.response.user);
     case USER_SUBSCRIPTION_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case GET_COMPANY_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case GET_COMPANY_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case GET_COMPANY_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case UPDATE_COMPANY_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case UPDATE_COMPANY_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case UPDATE_COMPANY_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
     default:
       return state;

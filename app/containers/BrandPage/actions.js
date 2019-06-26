@@ -1,8 +1,8 @@
 import {
-  GET_INPUT_ELEMENTS_REQUEST,
-  CREATE_INPUT_ELEMENT_REQUEST,
-  UPDATE_INPUT_ELEMENT_REQUEST,
-  DELETE_INPUT_ELEMENT_REQUEST,
+  GET_BRANDS_REQUEST,
+  CREATE_BRAND_REQUEST,
+  UPDATE_BRAND_REQUEST,
+  DELETE_BRAND_REQUEST,
   GET_PRESENCES_REQUEST,
   CREATE_PRESENCE_REQUEST,
   UPDATE_PRESENCE_REQUEST,
@@ -27,6 +27,14 @@ import {
   CREATE_ICON_REQUEST,
   UPDATE_ICON_REQUEST,
   DELETE_ICON_REQUEST,
+  GET_MEMBERS_REQUEST,
+  CREATE_MEMBER_REQUEST,
+  UPDATE_MEMBER_REQUEST,
+  DELETE_MEMBER_REQUEST,
+  GET_INVITATIONS_REQUEST,
+  CREATE_INVITATION_REQUEST,
+  UPDATE_INVITATION_REQUEST,
+  DELETE_INVITATION_REQUEST,
 } from './constants';
 
 function action(type, payload = {}) {
@@ -37,48 +45,43 @@ function action(type, payload = {}) {
 }
 
 /*
- * GET INPUT_ELEMENTS
+ * GET BRANDS
  */
 
-export const getInputElements = {
-  request: () => action(GET_INPUT_ELEMENTS_REQUEST.REQUEST),
-  success: response => action(GET_INPUT_ELEMENTS_REQUEST.SUCCESS, { response }),
-  failure: error => action(GET_INPUT_ELEMENTS_REQUEST.FAILURE, { error }),
+export const getBrands = {
+  request: () => action(GET_BRANDS_REQUEST.REQUEST),
+  success: response => action(GET_BRANDS_REQUEST.SUCCESS, { response }),
+  failure: error => action(GET_BRANDS_REQUEST.FAILURE, { error }),
 };
 
 /*
- * CREATE INPUT_ELEMENT
+ * CREATE BRAND
  */
 
-export const createInputElement = {
-  request: inputElement =>
-    action(CREATE_INPUT_ELEMENT_REQUEST.REQUEST, { inputElement }),
-  success: response =>
-    action(CREATE_INPUT_ELEMENT_REQUEST.SUCCESS, { response }),
-  failure: error => action(CREATE_INPUT_ELEMENT_REQUEST.FAILURE, { error }),
+export const createBrand = {
+  request: brand => action(CREATE_BRAND_REQUEST.REQUEST, { brand }),
+  success: response => action(CREATE_BRAND_REQUEST.SUCCESS, { response }),
+  failure: error => action(CREATE_BRAND_REQUEST.FAILURE, { error }),
 };
 
 /*
- * UPDATE INPUT_ELEMENT
+ * UPDATE BRAND
  */
 
-export const updateInputElement = {
-  request: inputElement =>
-    action(UPDATE_INPUT_ELEMENT_REQUEST.REQUEST, { inputElement }),
-  success: response =>
-    action(UPDATE_INPUT_ELEMENT_REQUEST.SUCCESS, { response }),
-  failure: error => action(UPDATE_INPUT_ELEMENT_REQUEST.FAILURE, { error }),
+export const updateBrand = {
+  request: brand => action(UPDATE_BRAND_REQUEST.REQUEST, { brand }),
+  success: response => action(UPDATE_BRAND_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_BRAND_REQUEST.FAILURE, { error }),
 };
 
 /*
- * DELETE INPUT_ELEMENT
+ * DELETE BRAND
  */
 
-export const deleteInputElement = {
-  request: _id => action(DELETE_INPUT_ELEMENT_REQUEST.REQUEST, { _id }),
-  success: response =>
-    action(DELETE_INPUT_ELEMENT_REQUEST.SUCCESS, { response }),
-  failure: error => action(DELETE_INPUT_ELEMENT_REQUEST.FAILURE, { error }),
+export const deleteBrand = {
+  request: _id => action(DELETE_BRAND_REQUEST.REQUEST, { _id }),
+  success: response => action(DELETE_BRAND_REQUEST.SUCCESS, { response }),
+  failure: error => action(DELETE_BRAND_REQUEST.FAILURE, { error }),
 };
 
 /*
@@ -323,4 +326,86 @@ export const deleteIcon = {
   request: _id => action(DELETE_ICON_REQUEST.REQUEST, { _id }),
   success: response => action(DELETE_ICON_REQUEST.SUCCESS, { response }),
   failure: error => action(DELETE_ICON_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * GET MEMBERS
+ */
+
+export const getMembers = {
+  request: () => action(GET_MEMBERS_REQUEST.REQUEST),
+  success: response => action(GET_MEMBERS_REQUEST.SUCCESS, { response }),
+  failure: error => action(GET_MEMBERS_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * CREATE MEMBER
+ */
+
+export const createMember = {
+  request: member => action(CREATE_MEMBER_REQUEST.REQUEST, { member }),
+  success: response => action(CREATE_MEMBER_REQUEST.SUCCESS, { response }),
+  failure: error => action(CREATE_MEMBER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * UPDATE MEMBER
+ */
+
+export const updateMember = {
+  request: member => action(UPDATE_MEMBER_REQUEST.REQUEST, { member }),
+  success: response => action(UPDATE_MEMBER_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_MEMBER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * DELETE MEMBER
+ */
+
+export const deleteMember = {
+  request: _id => action(DELETE_MEMBER_REQUEST.REQUEST, { _id }),
+  success: response => action(DELETE_MEMBER_REQUEST.SUCCESS, { response }),
+  failure: error => action(DELETE_MEMBER_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * GET INVITATIONS
+ */
+
+export const getInvitations = {
+  request: () => action(GET_INVITATIONS_REQUEST.REQUEST),
+  success: response => action(GET_INVITATIONS_REQUEST.SUCCESS, { response }),
+  failure: error => action(GET_INVITATIONS_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * CREATE INVITATION
+ */
+
+export const createInvitation = {
+  request: invitation =>
+    action(CREATE_INVITATION_REQUEST.REQUEST, { invitation }),
+  success: response => action(CREATE_INVITATION_REQUEST.SUCCESS, { response }),
+  failure: error => action(CREATE_INVITATION_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * UPDATE INVITATION
+ */
+
+export const updateInvitation = {
+  request: invitation =>
+    action(UPDATE_INVITATION_REQUEST.REQUEST, { invitation }),
+  success: response => action(UPDATE_INVITATION_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_INVITATION_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * DELETE INVITATION
+ */
+
+export const deleteInvitation = {
+  request: _id => action(DELETE_INVITATION_REQUEST.REQUEST, { _id }),
+  success: response => action(DELETE_INVITATION_REQUEST.SUCCESS, { response }),
+  failure: error => action(DELETE_INVITATION_REQUEST.FAILURE, { error }),
 };

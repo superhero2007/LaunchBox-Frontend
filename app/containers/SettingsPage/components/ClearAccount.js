@@ -55,7 +55,7 @@ class ClearAccount extends React.PureComponent {
     }
 
     return (
-      <Wrapper to="clear-account">
+      <Wrapper to="/clear-account">
         <div>Clear Account</div>
         <img className="origin" src={rightArrow} alt="Right Arrow" />
         <img className="hover" src={rightArrowHover} alt="Right Arrow Hover" />

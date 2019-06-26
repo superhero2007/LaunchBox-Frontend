@@ -69,7 +69,7 @@ const Header = props => (
       </Link>
     </Menu>
     {props.user && (
-      <BrandWrapper to="settings">
+      <BrandWrapper to="/settings">
         <Brand
           src={
             props.user.photo

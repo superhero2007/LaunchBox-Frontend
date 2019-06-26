@@ -305,13 +305,13 @@ class DeleteAccount extends React.PureComponent {
           <Title>You might want to know</Title>
           <SubTitle>
             To change the password, you may change it on the page&nbsp;
-            <Link to="change-password">Change Password</Link>
+            <Link to="/change-password">Change Password</Link>
             <br />
             Change email, you can change it on the page&nbsp;
-            <Link to="change-email">Change Email</Link>
+            <Link to="/change-email">Change Email</Link>
             <br />
             Clear account of all data, this can be done on the page&nbsp;
-            <Link to="clear-account">Clear Account</Link>
+            <Link to="/clear-account">Clear Account</Link>
           </SubTitle>
           <FormAction>
             <CancelButton onClick={this.handleCancel}>CANCEL</CancelButton>

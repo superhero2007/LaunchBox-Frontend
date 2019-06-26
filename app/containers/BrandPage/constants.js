@@ -8,18 +8,10 @@ const createRequestTypes = base => {
   return res;
 };
 
-export const GET_INPUT_ELEMENTS_REQUEST = createRequestTypes(
-  'GET_INPUT_ELEMENTS',
-);
-export const CREATE_INPUT_ELEMENT_REQUEST = createRequestTypes(
-  'CREATE_INPUT_ELEMENT',
-);
-export const UPDATE_INPUT_ELEMENT_REQUEST = createRequestTypes(
-  'UPDATE_INPUT_ELEMENT',
-);
-export const DELETE_INPUT_ELEMENT_REQUEST = createRequestTypes(
-  'DELETE_INPUT_ELEMENT',
-);
+export const GET_BRANDS_REQUEST = createRequestTypes('GET_BRANDS');
+export const CREATE_BRAND_REQUEST = createRequestTypes('CREATE_BRAND');
+export const UPDATE_BRAND_REQUEST = createRequestTypes('UPDATE_BRAND');
+export const DELETE_BRAND_REQUEST = createRequestTypes('DELETE_BRAND');
 
 export const GET_PRESENCES_REQUEST = createRequestTypes('GET_PRESENCES');
 export const CREATE_PRESENCE_REQUEST = createRequestTypes('CREATE_PRESENCE');
@@ -62,3 +54,19 @@ export const GET_ICONS_REQUEST = createRequestTypes('GET_ICONS');
 export const CREATE_ICON_REQUEST = createRequestTypes('CREATE_ICON');
 export const UPDATE_ICON_REQUEST = createRequestTypes('UPDATE_ICON');
 export const DELETE_ICON_REQUEST = createRequestTypes('DELETE_ICON');
+
+export const GET_MEMBERS_REQUEST = createRequestTypes('GET_MEMBERS');
+export const CREATE_MEMBER_REQUEST = createRequestTypes('CREATE_MEMBER');
+export const UPDATE_MEMBER_REQUEST = createRequestTypes('UPDATE_MEMBER');
+export const DELETE_MEMBER_REQUEST = createRequestTypes('DELETE_MEMBER');
+
+export const GET_INVITATIONS_REQUEST = createRequestTypes('GET_INVITATIONS');
+export const CREATE_INVITATION_REQUEST = createRequestTypes(
+  'CREATE_INVITATION',
+);
+export const UPDATE_INVITATION_REQUEST = createRequestTypes(
+  'UPDATE_INVITATION',
+);
+export const DELETE_INVITATION_REQUEST = createRequestTypes(
+  'DELETE_INVITATION',
+);

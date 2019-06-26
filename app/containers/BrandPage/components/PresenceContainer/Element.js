@@ -5,6 +5,10 @@ import ElementDelete from '../../../../images/element-delete.svg';
 import InputDuplicate from '../../../../images/input-duplicate.svg';
 import ElementDeleteHover from '../../../../images/element-delete__hover.svg';
 import InputDuplicateHover from '../../../../images/input-duplicate__hover.svg';
+import facebook from '../../../../images/facebook.svg';
+import twitter from '../../../../images/twitter.svg';
+import instagram from '../../../../images/instagram.svg';
+import youtube from '../../../../images/play.svg';
 
 const Wrapper = styled.div`
   height: 48px;
@@ -104,10 +108,54 @@ const ButtonGroup = styled.div`
 `;
 
 class Element extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [
+        {
+          id: 1,
+          img: <img src={facebook} alt="Facebook" />,
+          color: '#3B5998',
+        },
+        {
+          id: 2,
+          img: <img src={twitter} alt="Twitter" />,
+          color: '#1CA1F1',
+        },
+        {
+          id: 3,
+          img: <img src={instagram} alt="Instagram" />,
+          color: '#E1306C',
+        },
+        {
+          id: 4,
+          img: <img src={youtube} alt="Youtube" />,
+          color: '#F61C0D',
+        },
+        {
+          id: 5,
+          img: null,
+          color: '#1CA1F2',
+        },
+        {
+          id: 6,
+          img: <span>{'</>'}</span>,
+          color: '#3166ED',
+        },
+      ],
+    };
+  }
+
   render() {
+    const value = this.state.list.find(
+      element => element.id === this.props.type,
+    );
+    const color = value ? value.color : '#3B5998';
+    const icon = value ? value.img : '';
+
     return (
-      <Wrapper color={this.props.color}>
-        <span>{this.props.icon}</span>
+      <Wrapper color={color}>
+        {icon && <span>{icon}</span>}
         <span>{this.props.value}</span>
         <ButtonGroup className="button_group">
           <DuplicateButton onClick={this.props.onDuplicate}>
@@ -137,8 +185,7 @@ class Element extends React.PureComponent {
 }
 
 Element.propTypes = {
-  icon: PropTypes.node,
-  color: PropTypes.string,
+  type: PropTypes.number,
   value: PropTypes.string,
   onDuplicate: PropTypes.func,
   onDelete: PropTypes.func,

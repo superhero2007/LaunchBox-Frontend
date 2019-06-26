@@ -244,6 +244,13 @@ class Register extends React.PureComponent {
     };
   }
 
+  componentDidMount() {
+    if (this.props.location.state) {
+      const { email, companyName } = this.props.location.state;
+      this.setState({ email, companyName });
+    }
+  }
+
   handleEmailChange = e => {
     this.setState({ email: e.target.value });
   };
@@ -360,6 +367,7 @@ class Register extends React.PureComponent {
 
 Register.propTypes = {
   OnRegister: PropTypes.func,
+  location: PropTypes.object,
 };
 
 export function mapDispatchToProps(dispatch) {

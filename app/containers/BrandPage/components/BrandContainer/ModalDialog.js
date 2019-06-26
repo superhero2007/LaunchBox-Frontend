@@ -86,20 +86,7 @@ const CancelButton = styled(Button)`
 `;
 
 class ModalDialog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.element.label,
-    };
-  }
-
-  handleClickAdd = () => {
-    this.props.onAdd({
-      _id: this.props.element._id,
-      label: this.state.value,
-      value: this.props.element.value,
-    });
-  };
+  handleClickAdd = () => {};
 
   handleChangeInput = e => {
     this.setState({ value: e.target.value });
@@ -109,9 +96,7 @@ class ModalDialog extends React.Component {
     return (
       <Wrapper>
         <ModalHeader>
-          <ModalText>
-            {this.props.element._id ? 'Edit Item' : 'Add New Item'}
-          </ModalText>
+          <ModalText>{this.props.title}</ModalText>
           <ModalInput
             placeholder="Item Name"
             value={this.state.value}
@@ -119,10 +104,8 @@ class ModalDialog extends React.Component {
           />
         </ModalHeader>
         <ModalAction>
-          <CancelButton onClick={this.props.onClose}>Cancel</CancelButton>
-          <AddButton onClick={this.handleClickAdd}>
-            {this.props.element._id ? 'Update' : 'Add'}
-          </AddButton>
+          <CancelButton onClick={this.props.onClose}>CANCEL</CancelButton>
+          <AddButton onClick={this.handleClickAdd}>ADD NEW</AddButton>
         </ModalAction>
       </Wrapper>
     );
@@ -130,9 +113,8 @@ class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
-  onAdd: PropTypes.func,
   onClose: PropTypes.func,
-  element: PropTypes.object,
+  title: PropTypes.string,
 };
 
 export default ModalDialog;

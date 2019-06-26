@@ -14,10 +14,14 @@ const makeSelectError = () =>
 const makeSelectUser = () =>
   createSelector(selectService, userState => userState.get('user'));
 
+const makeSelectCompany = () =>
+  createSelector(selectService, userState => userState.get('company'));
+
 export {
   selectState,
   selectService,
   makeSelectUser,
+  makeSelectCompany,
   makeSelectLoading,
   makeSelectError,
 };

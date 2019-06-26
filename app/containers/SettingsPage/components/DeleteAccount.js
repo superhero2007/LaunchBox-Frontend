@@ -55,7 +55,7 @@ class DeleteAccount extends React.PureComponent {
     }
 
     return (
-      <Wrapper to="delete-account">
+      <Wrapper to="/delete-account">
         <div>Delete Account</div>
         <img className="origin" src={rightArrow} alt="Right Arrow" />
         <img className="hover" src={rightArrowHover} alt="Right Arrow Hover" />

@@ -16,8 +16,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { makeSelectUser } from 'services/api/selectors';
-import { getUser, updateUser, deleteUser } from 'services/api/actions';
+import { makeSelectCompany } from 'services/api/selectors';
+import { getCompany, deleteUser, updateCompany } from 'services/api/actions';
 import Header from 'components/Header';
 
 import BrandLogo from '../../images/brand_logo.svg';
@@ -380,8 +380,8 @@ class AddPayment extends React.PureComponent {
 
   componentDidMount = () => {
     const token = localStorage.getItem('token');
-    if (token && !this.props.user) {
-      this.props.OnGetUser();
+    if (token && !this.props.company) {
+      this.props.onGetCompany();
     }
     this.updateState();
   };
@@ -392,17 +392,20 @@ class AddPayment extends React.PureComponent {
 
   updateState = newProps => {
     const props = newProps || this.props;
-    if (props.user.paypal && props.user.paypal.email) {
-      this.setState({
-        paypal: props.user.paypal,
-        method: true,
-      });
-    }
-    if (props.user.creditCard && props.user.creditCard.cardNumber) {
-      this.setState({
-        creditCard: props.user.creditCard,
-        method: false,
-      });
+    const { company } = props;
+    if (company && company.method) {
+      if (company.paypal && company.paypal.email) {
+        this.setState({
+          paypal: company.paypal,
+          method: true,
+        });
+      }
+      if (company.creditCard && company.creditCard.cardNumber) {
+        this.setState({
+          creditCard: company.creditCard,
+          method: false,
+        });
+      }
     }
   };
 
@@ -490,19 +493,15 @@ class AddPayment extends React.PureComponent {
   };
 
   handleClick = type => {
-    const { user } = this.props;
-    if (
-      type === 'cancel' &&
-      !(user.paypal && user.paypal.email) &&
-      !(user.creditCard && user.creditCard.cardNumber)
-    ) {
+    const { company } = this.props;
+    if (type === 'cancel' && company && !company.method) {
       this.setState({ dialog: true });
       return;
     }
 
     if (type === 'add') {
       if (this.state.method) {
-        this.props.onUpdateUser({
+        this.props.onUpdateCompany({
           paypal: this.state.paypal,
           creditCard: {
             cardNumber: '',
@@ -510,18 +509,24 @@ class AddPayment extends React.PureComponent {
             expiry: '',
             cvc: '',
           },
+          method: 'Paypal',
         });
       } else {
-        this.props.onUpdateUser({
+        this.props.onUpdateCompany({
           paypal: {
             email: '',
             firstName: '',
             lastName: '',
           },
           creditCard: this.state.creditCard,
+          method: 'Credit Card',
         });
       }
-      this.props.history.push('/active-payment');
+      if (company.method) {
+        this.props.history.push('/settings');
+      } else {
+        this.props.history.push('/active-payment');
+      }
     } else {
       this.props.history.goBack();
     }
@@ -605,7 +610,7 @@ class AddPayment extends React.PureComponent {
       this.state.creditCard && this.state.creditCard.cardNumber
         ? this.getCardType(this.state.creditCard.cardNumber)
         : '';
-    const { user } = this.props;
+    const { company } = this.props;
 
     const modal = (
       <ModalWrapper>
@@ -636,10 +641,7 @@ class AddPayment extends React.PureComponent {
           Cancel
         </FormCancelButton>
         <FormAddButton onClick={() => this.handleClick('add')}>
-          {(user.paypal && user.paypal.email) ||
-          (user.creditCard && user.creditCard.cardNumber)
-            ? 'Update'
-            : 'Add'}
+          {company && company.method ? 'Update' : 'Add'}
         </FormAddButton>
       </FormAction>
     );
@@ -759,10 +761,7 @@ class AddPayment extends React.PureComponent {
     );
 
     let header;
-    if (
-      (user.paypal && user.paypal.email) ||
-      (user.creditCard && user.creditCard.cardNumber)
-    ) {
+    if (company && company.method) {
       header = (
         <Fragment>
           <Header />
@@ -805,20 +804,20 @@ class AddPayment extends React.PureComponent {
 }
 
 AddPayment.propTypes = {
-  user: PropTypes.object,
-  OnGetUser: PropTypes.func,
-  onUpdateUser: PropTypes.func,
+  company: PropTypes.object,
+  onGetCompany: PropTypes.func,
+  onUpdateCompany: PropTypes.func,
   onDeleteUser: PropTypes.func,
   history: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: makeSelectUser(),
+  company: makeSelectCompany(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  OnGetUser: () => dispatch(getUser.request()),
-  onUpdateUser: value => dispatch(updateUser.request(value)),
+  onGetCompany: () => dispatch(getCompany.request()),
+  onUpdateCompany: value => dispatch(updateCompany.request(value)),
   onDeleteUser: () => dispatch(deleteUser.request()),
 });
 

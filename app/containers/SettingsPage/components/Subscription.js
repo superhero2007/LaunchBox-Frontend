@@ -83,27 +83,40 @@ const Progress = styled.div`
 
 class Subscription extends React.PureComponent {
   render() {
-    const { subscription } = this.props;
+    const { company } = this.props;
+    const { subscription } = company;
 
-    const now = new Date();
-    const subscriptionDate = new Date(subscription.date);
-    const diffTime = Math.abs(now.getTime() - subscriptionDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (!subscription) {
+      const now = new Date();
+      const subscriptionDate = new Date(company.createdAt);
+      const diffTime = Math.abs(now.getTime() - subscriptionDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (
-      subscription.status === 1 ||
-      (subscription.status === 0 && diffDays > 8)
-    ) {
+      if (diffDays > 7) {
+        return (
+          <Wrapper>
+            <Title>Your trial period is over</Title>
+            <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
+            <Button to="/subscribe">SUBSCRIBE</Button>
+          </Wrapper>
+        );
+      }
+
       return (
         <Wrapper>
-          <Title>Your trial period is over</Title>
-          <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
+          <SubTitle>Trial period ends after</SubTitle>
+          <Title>{7 - diffDays} days</Title>
+          <ProgressWrapper>
+            <Progress width={100 - (diffDays * 100) / 7} />
+          </ProgressWrapper>
           <Button to="/subscribe">SUBSCRIBE</Button>
         </Wrapper>
       );
     }
 
-    if (subscription.status === 2) {
+    const subscriptionDate = new Date(subscription.date);
+
+    if (subscription.status === 1) {
       return (
         <Wrapper>
           <Title>Monthly Subscription</Title>
@@ -120,23 +133,10 @@ class Subscription extends React.PureComponent {
       );
     }
 
-    if (subscription.status === 3) {
-      return (
-        <Wrapper>
-          <Title>Your subscription has ended</Title>
-          <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
-          <Button to="/subscribe">SUBSCRIBE</Button>
-        </Wrapper>
-      );
-    }
-
     return (
       <Wrapper>
-        <SubTitle>Trial period ends after</SubTitle>
-        <Title>{8 - diffDays} days</Title>
-        <ProgressWrapper>
-          <Progress width={(8 - diffDays) * 12.5} />
-        </ProgressWrapper>
+        <Title>Your subscription has ended</Title>
+        <SubTitle>To continue using Brandguide, please subscribe.</SubTitle>
         <Button to="/subscribe">SUBSCRIBE</Button>
       </Wrapper>
     );
@@ -144,7 +144,7 @@ class Subscription extends React.PureComponent {
 }
 
 Subscription.propTypes = {
-  subscription: PropTypes.object,
+  company: PropTypes.object,
 };
 
 export default Subscription;
