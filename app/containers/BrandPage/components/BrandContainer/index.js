@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
@@ -6,73 +5,60 @@ import { connect } from 'react-redux';
 import {
   getBrands,
   createBrand,
-  updateBrand,
   deleteBrand,
   getMembers,
-  createMember,
-  updateMember,
   deleteMember,
   getInvitations,
   createInvitation,
-  updateInvitation,
   deleteInvitation,
 } from 'containers/BrandPage/actions';
 import {
   makeSelectBrands,
-  makeSelectMembers,
   makeSelectInvitations,
+  makeSelectMembers,
 } from 'containers/BrandPage/selectors';
+
+import RightArrow from 'images/right-arrow.svg';
+import RightArrowHover from 'images/right-arrow__hover.svg';
+import RemoveAccount from 'images/remove.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
 import Content from './Content';
 import ElementWrapper from './ElementWrapper';
 import Element from './Element';
+import { RightArrowWrapper, ItemClose, ModalItem } from './Component';
 import ModalDialog from './ModalDialog';
+import AddDialog from './AddDialog';
+import RemoveDialog from './RemoveDialog';
 
 class BrandContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       type: null,
+      selected: null,
     };
   }
 
   componentDidMount() {
     this.props.onLoadBrands();
+    this.props.onLoadMembers();
+    this.props.onLoadInvitations();
   }
 
   closeModal = () => {
     this.setState({ type: null });
   };
 
-  onSelect = value => {
-    if (this.state.type === 'Brand') {
-      this.props.onUpdateBrand(value);
-    }
-    if (this.state.type === 'Member') {
-      this.props.onUpdateMember(value);
-    }
-    this.setState({ type: null });
-  };
-
   onAdd = value => {
-    if (this.state.type === 'Brand') {
+    if (this.state.type === 'AddBrand') {
       this.props.onCreateBrand(value);
     }
-    if (this.state.type === 'Member') {
-      this.props.onCreateMember(value);
+    if (this.state.type === 'AddMembers') {
+      this.props.onCreateInvitation(value);
     }
     this.setState({ type: null });
-  };
-
-  onDelete = _id => {
-    if (this.state.type === 'Brand') {
-      this.props.onDeleteBrand(_id);
-    }
-    if (this.state.type === 'Member') {
-      this.props.onDeleteMember(_id);
-    }
   };
 
   updateModal = element => {
@@ -81,19 +67,122 @@ class BrandContainer extends React.PureComponent {
     });
   };
 
+  onDelete = () => {
+    const { selected, type } = this.state;
+    if (type === 'deleteMember') {
+      this.props.onDeleteMember(selected._id);
+    } else {
+      this.props.onDeleteInvitation(selected._id);
+    }
+    this.setState({
+      selected: null,
+      type: null,
+    });
+  };
+
   render() {
+    const { type, selected } = this.state;
+    const { brands, invitations } = this.props;
+    let { members } = this.props;
+    members = members.filter(member => member.role);
+
+    let modal;
+
+    if (type === 'Brand') {
+      modal = (
+        <ModalDialog
+          onAdd={this.updateModal}
+          onClose={this.closeModal}
+          type={type}
+        >
+          {brands.map(element => (
+            <ModalItem key={element._id}>
+              <div>{element.value}</div>
+              <div>
+                <RightArrowWrapper>
+                  <img className="origin" src={RightArrow} alt="Arrow" />
+                  <img
+                    className="hover"
+                    src={RightArrowHover}
+                    alt="Arrow Hover"
+                  />
+                </RightArrowWrapper>
+              </div>
+            </ModalItem>
+          ))}
+        </ModalDialog>
+      );
+    }
+
+    if (type === 'Members') {
+      modal = (
+        <ModalDialog
+          onAdd={this.updateModal}
+          onClose={this.closeModal}
+          type={type}
+        >
+          {members.map(element => (
+            <ModalItem key={element._id}>
+              <div>{element.fullName}</div>
+              <div>
+                <ItemClose
+                  onClick={() => {
+                    this.updateModal('deleteMember');
+                    this.setState({ selected: element });
+                  }}
+                >
+                  <img src={RemoveAccount} alt="Delete Member" />
+                </ItemClose>
+              </div>
+            </ModalItem>
+          ))}
+          {invitations.map(element => (
+            <ModalItem key={element._id}>
+              <div>{element.value}</div>
+              <div>
+                <ItemClose
+                  onClick={() => {
+                    this.updateModal('deleteInvitation');
+                    this.setState({ selected: element });
+                  }}
+                >
+                  <img src={RemoveAccount} alt="Delete Invitation" />
+                </ItemClose>
+              </div>
+            </ModalItem>
+          ))}
+        </ModalDialog>
+      );
+    }
+
+    if (type === 'deleteMember' || type === 'deleteInvitation') {
+      modal = (
+        <RemoveDialog
+          onDelete={this.onDelete}
+          onClose={this.closeModal}
+          element={type === 'deleteMember' ? selected.fullName : selected.value}
+        />
+      );
+    }
+
+    if (type === 'AddBrand' || type === 'AddMembers') {
+      modal = (
+        <AddDialog onAdd={this.onAdd} onClose={this.closeModal} type={type} />
+      );
+    }
+
+    const otherLength =
+      members.length > 3
+        ? members.length - 3 + invitations.length
+        : invitations.length;
+    const memberValue = `${members
+      .slice(0, 3)
+      .map(member => member.fullName.split(' ')[0])
+      .join(', ')}${otherLength ? ` +${otherLength} others` : ''}`;
+
     return (
       <Wrapper>
-        {this.state.type && (
-          <Modal onClose={this.closeModal}>
-            <ModalDialog
-              title="Select Brand"
-              onSelect={this.onSelect}
-              onAdd={this.onAdd}
-              onClose={this.closeModal}
-            />
-          </Modal>
-        )}
+        {type && <Modal onClose={this.closeModal}>{modal}</Modal>}
         <Content>
           <ElementWrapper>
             <Element
@@ -105,7 +194,7 @@ class BrandContainer extends React.PureComponent {
           <ElementWrapper>
             <Element
               label="Members"
-              value="Paul, Sindri, Arnar +3 others"
+              value={memberValue}
               onClick={this.updateModal}
             />
           </ElementWrapper>
@@ -121,15 +210,10 @@ BrandContainer.propTypes = {
   invitations: PropTypes.array,
   onLoadBrands: PropTypes.func,
   onCreateBrand: PropTypes.func,
-  onUpdateBrand: PropTypes.func,
-  onDeleteBrand: PropTypes.func,
   onLoadMembers: PropTypes.func,
-  onCreateMember: PropTypes.func,
-  onUpdateMember: PropTypes.func,
   onDeleteMember: PropTypes.func,
   onLoadInvitations: PropTypes.func,
   onCreateInvitation: PropTypes.func,
-  onUpdateInvitation: PropTypes.func,
   onDeleteInvitation: PropTypes.func,
 };
 
@@ -143,15 +227,11 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLoadBrands: () => dispatch(getBrands.request()),
     onCreateBrand: value => dispatch(createBrand.request(value)),
-    onUpdateBrand: value => dispatch(updateBrand.request(value)),
     onDeleteBrand: value => dispatch(deleteBrand.request(value)),
     onLoadMembers: () => dispatch(getMembers.request()),
-    onCreateMember: value => dispatch(createMember.request(value)),
-    onUpdateMember: value => dispatch(updateMember.request(value)),
     onDeleteMember: value => dispatch(deleteMember.request(value)),
     onLoadInvitations: () => dispatch(getInvitations.request()),
     onCreateInvitation: value => dispatch(createInvitation.request(value)),
-    onUpdateInvitation: value => dispatch(updateInvitation.request(value)),
     onDeleteInvitation: value => dispatch(deleteInvitation.request(value)),
   };
 }

@@ -43,7 +43,7 @@ const Label = styled.label`
   opacity: 0.5;
 `;
 
-const InputElement = styled.input`
+const InputElement = styled.div`
   border: none;
   width: 100%;
   height: 100%;
@@ -76,11 +76,7 @@ class Element extends React.PureComponent {
   render() {
     return (
       <Wrapper onClick={this.handleClick}>
-        <InputElement
-          type="text"
-          defaultValue={this.props.value}
-          id={this.props.label}
-        />
+        <InputElement>{this.props.value}</InputElement>
         <Label htmlFor={this.props.label}>{this.props.label}</Label>
         <RightArrowWrapper>
           <img className="origin" src={RightArrow} alt="Arrow" />

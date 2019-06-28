@@ -24,12 +24,6 @@ const ModalText = styled.div`
   margin-bottom: 28px;
 `;
 
-const ModalContent = styled.div`
-  border-radius: 7px;
-  border: 1px solid #d6dbe9;
-  overflow: hidden;
-`;
-
 const ModalAction = styled.div`
   display: flex;
   justify-content: space-between;
@@ -51,15 +45,15 @@ const Button = styled.button`
   border-radius: 7px;
 `;
 
-const AddButton = styled(Button)`
-  border: 2px solid #1b367c;
-  background: #1b367c;
+const RemoveButton = styled(Button)`
+  background: #ec6689;
   color: #fff;
   margin-left: 1rem;
 
   &:hover {
-    color: #1b367c;
+    color: #ec6689;
     background: #fff;
+    border: 1px solid #ec6689;
   }
 `;
 
@@ -73,35 +67,40 @@ const CancelButton = styled(Button)`
   }
 `;
 
-class ModalDialog extends React.Component {
-  handleClickAdd = () => {
-    this.props.onAdd(`Add${this.props.type}`);
-  };
+const ModalContent = styled.div`
+  padding: 0 40px;
+  font-family: Muli;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
 
-  render() {
-    const { type, children } = this.props;
-    const title =
-      type === 'Brand' ? 'Select Brand' : 'Members of Ketchup Creative';
-    return (
-      <Wrapper>
-        <ModalHeader>
-          <ModalText>{title}</ModalText>
-        </ModalHeader>
-        <ModalContent>{children}</ModalContent>
-        <ModalAction>
-          <CancelButton onClick={this.props.onClose}>CANCEL</CancelButton>
-          <AddButton onClick={this.handleClickAdd}>ADD NEW</AddButton>
-        </ModalAction>
-      </Wrapper>
-    );
+  span {
+    color: #3166ed;
   }
-}
+`;
 
-ModalDialog.propTypes = {
-  type: PropTypes.string,
-  children: PropTypes.node,
+const RemoveDialog = props => (
+  <Wrapper>
+    <ModalHeader>
+      <ModalText>Remove User</ModalText>
+    </ModalHeader>
+    <ModalContent>
+      Are you sure you want to remove <span>{props.element}</span> from
+      <span>&nbsp;Ketchup Creative</span>?
+    </ModalContent>
+    <ModalAction>
+      <CancelButton onClick={props.onClose}>CANCEL</CancelButton>
+      <RemoveButton onClick={props.onDelete}>REMOVE</RemoveButton>
+    </ModalAction>
+  </Wrapper>
+);
+
+RemoveDialog.propTypes = {
   onClose: PropTypes.func,
-  onAdd: PropTypes.func,
+  onDelete: PropTypes.func,
+  element: PropTypes.string,
 };
 
-export default ModalDialog;
+export default RemoveDialog;
