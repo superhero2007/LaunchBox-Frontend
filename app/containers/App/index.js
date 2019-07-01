@@ -9,7 +9,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -22,7 +22,7 @@ import {
   makeSelectUser,
   makeSelectCompany,
 } from 'services/api/selectors';
-import { getUser, getCompany } from 'services/api/actions';
+import { getUser, getCompany, clearError } from 'services/api/actions';
 import reducer from 'services/api/reducer';
 import saga from 'services/api/saga';
 
@@ -30,9 +30,9 @@ import RoutePublic from 'routes/RoutePublic';
 import RoutePrivate from 'routes/RoutePrivate';
 import RouteConfirm from 'routes/RouteConfirm';
 
-import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
 // import BizPage from 'containers/BizPage/Loadable';
+import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
 import BrandPage from 'containers/BrandPage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
@@ -63,6 +63,12 @@ class App extends React.Component {
     if (token && !this.props.user) {
       this.props.onGetUser();
       this.props.onGetCompany();
+    }
+  };
+
+  componentDidUpdate = prevProps => {
+    if (this.props.location !== prevProps.location) {
+      this.props.onClearError();
     }
   };
 
@@ -201,9 +207,11 @@ class App extends React.Component {
 App.propTypes = {
   user: PropTypes.object,
   company: PropTypes.object,
+  location: PropTypes.object.isRequired,
   state: PropTypes.object,
   onGetUser: PropTypes.func,
   onGetCompany: PropTypes.func,
+  onClearError: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -215,6 +223,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   onGetUser: () => dispatch(getUser.request()),
   onGetCompany: () => dispatch(getCompany.request()),
+  onClearError: () => dispatch(clearError()),
 });
 
 const withConnect = connect(
@@ -229,4 +238,5 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
+  withRouter,
 )(App);

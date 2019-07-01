@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import {
+  CLEAR_ERROR_REQUEST,
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,
   CONFIRM_REGISTER_REQUEST,
@@ -30,6 +31,8 @@ export const initialState = fromJS({
 
 function ServiceReducer(state = initialState, action) {
   switch (action.type) {
+    case CLEAR_ERROR_REQUEST:
+      return state.set('loading', false).set('error', false);
     case SIGN_UP_REQUEST.REQUEST:
       return state.set('loading', true).set('error', false);
     case SIGN_UP_REQUEST.SUCCESS:

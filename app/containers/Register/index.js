@@ -14,222 +14,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { createStructuredSelector } from 'reselect';
+
 import { register } from 'services/api/actions';
+import { makeSelectError } from 'services/api/selectors';
 import Password from 'components/Password';
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import Info from 'images/info.svg';
 
-const Wrapper = styled.div`
-  display: flex;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Header = styled.div`
-  position: fixed;
-  left: 0;
-  top: 0;
-`;
-
-const Logo = styled.img`
-  position: absolute;
-  left: 43px;
-  top: 34px;
-`;
-
-const Form = styled.div`
-  width: 445px;
-  max-width: 100%;
-  margin: 20px;
-`;
-
-const FormTitle = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 35px;
-  line-height: 44px;
-  letter-spacing: -0.03em;
-  color: #1b367c;
-  margin-bottom: 40px;
-`;
-
-const Input = styled.div`
-  border: 2px solid rgba(66, 77, 107, 0.2);
-  margin: 16px 0;
-  width: 100%;
-  height: 56px;
-  border-radius: 7px;
-  position: relative;
-
-  &.invalid {
-    border-color: #f74d6c;
-  }
-`;
-
-const Label = styled.label`
-  position: absolute;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: rgba(66, 77, 107, 0.5);
-  padding: 0 18px;
-  top: 17px;
-  left: 0;
-  transition: top 0.2s;
-  transition: font-size 0.2s;
-
-  input:focus + &,
-  input.focus + & {
-    font-size: 11px;
-    line-height: 14px;
-    top: 10px;
-  }
-`;
-
-const InputElement = styled.input`
-  border: none;
-  width: 100%;
-  padding: 17px 18px;
-  color: #424d6b;
-  font-size: 15px;
-  line-height: 19px;
-
-  &:focus,
-  &.focus {
-    padding: 26px 18px 6px;
-  }
-`;
-
-const Action = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 32px;
-`;
-
-const RegisterButton = styled.button`
-  width: 210px;
-  height: 48px;
-  border-radius: 7px;
-  background: #1b367c;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #fff;
-  cursor: pointer;
-
-  &:disabled {
-    background: #dfe8ff;
-    color: #92aae6;
-    cursor: not-allowed;
-  }
-`;
-
-const CreateAccount = styled(Link)`
-  width: 210px;
-  height: 48px;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  border: 2px solid #dfe8ff;
-  color: #1b367c;
-  text-decoration: none;
-
-  &:hover {
-    background: #1b367c;
-    color: #fff;
-    border: 0;
-  }
-`;
-
-const Social = styled.div`
-  display: flex;
-  margin-top: 78px;
-`;
-
-const SocialText = styled.span`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  color: rgba(66, 77, 107, 0.5);
-`;
-
-const FacebookLink = styled(Link)`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: right;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #3b5998;
-  margin-left: 47px;
-  border-bottom: 2px solid #3b5998;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    border: 0;
-  }
-`;
-
-const GoogleLink = styled(Link)`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: right;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #4285f4;
-  margin-left: 47px;
-  border-bottom: 2px solid #4285f4;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    border: 0;
-  }
-`;
-
-const InvalidEmail = styled.div`
-  position: absolute;
-  right: 21px;
-  top: 19px;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: right;
-  color: #f64d6c;
-`;
+import {
+  Wrapper,
+  Header,
+  Logo,
+  Form,
+  FormTitle,
+  Input,
+  Label,
+  InputElement,
+  Action,
+  RegisterButton,
+  CreateAccount,
+  Social,
+  SocialText,
+  FacebookLink,
+  GoogleLink,
+  InvalidEmail,
+  FormError,
+} from './Components';
 
 /* eslint-disable react/prefer-stateless-function */
 class Register extends React.PureComponent {
@@ -295,6 +107,7 @@ class Register extends React.PureComponent {
   };
 
   render() {
+    const { error } = this.props;
     const input =
       !this.state.invalidEmail &&
       this.state.companyName &&
@@ -312,6 +125,12 @@ class Register extends React.PureComponent {
         </Header>
         <Form>
           <FormTitle>Sign Up</FormTitle>
+          {error && (
+            <FormError>
+              <img src={Info} alt="Warning Info" />
+              <span>{error.message}</span>
+            </FormError>
+          )}
           <Input className={this.state.invalidEmail ? 'invalid' : ''}>
             <InputElement
               type="text"
@@ -368,15 +187,18 @@ class Register extends React.PureComponent {
 Register.propTypes = {
   OnRegister: PropTypes.func,
   location: PropTypes.object,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    OnRegister: query => dispatch(register.request(query)),
-  };
-}
+const mapStateToProps = createStructuredSelector({
+  error: makeSelectError(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  OnRegister: query => dispatch(register.request(query)),
+});
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Register);

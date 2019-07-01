@@ -1,4 +1,5 @@
 import {
+  CLEAR_ERROR_REQUEST,
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,
   REGISTER_EMAIL_REQUEST,
@@ -25,6 +26,11 @@ function action(type, payload = {}) {
     ...payload,
   };
 }
+
+/*
+ * Action to Clear Error
+ */
+export const clearError = () => action(CLEAR_ERROR_REQUEST);
 
 /*
  * Action to sign up

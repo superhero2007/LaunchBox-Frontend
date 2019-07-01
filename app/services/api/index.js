@@ -41,10 +41,11 @@ const callApi = (endpoint, method = 'GET', bodyJS = null, hasFile = false) => {
     .then(({ json, response }) => {
       if (!response.ok) {
         return Promise.reject(
-          new Error({
-            ...json,
-            status: response.status,
-          }),
+          new Error(
+            Object.values(json.errors)
+              .map(element => element.message)
+              .join(' '),
+          ),
         );
       }
       return Object.assign({}, json);
