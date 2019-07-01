@@ -60,7 +60,7 @@ import GlobalStyle from '../../global-styles';
 class App extends React.Component {
   componentDidMount = () => {
     const token = localStorage.getItem('token');
-    if (token && !this.props.user) {
+    if (token && !this.props.user && !this.props.company) {
       this.props.onGetUser();
       this.props.onGetCompany();
     }

@@ -106,7 +106,7 @@ class SettingsPage extends React.PureComponent {
       <div className="settings">
         <Header />
         <div>
-          <Link to="/" className="settings__exit">
+          <Link to="/home" className="settings__exit">
             <img src={ExitSetings} alt="Exit Settings" />
             <span className="settings__exit-title">Exit Settings</span>
           </Link>
