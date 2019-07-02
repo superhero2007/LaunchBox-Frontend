@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ElementDelete from '../../../../images/element-delete.svg';
-import InputDuplicate from '../../../../images/input-duplicate.svg';
-import ElementDeleteHover from '../../../../images/element-delete__hover.svg';
-import InputDuplicateHover from '../../../../images/input-duplicate__hover.svg';
-import facebook from '../../../../images/facebook.svg';
-import twitter from '../../../../images/twitter.svg';
-import instagram from '../../../../images/instagram.svg';
-import youtube from '../../../../images/play.svg';
+import ElementLink from 'images/link.svg';
+import InputDuplicate from 'images/input-duplicate.svg';
+import ElementLinkHover from 'images/link__hover.svg';
+import InputDuplicateHover from 'images/input-duplicate__hover.svg';
+import facebook from 'images/facebook.svg';
+import twitter from 'images/twitter.svg';
+import instagram from 'images/instagram.svg';
+import youtube from 'images/play.svg';
 
 const Wrapper = styled.div`
   height: 48px;
@@ -37,7 +37,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const DeleteButton = styled.div`
+const LinkButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@ const DeleteButton = styled.div`
   }
 
   &:hover {
-    background: #ec6689;
+    background: #1b367c;
 
     .origin {
       display: none;
@@ -170,14 +170,14 @@ class Element extends React.PureComponent {
               alt="Input Duplicate Hover"
             />
           </DuplicateButton>
-          <DeleteButton onClick={this.props.onDelete}>
-            <img className="origin" src={ElementDelete} alt="Input Edit" />
+          <LinkButton onClick={this.props.onDuplicate}>
+            <img className="origin" src={ElementLink} alt="Input Edit" />
             <img
               className="hover"
-              src={ElementDeleteHover}
+              src={ElementLinkHover}
               alt="Input Edit Hover"
             />
-          </DeleteButton>
+          </LinkButton>
         </ButtonGroup>
       </Wrapper>
     );
@@ -188,7 +188,6 @@ Element.propTypes = {
   type: PropTypes.number,
   value: PropTypes.string,
   onDuplicate: PropTypes.func,
-  onDelete: PropTypes.func,
 };
 
 export default Element;
