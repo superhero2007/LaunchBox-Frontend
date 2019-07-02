@@ -12,7 +12,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectUser, makeSelectCompany } from 'services/api/selectors';
@@ -36,7 +35,6 @@ import ClearAccount from './components/ClearAccount';
 import DeleteAccount from './components/DeleteAccount';
 
 import './style.scss';
-import ExitSetings from '../../images/exit-settings.svg';
 import CompanyAccount from '../../images/company-account.svg';
 
 const publicKey = process.env.NUMMUSPAY_PUBLIC_KEY;
@@ -106,10 +104,6 @@ class SettingsPage extends React.PureComponent {
       <div className="settings">
         <Header />
         <div>
-          <Link to="/home" className="settings__exit">
-            <img src={ExitSetings} alt="Exit Settings" />
-            <span className="settings__exit-title">Exit Settings</span>
-          </Link>
           <div className="settings__profile">
             <div className="content">
               <div className="settings__profile-photo">
