@@ -139,7 +139,7 @@ class BrandLandingPage extends React.PureComponent {
           <Menu className="menu">
             <Brand to="/" className="menu-brand">
               <img src={brandlogo} alt="Logo" className="menu-brand__logo" />
-              <Beta>beta</Beta>
+              <Beta>alpha</Beta>
             </Brand>
             <MenuButtons className="menu-button">
               <SecondaryButton to="/login">Login</SecondaryButton>
@@ -158,11 +158,15 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="left-wrapper__description">
                 <span>
-                  Keep life simple and store all brand assets in one
-                  place.&nbsp;
+                  Sharing assets and guidelines through email was getting
+                  old,&nbsp;
                 </span>
                 <span>
-                  Upload logos, fonts, and colors. Access and share forever.
+                  so we created Brandguide. An interactive shareable
+                  guideline&nbsp;
+                </span>
+                <span>
+                  that keeps all brand assets organized in one place.&nbsp;
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
@@ -175,27 +179,23 @@ class BrandLandingPage extends React.PureComponent {
           </section>
           <section className="section2">
             <div className="left-wrapper">
-              <img src={brandsecond} alt="Biz Box" />
+              <img src={brandthird} alt="Biz Box" />
             </div>
             <div className="right-wrapper">
               <div className="right-wrapper__brand">
                 <div className="right-wrapper__brand__title">
-                  Keep All Brand Assets
-                  <br />
-                  Organized and Accessible
+                  Better Branding with a Single Source of Truth
                 </div>
               </div>
               <div className="right-wrapper__image">
-                <img src={brandsecond} alt="Brand Box" />
+                <img src={brandthird} alt="Brand Box" />
               </div>
               <div className="right-wrapper__description">
                 <span>
-                  Sharing brand assets and pdf guidelines through email was
-                  getting old. So we combined the two, into one.
-                  <br />
-                  Branguide is a one-page interactive brand guideline which
-                  stores all your brand assets and allows you to keep them safe,
-                  organized and easily shareable.
+                  Makes sure everyone at your company is represented by the
+                  latest and greatest brand assets. No more old files in
+                  circulation. When admins make changes in Brandguide, they take
+                  effect everywhere else.
                 </span>
               </div>
             </div>
@@ -204,25 +204,23 @@ class BrandLandingPage extends React.PureComponent {
             <div className="left-wrapper">
               <div className="left-wrapper__brand">
                 <div className="left-wrapper__brand__title">
-                  Better Branding with
-                  <br /> A Single Source of Truth
+                  Storage and Guidelines in One Interactive View
                 </div>
               </div>
               <div className="left-wrapper__image">
-                <img src={brandthird} alt="Brand Box" />
+                <img src={brandsecond} alt="Brand Box" />
               </div>
               <div className="left-wrapper__description">
                 <span>
-                  Brandguide makes sure your company is represented by the
-                  latest and greatest brand assets at all times. No more old
-                  files in circulation. All team members can now easily access
-                  all brand assets in one place - controlled and updated by
-                  dedicated admins.
+                  Brandguide helps you avoid the clutter of traditional digital
+                  asset management by combining your guidelines and file storage
+                  into one interactive view. Brand consistency is now easier
+                  than ever.
                 </span>
               </div>
             </div>
             <div className="right-wrapper">
-              <img src={brandthird} alt="Brand Box" />
+              <img src={brandsecond} alt="Brand Box" />
             </div>
           </section>
           <section className="section4">
@@ -235,7 +233,7 @@ class BrandLandingPage extends React.PureComponent {
                 <div className="right-wrapper__brand__title">
                   AI Suggestions Help
                   <br />
-                  You Stay On-Brand
+                  Your Brand Stay Ahead
                 </div>
               </div>
               <div className="right-wrapper__image">
@@ -243,9 +241,9 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="right-wrapper__description">
                 <span>
-                  Brandguide monitors your online presence so you don’t have to.
-                  Our AI engine looks out for inconsistencies in design, tone of
-                  voice and more. Suggesting edits, improvements or new actions.
+                  Let Brandguide’s AI suggestions guide you through the ever
+                  changing digital landscape. Analyzing data from your online
+                  channels, suggesting edits, improvements and new action.
                 </span>
               </div>
             </div>
@@ -441,9 +439,7 @@ class BrandLandingPage extends React.PureComponent {
                 Cookie Policy
               </Link>
             </div>
-            <div className="footer-mobile-icon">
-              <img src={brandlogo} alt="Logo" />
-            </div>
+            <div className="footer-mobile-icon">© 2019 - Viral Uno ehf.</div>
           </footer>
         </Main>
       </Wrapper>
