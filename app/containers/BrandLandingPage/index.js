@@ -398,7 +398,7 @@ class BrandLandingPage extends React.PureComponent {
           <section className="section7">
             <div className="section7__title">Commitment issues?</div>
             <div className="section7__description">
-              <StartButton to="/">Start 7-day FREE Trial</StartButton>
+              <StartButton to="/register">Start 7-day FREE Trial</StartButton>
             </div>
           </section>
           <footer className="footer">
