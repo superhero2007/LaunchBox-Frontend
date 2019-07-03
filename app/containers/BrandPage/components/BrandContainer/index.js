@@ -18,6 +18,8 @@ import {
   makeSelectMembers,
 } from 'containers/BrandPage/selectors';
 
+import { makeSelectUser } from 'services/api/selectors';
+
 import RightArrow from 'images/right-arrow.svg';
 import RightArrowHover from 'images/right-arrow__hover.svg';
 import RemoveAccount from 'images/remove.svg';
@@ -69,9 +71,13 @@ class BrandContainer extends React.PureComponent {
   };
 
   updateModal = element => {
-    this.setState({
-      type: element,
-    });
+    if (element === 'Brand' && !this.props.brands.length) {
+      this.setState({ type: 'AddBrand' });
+    } else {
+      this.setState({
+        type: element,
+      });
+    }
   };
 
   onDelete = () => {
@@ -89,7 +95,7 @@ class BrandContainer extends React.PureComponent {
 
   render() {
     const { type, selected, selectedBrand } = this.state;
-    const { brands, invitations } = this.props;
+    const { brands, invitations, user } = this.props;
     let { members } = this.props;
     members = members.filter(member => member.role);
 
@@ -198,7 +204,9 @@ class BrandContainer extends React.PureComponent {
           <ElementWrapper>
             <Element
               label="Brand"
-              value={brands.length ? brands[selectedBrand].value : ''}
+              value={
+                brands.length ? brands[selectedBrand].value : user.companyName
+              }
               onClick={this.updateModal}
             />
           </ElementWrapper>
@@ -216,6 +224,7 @@ class BrandContainer extends React.PureComponent {
 }
 
 BrandContainer.propTypes = {
+  user: PropTypes.object,
   brands: PropTypes.array,
   members: PropTypes.array,
   invitations: PropTypes.array,
@@ -229,6 +238,7 @@ BrandContainer.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  user: makeSelectUser(),
   brands: makeSelectBrands(),
   members: makeSelectMembers(),
   invitations: makeSelectInvitations(),

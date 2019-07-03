@@ -397,7 +397,8 @@ class EditMembers extends React.PureComponent {
     const { company, invitations } = this.props;
     let { members } = this.props;
     members = members.filter(member => member.role);
-    const totalLength = company.subscription.users + 3;
+    const totalLength =
+      (company.subscription ? company.subscription.users : 0) + 3;
     const membersLength = members.length;
     const adminLength = members.filter(member => member.role === 'Admin')
       .length;

@@ -134,24 +134,8 @@ class SettingsPage extends React.PureComponent {
                 <div className="settings__profile-social">
                   <div className="settings__title">ADMIN CONTROLS</div>
                   <div className="settings__profile-social__content">
-                    <Social
-                      type="EDIT MEMBERS"
-                      link="/edit-members"
-                      enabled={
-                        company &&
-                        company.subscription &&
-                        company.subscription.status === 1
-                      }
-                    />
-                    <Social
-                      type="EDIT BRANDS"
-                      link="/edit-brands"
-                      enabled={
-                        company &&
-                        company.subscription &&
-                        company.subscription.status === 1
-                      }
-                    />
+                    <Social type="EDIT MEMBERS" link="/edit-members" />
+                    <Social type="EDIT BRANDS" link="/edit-brands" />
                     <div className="settings__profile-social__content-static">
                       One-click sign in
                     </div>

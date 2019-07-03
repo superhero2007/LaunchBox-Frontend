@@ -44,10 +44,10 @@ const AddButton = styled(Link)`
 
 class Social extends React.PureComponent {
   render() {
-    const { type, link, enabled } = this.props;
+    const { type, link } = this.props;
     return (
       <Wrapper>
-        <AddButton to={enabled ? link : '/settings'}>
+        <AddButton to={link}>
           <span>{type}</span>
         </AddButton>
       </Wrapper>
@@ -58,7 +58,6 @@ class Social extends React.PureComponent {
 Social.propTypes = {
   type: PropTypes.string,
   link: PropTypes.string,
-  enabled: PropTypes.bool,
 };
 
 export default Social;

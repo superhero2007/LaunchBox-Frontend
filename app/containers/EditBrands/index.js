@@ -376,7 +376,8 @@ class EditBrands extends React.PureComponent {
 
   render() {
     const { company, brands } = this.props;
-    const totalLength = company.subscription.brands + 1;
+    const totalLength =
+      (company.subscription ? company.subscription.brands : 0) + 1;
     const brandsLength = brands.length;
     const publicLength = brands.filter(brand => brand.role === 'Public').length;
     const privateLength = brandsLength - publicLength;
