@@ -24,7 +24,6 @@ import BrandContainer from './components/BrandContainer';
 import PresenceContainer from './components/PresenceContainer';
 import LogoContainer from './components/LogoContainer';
 import FontContainer from './components/FontContainer';
-import FontColorContainer from './components/FontColorContainer';
 import BrandColorContainer from './components/BrandColorContainer';
 import IconContainer from './components/IconContainer';
 
@@ -46,7 +45,6 @@ class BrandPage extends React.PureComponent {
           <Containers>
             <LogoContainer />
             <FontContainer />
-            <FontColorContainer />
             <BrandColorContainer />
             <IconContainer />
           </Containers>

@@ -23,7 +23,7 @@ class BrandColorContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'Brand Colors',
+      title: 'Colors',
       type: null,
     };
   }

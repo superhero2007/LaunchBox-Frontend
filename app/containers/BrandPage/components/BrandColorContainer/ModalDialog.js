@@ -105,7 +105,7 @@ class ModalDialog extends React.Component {
     return (
       <Wrapper>
         <ModalHeader>
-          <ModalText>Add Brand Color</ModalText>
+          <ModalText>Add Color</ModalText>
         </ModalHeader>
         <ModalBody>
           <ColorPicker
