@@ -64,6 +64,12 @@ class App extends React.Component {
       this.props.onGetUser();
       this.props.onGetCompany();
     }
+    if (this.props.user) {
+      // eslint-disable-next-line no-undef
+      gtag('set', { user_id: this.props.user._id });
+      // eslint-disable-next-line no-undef
+      ga('set', 'userId', this.props.user._id);
+    }
   };
 
   componentDidUpdate = prevProps => {
