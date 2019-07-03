@@ -192,10 +192,10 @@ class BrandLandingPage extends React.PureComponent {
               </div>
               <div className="right-wrapper__description">
                 <span>
-                  Makes sure everyone at your company is represented by the
-                  latest and greatest brand assets. No more old files in
-                  circulation. When admins make changes in Brandguide, they take
-                  effect everywhere else.
+                  Make sure your company is represented by the latest and
+                  greatest brand assets. No more old files in circulation. When
+                  admins make changes in Brandguide, they take effect everywhere
+                  else.
                 </span>
               </div>
             </div>
