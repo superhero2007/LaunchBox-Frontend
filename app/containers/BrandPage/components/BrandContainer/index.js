@@ -38,6 +38,7 @@ class BrandContainer extends React.PureComponent {
     this.state = {
       type: null,
       selected: null,
+      selectedBrand: -1,
     };
   }
 
@@ -45,6 +46,12 @@ class BrandContainer extends React.PureComponent {
     this.props.onLoadBrands();
     this.props.onLoadMembers();
     this.props.onLoadInvitations();
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      selectedBrand: newProps.brands.length ? 0 : -1,
+    });
   }
 
   closeModal = () => {
@@ -81,7 +88,7 @@ class BrandContainer extends React.PureComponent {
   };
 
   render() {
-    const { type, selected } = this.state;
+    const { type, selected, selectedBrand } = this.state;
     const { brands, invitations } = this.props;
     let { members } = this.props;
     members = members.filter(member => member.role);
@@ -95,8 +102,12 @@ class BrandContainer extends React.PureComponent {
           onClose={this.closeModal}
           type={type}
         >
-          {brands.map(element => (
-            <ModalItem key={element._id}>
+          {brands.map((element, index) => (
+            <ModalItem
+              key={element._id}
+              className={selectedBrand === index && 'active'}
+              onClick={() => this.setState({ selectedBrand: index })}
+            >
               <div>{element.value}</div>
               <div>
                 <RightArrowWrapper>
@@ -122,7 +133,7 @@ class BrandContainer extends React.PureComponent {
           type={type}
         >
           {members.map(element => (
-            <ModalItem key={element._id}>
+            <ModalItem key={element._id} className="members">
               <div>{element.fullName}</div>
               <div>
                 <ItemClose
@@ -137,7 +148,7 @@ class BrandContainer extends React.PureComponent {
             </ModalItem>
           ))}
           {invitations.map(element => (
-            <ModalItem key={element._id}>
+            <ModalItem key={element._id} className="members">
               <div>{element.value}</div>
               <div>
                 <ItemClose
@@ -187,7 +198,7 @@ class BrandContainer extends React.PureComponent {
           <ElementWrapper>
             <Element
               label="Brand"
-              value="Ketchup Creative"
+              value={brands.length ? brands[selectedBrand].value : ''}
               onClick={this.updateModal}
             />
           </ElementWrapper>

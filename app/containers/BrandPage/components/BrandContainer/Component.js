@@ -45,7 +45,12 @@ export const ModalItem = styled.div`
     display: none;
   }
 
-  &:hover {
+  &:not(.members):not(.active):hover {
+    background: #dfe8ff;
+  }
+
+  &.members:hover,
+  &.active {
     background: #1b367c;
     color: #fff;
     .origin {
