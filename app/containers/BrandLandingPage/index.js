@@ -150,7 +150,9 @@ class BrandLandingPage extends React.PureComponent {
             <div className="left-wrapper">
               <div className="left-wrapper__brand">
                 <div className="left-wrapper__brand__title">
-                  The Minimal Brand Management Tool
+                  The Minimal Brand
+                  <br />
+                  Management Tool
                 </div>
               </div>
               <div className="left-wrapper__image">
@@ -184,7 +186,8 @@ class BrandLandingPage extends React.PureComponent {
             <div className="right-wrapper">
               <div className="right-wrapper__brand">
                 <div className="right-wrapper__brand__title">
-                  Better Branding with a Single Source of Truth
+                  Better Branding with a <br />
+                  Single Source of Truth
                 </div>
               </div>
               <div className="right-wrapper__image">
@@ -204,7 +207,9 @@ class BrandLandingPage extends React.PureComponent {
             <div className="left-wrapper">
               <div className="left-wrapper__brand">
                 <div className="left-wrapper__brand__title">
-                  Storage and Guidelines in One Interactive View
+                  Storage and Guidelines
+                  <br />
+                  in One Interactive View
                 </div>
               </div>
               <div className="left-wrapper__image">
