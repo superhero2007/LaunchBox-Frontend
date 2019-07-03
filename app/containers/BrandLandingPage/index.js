@@ -143,7 +143,7 @@ class BrandLandingPage extends React.PureComponent {
             </Brand>
             <MenuButtons className="menu-button">
               <SecondaryButton to="/login">Login</SecondaryButton>
-              <GetStartedButton to="/home">Get Started</GetStartedButton>
+              <GetStartedButton to="/register">Get Started</GetStartedButton>
             </MenuButtons>
           </Menu>
           <section className="section1">
@@ -170,7 +170,7 @@ class BrandLandingPage extends React.PureComponent {
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
-                <StartButton to="/home">Start For Free</StartButton>
+                <StartButton to="/register">Start For Free</StartButton>
               </div>
             </div>
             <div className="right-wrapper">
