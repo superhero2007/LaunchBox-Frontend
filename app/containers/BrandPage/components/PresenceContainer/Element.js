@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ElementLink from 'images/link.svg';
 import InputDuplicate from 'images/input-duplicate.svg';
 import ElementLinkHover from 'images/link__hover.svg';
@@ -9,6 +10,8 @@ import facebook from 'images/facebook.svg';
 import twitter from 'images/twitter.svg';
 import instagram from 'images/instagram.svg';
 import youtube from 'images/play.svg';
+import linkedin from '../../../../images/linkedin.svg';
+import linkicon from '../../../../images/link-icon.svg';
 
 const Wrapper = styled.div`
   height: 48px;
@@ -37,7 +40,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const LinkButton = styled.div`
+const LinkButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,7 +107,7 @@ const ButtonGroup = styled.div`
   align-items: center;
   justify-content: center;
 
-  div + div {
+  div + a {
     margin-left: 8px;
   }
 `;
@@ -116,32 +119,38 @@ class Element extends React.PureComponent {
       list: [
         {
           id: 1,
+          link: 'https://www.facebook.com',
           img: <img src={facebook} alt="Facebook" />,
           color: '#3B5998',
         },
         {
           id: 2,
+          link: 'https://www.twitter.com',
           img: <img src={twitter} alt="Twitter" />,
           color: '#1CA1F1',
         },
         {
           id: 3,
+          link: 'https://www.instagram.com',
           img: <img src={instagram} alt="Instagram" />,
           color: '#E1306C',
         },
         {
           id: 4,
+          link: 'https://www.youtube.com',
           img: <img src={youtube} alt="Youtube" />,
           color: '#F61C0D',
         },
         {
           id: 5,
-          img: null,
+          link: 'https://www.linkedin.com',
+          img: <img src={linkedin} alt="Youtube" />,
           color: '#1CA1F2',
         },
         {
           id: 6,
-          img: <span>{'</>'}</span>,
+          link: 'http://ketchupcreative.com',
+          img: <img src={linkicon} alt="Youtube" />,
           color: '#3166ED',
         },
       ],
@@ -160,19 +169,23 @@ class Element extends React.PureComponent {
         {icon && <span>{icon}</span>}
         <span>{this.props.value}</span>
         <ButtonGroup className="button_group">
-          <DuplicateButton onClick={this.props.onDuplicate}>
-            <img
-              className="origin"
-              src={InputDuplicate}
-              alt="Input Duplicate"
-            />
-            <img
-              className="hover"
-              src={InputDuplicateHover}
-              alt="Input Duplicate Hover"
-            />
-          </DuplicateButton>
-          <LinkButton onClick={this.props.onDuplicate}>
+          <CopyToClipboard
+            text={`${value ? value.link : ''}${this.props.value}`}
+          >
+            <DuplicateButton>
+              <img
+                className="origin"
+                src={InputDuplicate}
+                alt="Input Duplicate"
+              />
+              <img
+                className="hover"
+                src={InputDuplicateHover}
+                alt="Input Duplicate Hover"
+              />
+            </DuplicateButton>
+          </CopyToClipboard>
+          <LinkButton href={`${value ? value.link : ''}${this.props.value}`}>
             <img className="origin" src={ElementLink} alt="Input Edit" />
             <img
               className="hover"
@@ -189,7 +202,6 @@ class Element extends React.PureComponent {
 Element.propTypes = {
   type: PropTypes.number,
   value: PropTypes.string,
-  onDuplicate: PropTypes.func,
 };
 
 export default Element;

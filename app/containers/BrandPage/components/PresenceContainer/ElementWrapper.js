@@ -5,6 +5,12 @@ const ElementWrapper = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   position: relative;
+
+  &:hover {
+    .element_delete {
+      display: flex;
+    }
+  }
 `;
 
 export default ElementWrapper;

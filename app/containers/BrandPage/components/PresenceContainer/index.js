@@ -18,6 +18,7 @@ import Content from './Content';
 import Title from '../Title';
 import ElementWrapper from './ElementWrapper';
 import Element from './Element';
+import ElementCloser from '../ElementCloser';
 import InputAdd from '../InputAdd';
 import ModalDialog from './ModalDialog';
 
@@ -69,12 +70,13 @@ class PresenceContainer extends React.PureComponent {
   listElements = () =>
     this.props.presences.map(element => (
       <ElementWrapper key={element._id}>
-        <Element
-          value={element.value}
-          type={element.type}
-          onDelete={() => this.onDelete(element._id)}
-          onDuplicate={() => this.onDuplicate(element)}
-        />
+        <Element value={element.value} type={element.type} />
+        <ElementCloser
+          onClick={() => this.onDelete(element._id)}
+          className="element_delete"
+        >
+          <i className="fas fa-times" />
+        </ElementCloser>
       </ElementWrapper>
     ));
 
