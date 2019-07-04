@@ -20,12 +20,13 @@ const ModalText = styled.div`
   font-size: 17px;
   line-height: normal;
   text-align: center;
-  color: #3d2f3d;
+  color: #1b367c;
   margin-bottom: 28px;
 `;
 
 const ModalInput = styled.input`
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  border: 2px solid #d6dbe9;
+  border-radius: 7px;
   box-sizing: border-box;
   font-family: Muli;
   font-style: normal;
@@ -36,10 +37,10 @@ const ModalInput = styled.input`
   height: 56px;
   padding: 19px 17px 18px;
   margin-bottom: 21px;
-  color: #6c4853;
+  color: #1b367c;
 
   &::placeholder {
-    color: rgba(61, 47, 61, 0.5);
+    color: rgba(27, 54, 114, 0.5);
   }
 `;
 
@@ -77,11 +78,12 @@ const AddButton = styled(Button)`
 
 const CancelButton = styled(Button)`
   border: 2px solid #ececf6;
-  color: #6c4853;
+  color: #1b367c;
 
   &:hover {
+    border: 0;
     color: #fff;
-    background: #6c4853;
+    background: #1b367c;
   }
 `;
 

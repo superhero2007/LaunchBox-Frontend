@@ -17,7 +17,8 @@ const ModalBody = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  border: 2px solid #d6dbe9;
+  border-radius: 7px;
 `;
 
 const ModalAction = styled.div`
@@ -45,14 +46,15 @@ const DropzoneWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: #3d2f3d;
+  color: #1b367c;
 `;
 
 const DropzoneIcon = styled.div`
   width: 44px;
   height: 44px;
   margin-bottom: 23px;
-  border: 2px solid #3d2f3d;
+  border: 2px solid #1b367c;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,7 +91,7 @@ const DropzoneDescription = styled.div`
   font-size: 14px;
   line-height: normal;
   text-align: center;
-  color: rgba(61, 47, 61, 0.3);
+  color: rgba(27, 54, 114, 0.3);
   margin-top: 24px;
 `;
 

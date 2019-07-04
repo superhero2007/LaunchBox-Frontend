@@ -50,6 +50,7 @@ const DropzoneWrapper = styled.div`
   &:hover {
     background: #1b367c;
     color: white;
+    border: 0;
 
     .dropzone-icon {
       border-color: white;

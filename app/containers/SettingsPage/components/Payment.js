@@ -130,6 +130,7 @@ const ChangeMethod = styled(Link)`
   &:hover {
     color: #fff;
     background: #3166ed;
+    border: 0;
   }
 `;
 

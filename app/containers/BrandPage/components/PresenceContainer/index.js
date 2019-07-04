@@ -9,6 +9,8 @@ import {
   deletePresence,
 } from 'containers/BrandPage/actions';
 import { makeSelectPresences } from 'containers/BrandPage/selectors';
+import Plus from 'images/smaller-plus.svg';
+import PlusHover from 'images/smaller-plus__hover.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -97,9 +99,11 @@ class PresenceContainer extends React.PureComponent {
               height={48}
               size={30}
               weight={100}
+              imgWidth={21}
               onClick={this.createModal}
             >
-              +
+              <img src={Plus} alt="Add" className="origin" />
+              <img src={PlusHover} alt="Add" className="hover" />
             </InputAdd>
           </ElementWrapper>
         </Content>

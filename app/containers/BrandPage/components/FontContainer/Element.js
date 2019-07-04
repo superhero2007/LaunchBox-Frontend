@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 
   &:hover {
     .button_group {
+      border: 0;
       display: flex;
     }
   }
@@ -28,6 +29,7 @@ const DownloadButton = styled.a`
   width: 120px;
   height: 32px;
   border: 2px solid #d6dbe9;
+  border-radius: 7px;
   background: white;
   text-decoration: none;
   color: #1b367c;
@@ -46,6 +48,7 @@ const DownloadButton = styled.a`
   }
 
   &:hover {
+    border: 0;
     background: #1b367c;
     color: #fff;
 

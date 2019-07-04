@@ -22,9 +22,26 @@ const InputAdd = styled.div`
 
   cursor: pointer;
 
+  .hover {
+    display: none;
+  }
+
+  img {
+    width: ${props => props.imgWidth}px;
+  }
+
   &:hover {
     background: #1b367c;
     color: white;
+    border: 0;
+
+    .origin {
+      display: none;
+    }
+
+    .hover {
+      display: inline;
+    }
   }
 `;
 

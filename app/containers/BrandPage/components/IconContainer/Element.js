@@ -37,6 +37,7 @@ const DownloadButton = styled.a`
   width: 24px;
   height: 24px;
   border: 2px solid #d6dbe9;
+  border-radius: 7px;
   background: white;
   text-decoration: none;
 
@@ -65,6 +66,7 @@ const CopyButton = styled.div`
   width: 24px;
   height: 24px;
   border: 2px solid #d6dbe9;
+  border-radius: 7px;
   background: white;
   margin-left: 4px;
 

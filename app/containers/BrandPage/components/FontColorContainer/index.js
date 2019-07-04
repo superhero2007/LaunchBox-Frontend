@@ -8,6 +8,8 @@ import {
   deleteFontColor,
 } from 'containers/BrandPage/actions';
 import { makeSelectFontColors } from 'containers/BrandPage/selectors';
+import Plus from 'images/plus.svg';
+import PlusHover from 'images/plus__hover.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -81,9 +83,11 @@ class FontColorContainer extends React.PureComponent {
               height={160}
               size={90}
               weight={100}
+              imgWidth={46}
               onClick={this.createModal}
             >
-              +
+              <img src={Plus} alt="Add" className="origin" />
+              <img src={PlusHover} alt="Add" className="hover" />
             </InputAdd>
           </ElementWrapper>
         </Content>

@@ -45,6 +45,7 @@ const LinkButton = styled.div`
   width: 32px;
   height: 32px;
   border: 2px solid #d6dbe9;
+  border-radius: 7px;
   background: white;
 
   .hover {
@@ -72,6 +73,7 @@ const DuplicateButton = styled.div`
   width: 32px;
   height: 32px;
   border: 2px solid #d6dbe9;
+  border-radius: 7px;
   background: white;
 
   .hover {

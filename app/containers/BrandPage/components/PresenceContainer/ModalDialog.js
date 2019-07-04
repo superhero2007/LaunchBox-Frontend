@@ -6,6 +6,8 @@ import facebook from '../../../../images/facebook.svg';
 import twitter from '../../../../images/twitter.svg';
 import instagram from '../../../../images/instagram.svg';
 import youtube from '../../../../images/play.svg';
+import linkedin from '../../../../images/linkedin.svg';
+import linkicon from '../../../../images/link-icon.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,7 +32,7 @@ const ModalText = styled.div`
 `;
 
 const ModalInput = styled.input`
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  border: 2px solid #d6dbe9;
   box-sizing: border-box;
   font-family: Muli;
   font-style: normal;
@@ -108,7 +110,7 @@ const ModalPresence = styled.div`
   justify-content: center;
   border-radius: 7px;
   color: #fff;
-  opacity: ${props => (props.active ? 1 : 0.5)};
+  opacity: ${props => (props.active ? 1 : 0.3)};
 
   &:hover {
     opacity: 1;
@@ -147,12 +149,12 @@ class ModalDialog extends React.Component {
         },
         {
           id: 5,
-          img: null,
+          img: <img src={linkedin} alt="Youtube" />,
           color: '#1CA1F2',
         },
         {
           id: 6,
-          img: <span>{'</>'}</span>,
+          img: <img src={linkicon} alt="Youtube" />,
           color: '#3166ED',
         },
       ],

@@ -23,6 +23,10 @@ const Wrapper = styled.div`
   text-align: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+
+  &:hover {
+    border: 0;
+  }
 `;
 
 const AddButton = styled(Link)`

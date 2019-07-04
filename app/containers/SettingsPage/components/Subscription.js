@@ -61,6 +61,7 @@ const Button = styled(Link)`
   &:hover {
     background: #3166ed;
     color: #fff;
+    border: 0;
   }
 `;
 

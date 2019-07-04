@@ -9,6 +9,8 @@ import {
   deleteFont,
 } from 'containers/BrandPage/actions';
 import { makeSelectFonts } from 'containers/BrandPage/selectors';
+import Plus from 'images/plus.svg';
+import PlusHover from 'images/plus__hover.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -94,9 +96,11 @@ class FontContainer extends React.PureComponent {
               height={221}
               size={90}
               weight={100}
+              imgWidth={64}
               onClick={this.createModal}
             >
-              +
+              <img src={Plus} alt="Add" className="origin" />
+              <img src={PlusHover} alt="Add" className="hover" />
             </InputAdd>
           </ElementWrapper>
         </Content>

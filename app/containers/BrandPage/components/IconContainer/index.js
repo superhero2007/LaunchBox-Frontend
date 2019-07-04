@@ -4,6 +4,8 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getIcons, createIcon, deleteIcon } from 'containers/BrandPage/actions';
 import { makeSelectIcons } from 'containers/BrandPage/selectors';
+import Plus from 'images/small-plus.svg';
+import PlusHover from 'images/small-plus__hover.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -77,9 +79,11 @@ class IconContainer extends React.PureComponent {
               height={80}
               size={45}
               weight={100}
+              imgWidth={30}
               onClick={this.createModal}
             >
-              +
+              <img src={Plus} alt="Add" className="origin" />
+              <img src={PlusHover} alt="Add" className="hover" />
             </InputAdd>
           </ElementWrapper>
         </Content>

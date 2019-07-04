@@ -276,7 +276,9 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="/">Choose Plan</SecondaryButton>
+                    <SecondaryButton to="/register">
+                      Choose Plan
+                    </SecondaryButton>
                   </div>
                   <div className="section6__content__item__content__description">
                     <div className="section6__content__item__content__description-item">
@@ -330,7 +332,9 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="/">Choose Plan</SecondaryButton>
+                    <SecondaryButton to="/register">
+                      Choose Plan
+                    </SecondaryButton>
                   </div>
                   <div className="section6__content__item__content__description">
                     <div className="section6__content__item__content__description-item">
@@ -364,37 +368,6 @@ class BrandLandingPage extends React.PureComponent {
                       20%
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="section6__mobile-content">
-              <div className="section6__mobile-content__item">
-                <div className="section6__mobile-content__item__content">
-                  <div className="section6__mobile-content__item__content__title">
-                    Monthly
-                  </div>
-                  <div className="section6__mobile-content__item__content__value">
-                    $12/month
-                  </div>
-                </div>
-                <div className="section6__mobile-content__item__button">
-                  <i className="fas fa-chevron-right" />
-                </div>
-              </div>
-              <div className="section6__mobile-content__item">
-                <div className="section6__mobile-content__item__content">
-                  <div className="section6__mobile-content__item__content__title">
-                    Yearly
-                  </div>
-                  <div className="section6__mobile-content__item__content__value">
-                    20% off – $9/month – $108/year
-                  </div>
-                </div>
-                <div className="section6__mobile-content__item__button">
-                  <i className="fas fa-chevron-right" />
-                </div>
-                <div className="section6__mobile-content__item-mark">
-                  Save 20%
                 </div>
               </div>
             </div>
