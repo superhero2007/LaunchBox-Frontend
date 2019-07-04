@@ -26,7 +26,11 @@ const InputElement = styled.input`
   font-weight: 600;
   font-size: 15px;
   line-height: 19px;
-  color: #1b367c;
+  color: #3166ed;
+
+  &:disabled {
+    color: #1b367c;
+  }
 `;
 
 const EditButton = styled.div`
@@ -123,7 +127,10 @@ class Input extends React.PureComponent {
   };
 
   onToggle = () => {
-    this.setState(state => ({ edit: !state.edit }));
+    this.setState(state => ({
+      edit: !state.edit,
+      value: this.props.value,
+    }));
   };
 
   onComplete = () => {
