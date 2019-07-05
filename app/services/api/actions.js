@@ -2,6 +2,7 @@ import {
   CLEAR_ERROR_REQUEST,
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,
+  LOG_OUT_REQUEST,
   REGISTER_EMAIL_REQUEST,
   CONFIRM_REGISTER_REQUEST,
   FORGOT_PASSWORD_REQUEST,
@@ -48,6 +49,15 @@ export const logIn = {
   request: query => action(LOG_IN_REQUEST.REQUEST, { query }),
   success: response => action(LOG_IN_REQUEST.SUCCESS, { response }),
   failure: error => action(LOG_IN_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to logOut
+ */
+export const logOut = {
+  request: () => action(LOG_OUT_REQUEST.REQUEST),
+  success: response => action(LOG_OUT_REQUEST.SUCCESS, { response }),
+  failure: error => action(LOG_OUT_REQUEST.FAILURE, { error }),
 };
 
 /*

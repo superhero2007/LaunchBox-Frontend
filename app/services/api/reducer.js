@@ -4,6 +4,7 @@ import {
   CLEAR_ERROR_REQUEST,
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,
+  LOG_OUT_REQUEST,
   CONFIRM_REGISTER_REQUEST,
   FORGOT_PASSWORD_REQUEST,
   RESET_PASSWORD_REQUEST,
@@ -53,6 +54,17 @@ function ServiceReducer(state = initialState, action) {
         .set('error', false)
         .set('user', action.response.user);
     case LOG_IN_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case LOG_OUT_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case LOG_OUT_REQUEST.SUCCESS:
+      localStorage.removeItem('token');
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('user', null);
+    case LOG_OUT_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
 
     case CONFIRM_REGISTER_REQUEST.REQUEST:

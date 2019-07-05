@@ -14,6 +14,7 @@ export const CLEAR_ERROR_REQUEST = 'app/Api/CLEAR_ERROR_REQUEST';
 
 export const SIGN_UP_REQUEST = createRequestTypes('SIGN_UP');
 export const LOG_IN_REQUEST = createRequestTypes('LOG_IN');
+export const LOG_OUT_REQUEST = createRequestTypes('LOG_OUT');
 export const REGISTER_EMAIL_REQUEST = createRequestTypes('REGISTER_EMAIL');
 export const CONFIRM_REGISTER_REQUEST = createRequestTypes('CONFIRM_REGISTER');
 export const FORGOT_PASSWORD_REQUEST = createRequestTypes('FORGOT_PASSWORD');

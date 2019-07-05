@@ -85,6 +85,12 @@ export const logIn = query => {
   return callApi(url, 'POST', option);
 };
 
+// API to Log Out
+export const logOut = () => {
+  const url = 'api/auth/logout';
+  return callApi(url, 'POST');
+};
+
 // API to send registration email
 export const registerEmail = () => {
   const url = 'api/auth/register-confirmation';

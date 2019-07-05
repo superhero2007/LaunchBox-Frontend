@@ -4,6 +4,7 @@ import * as apiActions from './actions';
 import {
   SIGN_UP_REQUEST,
   LOG_IN_REQUEST,
+  LOG_OUT_REQUEST,
   REGISTER_EMAIL_REQUEST,
   CONFIRM_REGISTER_REQUEST,
   FORGOT_PASSWORD_REQUEST,
@@ -25,6 +26,7 @@ import {
 const {
   register,
   logIn,
+  logOut,
   registerEmail,
   registerConfirmation,
   forgotPassword,
@@ -73,6 +75,22 @@ export function* LogInRequest(action) {
 
 export function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST.REQUEST, LogInRequest);
+}
+
+/**
+ * Log Out request/response handler
+ */
+export function* LogOutRequest() {
+  const { response, error } = yield call(api.logOut);
+  if (response) {
+    yield put(logOut.success(response));
+  } else {
+    yield put(logOut.failure(error));
+  }
+}
+
+export function* watchLogOut() {
+  yield takeLatest(LOG_OUT_REQUEST.REQUEST, LogOutRequest);
 }
 
 /**
@@ -345,6 +363,7 @@ export default function* rootSaga() {
   yield all([
     watchRegister(),
     watchLogIn(),
+    watchLogOut(),
     watchRegisterEmail(),
     watchRegisterConfirmation(),
     watchForgotPassword(),
