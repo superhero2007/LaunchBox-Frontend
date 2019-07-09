@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { makeSelectUser } from 'services/api/selectors';
 import { logOut } from 'services/api/actions';
 
-import LogoImage from '../../images/brand_logo.svg';
-import UserImage from '../../images/user.svg';
+import LogoImage from 'images/brand_logo.svg';
+import UserImage from 'images/user.svg';
+import MenuHover from 'images/menu-hover.svg';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -104,18 +105,21 @@ const BrandItem = styled(Link)`
   line-height: 20px;
   color: #1b367c;
 
-  &:after {
-    left: 25px;
-    top: 20px;
+  img {
+    left: 40px;
+    top: 23px;
     position: absolute;
+    display: none;
+    width: 6px;
+    height: 12px;
   }
 
   &:hover {
     background: rgba(180, 192, 255, 0.1);
     padding-left: 60px;
 
-    &:after {
-      content: '>';
+    img {
+      display: inline-block;
     }
   }
 `;
@@ -141,9 +145,16 @@ const Header = props => (
           <BrandTitle opened>{props.user.fullName}</BrandTitle>
         </BrandButton>
         <BrandContent className="brand-content">
-          <BrandItem to="/edit-brands">Brands</BrandItem>
-          <BrandItem to="/settings">Settings</BrandItem>
+          <BrandItem to="/edit-brands">
+            <img src={MenuHover} alt="Hover" />
+            Brands
+          </BrandItem>
+          <BrandItem to="/settings">
+            <img src={MenuHover} alt="Hover" />
+            Settings
+          </BrandItem>
           <BrandItem to="/" onClick={props.onLogOut}>
+            <img src={MenuHover} alt="Hover" />
             Log Out
           </BrandItem>
         </BrandContent>
