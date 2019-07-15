@@ -145,7 +145,7 @@ const Header = props => (
           <BrandTitle opened>{props.user.fullName}</BrandTitle>
         </BrandButton>
         <BrandContent className="brand-content">
-          <BrandItem to="/edit-brands">
+          <BrandItem to="/home">
             <img src={MenuHover} alt="Hover" />
             Brands
           </BrandItem>
