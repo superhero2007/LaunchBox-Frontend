@@ -112,7 +112,9 @@ class BrandContainer extends React.PureComponent {
             <ModalItem
               key={element._id}
               className={selectedBrand === index && 'active'}
-              onClick={() => this.setState({ selectedBrand: index })}
+              onClick={() =>
+                this.setState({ selectedBrand: index, type: null })
+              }
             >
               <div>{element.value}</div>
               <div>
