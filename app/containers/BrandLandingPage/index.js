@@ -64,7 +64,7 @@ const MenuButtons = styled.div`
   align-items: center;
 `;
 
-const SecondaryButton = styled(Link)`
+const SecondaryButton = styled.a`
   background: rgba(106, 137, 222, 0.1);
   border-radius: 12px;
   font-family: Nunito;
@@ -83,7 +83,7 @@ const SecondaryButton = styled(Link)`
   }
 `;
 
-const GetStartedButton = styled(Link)`
+const GetStartedButton = styled.a`
   width: 135px;
   height: 40px;
   background: #ec6689;
@@ -106,7 +106,7 @@ const GetStartedButton = styled(Link)`
   }
 `;
 
-const StartButton = styled(Link)`
+const StartButton = styled.a`
   width: 216px;
   min-width: 216px;
   height: 56px;
@@ -143,7 +143,7 @@ class BrandLandingPage extends React.PureComponent {
             </Brand>
             <MenuButtons className="menu-button">
               <SecondaryButton to="/login">Login</SecondaryButton>
-              <GetStartedButton to="https://viraluno.typeform.com/to/Fcx7nI">
+              <GetStartedButton href="https://viraluno.typeform.com/to/Fcx7nI">
                 Get Started
               </GetStartedButton>
             </MenuButtons>
@@ -174,7 +174,7 @@ class BrandLandingPage extends React.PureComponent {
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
-                <StartButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                <StartButton href="https://viraluno.typeform.com/to/Fcx7nI">
                   Start For Free
                 </StartButton>
               </div>
@@ -280,7 +280,7 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                    <SecondaryButton href="https://viraluno.typeform.com/to/Fcx7nI">
                       Choose Plan
                     </SecondaryButton>
                   </div>
@@ -336,7 +336,7 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                    <SecondaryButton href="https://viraluno.typeform.com/to/Fcx7nI">
                       Choose Plan
                     </SecondaryButton>
                   </div>
@@ -380,7 +380,7 @@ class BrandLandingPage extends React.PureComponent {
           <section className="section7">
             <div className="section7__title">Commitment issues?</div>
             <div className="section7__description">
-              <StartButton to="https://viraluno.typeform.com/to/Fcx7nI">
+              <StartButton href="https://viraluno.typeform.com/to/Fcx7nI">
                 Start 7-day FREE Trial
               </StartButton>
             </div>

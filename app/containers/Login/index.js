@@ -160,7 +160,7 @@ class Login extends React.PureComponent {
             >
               LOGIN
             </LoginButton>
-            <CreateAccount to="https://viraluno.typeform.com/to/Fcx7nI">
+            <CreateAccount href="https://viraluno.typeform.com/to/Fcx7nI">
               Create Account
             </CreateAccount>
           </Action>

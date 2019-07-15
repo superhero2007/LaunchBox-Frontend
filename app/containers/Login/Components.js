@@ -189,7 +189,7 @@ export const LoginButton = styled.button`
   }
 `;
 
-export const CreateAccount = styled(Link)`
+export const CreateAccount = styled.a`
   width: 210px;
   height: 48px;
   border-radius: 7px;
