@@ -160,7 +160,9 @@ class Login extends React.PureComponent {
             >
               LOGIN
             </LoginButton>
-            <CreateAccount to="/register">Create Account</CreateAccount>
+            <CreateAccount to="https://viraluno.typeform.com/to/Fcx7nI">
+              Create Account
+            </CreateAccount>
           </Action>
           <Social>
             <SocialText>Or login with</SocialText>

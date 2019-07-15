@@ -143,7 +143,9 @@ class BrandLandingPage extends React.PureComponent {
             </Brand>
             <MenuButtons className="menu-button">
               <SecondaryButton to="/login">Login</SecondaryButton>
-              <GetStartedButton to="/register">Get Started</GetStartedButton>
+              <GetStartedButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                Get Started
+              </GetStartedButton>
             </MenuButtons>
           </Menu>
           <section className="section1">
@@ -172,7 +174,9 @@ class BrandLandingPage extends React.PureComponent {
                 </span>
               </div>
               <div className="left-wrapper__button d-flex">
-                <StartButton to="/register">Start For Free</StartButton>
+                <StartButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                  Start For Free
+                </StartButton>
               </div>
             </div>
             <div className="right-wrapper">
@@ -276,7 +280,7 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="/register">
+                    <SecondaryButton to="https://viraluno.typeform.com/to/Fcx7nI">
                       Choose Plan
                     </SecondaryButton>
                   </div>
@@ -332,7 +336,7 @@ class BrandLandingPage extends React.PureComponent {
                     </div>
                   </div>
                   <div className="section6__content__item__content__button">
-                    <SecondaryButton to="/register">
+                    <SecondaryButton to="https://viraluno.typeform.com/to/Fcx7nI">
                       Choose Plan
                     </SecondaryButton>
                   </div>
@@ -376,7 +380,9 @@ class BrandLandingPage extends React.PureComponent {
           <section className="section7">
             <div className="section7__title">Commitment issues?</div>
             <div className="section7__description">
-              <StartButton to="/register">Start 7-day FREE Trial</StartButton>
+              <StartButton to="https://viraluno.typeform.com/to/Fcx7nI">
+                Start 7-day FREE Trial
+              </StartButton>
             </div>
           </section>
           <footer className="footer">
