@@ -142,7 +142,7 @@ class BrandLandingPage extends React.PureComponent {
               <Beta>alpha</Beta>
             </Brand>
             <MenuButtons className="menu-button">
-              <SecondaryButton to="/login">Login</SecondaryButton>
+              <SecondaryButton href="/login">Login</SecondaryButton>
               <GetStartedButton href="https://viraluno.typeform.com/to/Fcx7nI">
                 Get Started
               </GetStartedButton>
