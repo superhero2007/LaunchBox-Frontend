@@ -12,9 +12,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
-import PaymentAdded from '../../images/payment-added.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import PaymentAdded from 'images/payment-added.svg';
 
 const Wrapper = styled.div`
   display: flex;

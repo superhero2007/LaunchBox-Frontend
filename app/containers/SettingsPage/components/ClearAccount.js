@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import rightArrow from '../../../images/right-arrow.svg';
-import rightArrowHover from '../../../images/right-arrow__hover.svg';
+import rightArrow from 'images/right-arrow.svg';
+import rightArrowHover from 'images/right-arrow__hover.svg';
 
 const Wrapper = styled(Link)`
   width: 100%;

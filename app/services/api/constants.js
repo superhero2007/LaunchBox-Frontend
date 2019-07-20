@@ -39,3 +39,7 @@ export const USER_SUBSCRIPTION_REQUEST = createRequestTypes(
 
 export const GET_COMPANY_REQUEST = createRequestTypes('GET_COMPANY');
 export const UPDATE_COMPANY_REQUEST = createRequestTypes('UPDATE_COMPANY');
+export const ADD_PAYMENT_REQUEST = createRequestTypes('ADD_PAYMENT');
+export const UPDATE_PAYMENT_REQUEST = createRequestTypes('UPDATE_PAYMENT');
+export const CREATE_SUBSCRIBE_REQUEST = createRequestTypes('CREATE_SUBSCRIBE');
+export const UPDATE_SUBSCRIBE_REQUEST = createRequestTypes('UPDATE_SUBSCRIBE');

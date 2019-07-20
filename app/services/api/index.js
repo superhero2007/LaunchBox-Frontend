@@ -201,3 +201,27 @@ export const updateCompany = query => {
   const url = `api/company`;
   return callApi(url, 'POST', query.value);
 };
+
+// API to add payment
+export const addPayment = query => {
+  const url = `api/company/payment`;
+  return callApi(url, 'POST', query.value);
+};
+
+// API to update payment
+export const updatePayment = query => {
+  const url = `api/company/payment`;
+  return callApi(url, 'PUT', query.value);
+};
+
+// API to create subscribe
+export const createSubscribe = query => {
+  const url = `api/company/subscribe`;
+  return callApi(url, 'POST', query.value);
+};
+
+// API to update subscribe
+export const updateSubscribe = query => {
+  const url = `api/company/subscribe`;
+  return callApi(url, 'PUT', query.value);
+};

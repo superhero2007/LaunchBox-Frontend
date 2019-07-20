@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Employees from '../../images/Employees.svg';
-import Contractors from '../../images/Contractors.svg';
-import Subscriptions from '../../images/Subscriptions.svg';
-import Business from '../../images/Business.svg';
-import Recurring from '../../images/Recurring.svg';
-import Project from '../../images/Project.svg';
-import Vat from '../../images/Vat.svg';
+import Employees from 'images/Employees.svg';
+import Contractors from 'images/Contractors.svg';
+import Subscriptions from 'images/Subscriptions.svg';
+import Business from 'images/Business.svg';
+import Recurring from 'images/Recurring.svg';
+import Project from 'images/Project.svg';
+import Vat from 'images/Vat.svg';
 
 const DialogWrapper = styled.div`
   padding-top: 84px;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ThreeDot from '../../images/three_dot.png';
+import ThreeDot from 'images/three_dot.png';
 
 const Wrapper = styled.div`
   position: relative;

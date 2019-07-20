@@ -17,11 +17,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { makeSelectCompany } from 'services/api/selectors';
-import { updateCompany } from 'services/api/actions';
+import { createSubscribe, updateSubscribe } from 'services/api/actions';
 import Header from 'components/Header';
 
-import PaymentAdded from '../../images/payment-added.svg';
-import ExitSetings from '../../images/exit-settings.svg';
+import PaymentAdded from 'images/payment-added.svg';
+import ExitSetings from 'images/exit-settings.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -101,9 +101,9 @@ const SuccessImg = styled.img`
   margin-bottom: 22px;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-`;
+// const ButtonWrapper = styled.div`
+//   display: flex;
+// `;
 
 const FormTitle = styled.div`
   font-family: Muli;
@@ -153,35 +153,35 @@ const FormButton = styled(Link)`
   justify-content: center;
 `;
 
-const Button = styled.button`
-  width: 344px;
-  height: 64px;
-  cursor: pointer;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-bottom: 2px solid #dfe8ff;
-  color: #3166ed;
-
-  &:hover {
-    background: #dfe8ff;
-  }
-
-  &.active {
-    background: #1b367c;
-    color: #fff;
-    border: 0;
-  }
-
-  span {
-    margin-left: 13px;
-  }
-`;
+// const Button = styled.button`
+//   width: 344px;
+//   height: 64px;
+//   cursor: pointer;
+//   font-family: Muli;
+//   font-style: normal;
+//   font-weight: 900;
+//   font-size: 15px;
+//   line-height: 19px;
+//   text-align: center;
+//   letter-spacing: 0.05em;
+//   text-transform: uppercase;
+//   border-bottom: 2px solid #dfe8ff;
+//   color: #3166ed;
+//
+//   &:hover {
+//     background: #dfe8ff;
+//   }
+//
+//   &.active {
+//     background: #1b367c;
+//     color: #fff;
+//     border: 0;
+//   }
+//
+//   span {
+//     margin-left: 13px;
+//   }
+// `;
 
 const FormContent = styled.div`
   padding: 40px;
@@ -400,6 +400,7 @@ const AdditionalButton = styled.div`
   ${props => (props.type === 'minus' ? 'left: 20px;' : 'right: 20px;')};
   color: #1b367c;
   cursor: pointer;
+  user-select: none;
 
   &:hover {
     color: #3166ed;
@@ -483,10 +484,14 @@ class Subscribe extends React.PureComponent {
 
   handleClickConfirm = () => {
     const { method, users, brands } = this.state;
+    const { company, onCreateSubscribe, onUpdateSubscribe } = this.props;
+    const paymentMethod = company.subscription
+      ? onUpdateSubscribe
+      : onCreateSubscribe;
     const amount = method
       ? 9 + users * 4 + brands * 6
       : 12 + users * 6 + brands * 9;
-    this.props.onUpdateCompany({
+    paymentMethod({
       subscription: {
         amount,
         method,
@@ -510,7 +515,8 @@ class Subscribe extends React.PureComponent {
   };
 
   handleCancelSubscription = () => {
-    this.props.onUpdateCompany({
+    const { onUpdateSubscribe } = this.props;
+    onUpdateSubscribe({
       subscription: {
         amount: 0,
         method: false,
@@ -599,7 +605,7 @@ class Subscribe extends React.PureComponent {
     );
 
     let formContent;
-    if (!this.state.method) {
+    if (!method) {
       formContent = (
         <FormContent>
           <FormRow>
@@ -744,22 +750,22 @@ class Subscribe extends React.PureComponent {
         </FormContent>
       );
     }
-    const monthlyButton = (
-      <Button
-        className={!this.state.method && 'active'}
-        onClick={this.toggleMethod}
-      >
-        MONTHLY
-      </Button>
-    );
-    const annuallyButton = (
-      <Button
-        className={this.state.method && 'active'}
-        onClick={this.toggleMethod}
-      >
-        ANNUALLY
-      </Button>
-    );
+    // const monthlyButton = (
+    //   <Button
+    //     className={!this.state.method && 'active'}
+    //     onClick={this.toggleMethod}
+    //   >
+    //     MONTHLY
+    //   </Button>
+    // );
+    // const annuallyButton = (
+    //   <Button
+    //     className={this.state.method && 'active'}
+    //     onClick={this.toggleMethod}
+    //   >
+    //     ANNUALLY
+    //   </Button>
+    // );
 
     return (
       <Wrapper>
@@ -769,10 +775,12 @@ class Subscribe extends React.PureComponent {
           <Back className="settings__exit-title">Back to Settings</Back>
         </BackToSettings>
         <Form>
+          {/*
           <ButtonWrapper>
             {monthlyButton}
             {annuallyButton}
           </ButtonWrapper>
+         */}
           {formContent}
         </Form>
       </Wrapper>
@@ -782,7 +790,8 @@ class Subscribe extends React.PureComponent {
 
 Subscribe.propTypes = {
   company: PropTypes.object,
-  onUpdateCompany: PropTypes.func,
+  onCreateSubscribe: PropTypes.func,
+  onUpdateSubscribe: PropTypes.func,
   history: PropTypes.object,
 };
 
@@ -791,7 +800,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onUpdateCompany: value => dispatch(updateCompany.request(value)),
+  onCreateSubscribe: value => dispatch(createSubscribe.request(value)),
+  onUpdateSubscribe: value => dispatch(updateSubscribe.request(value)),
 });
 
 export default connect(

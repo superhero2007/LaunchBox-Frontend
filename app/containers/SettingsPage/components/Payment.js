@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import payment from '../../../images/payment.svg';
+import payment from 'images/payment.svg';
 
-import paypal from '../../../images/paypal.svg';
-import master from '../../../images/master.svg';
-import visa from '../../../images/visa.svg';
-import american from '../../../images/american.svg';
-import diners from '../../../images/diners.svg';
-import discover from '../../../images/discover.svg';
-import jcb from '../../../images/jcb.svg';
-import union from '../../../images/union.svg';
+import paypal from 'images/paypal.svg';
+import master from 'images/master.svg';
+import visa from 'images/visa.svg';
+import american from 'images/american.svg';
+import diners from 'images/diners.svg';
+import discover from 'images/discover.svg';
+import jcb from 'images/jcb.svg';
+import union from 'images/union.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,7 +73,6 @@ const CardContent = styled.div`
 `;
 
 const CardImage = styled.img`
-  height: 25px;
   margin-bottom: 30px;
 `;
 

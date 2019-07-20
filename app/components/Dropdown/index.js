@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ThreeDot from 'images/three_dot.png';
 import Wrapper from './Wrapper';
 import DropdownButton from './DropdownButton';
 import DropdownButtonSpan from './DropdownButtonSpan';
 import DropdownContent from './DropdownContent';
 import DropdownElement from './DropdownElement';
-import ThreeDot from '../../images/three_dot.png';
 
 const dropdownElementList = list =>
   list.map(element => (

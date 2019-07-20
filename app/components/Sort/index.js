@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SortUp from '../../images/sort-up.svg';
-import SortDown from '../../images/sort-down.svg';
-import SortUpActive from '../../images/sort-up__active.svg';
-import SortDownActive from '../../images/sort-down__active.svg';
+import SortUp from 'images/sort-up.svg';
+import SortDown from 'images/sort-down.svg';
+import SortUpActive from 'images/sort-up__active.svg';
+import SortDownActive from 'images/sort-down__active.svg';
 import Wrapper from './Wrapper';
 
 const Sort = props => (

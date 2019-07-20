@@ -15,9 +15,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { registerEmail } from 'services/api/actions';
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
-import ConfirmImage from '../../images/confirm-image.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import ConfirmImage from 'images/confirm-image.svg';
 
 const Wrapper = styled.div`
   display: flex;

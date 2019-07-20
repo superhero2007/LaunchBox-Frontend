@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import InputEdit from '../../../images/input-edit.svg';
-import InputEditHover from '../../../images/input-edit__hover.svg';
-import Check from '../../../images/check.svg';
-import CheckHover from '../../../images/check__hover.svg';
+import InputEdit from 'images/input-edit.svg';
+import InputEditHover from 'images/input-edit__hover.svg';
+import Check from 'images/check.svg';
+import CheckHover from 'images/check__hover.svg';
 
 const Wrapper = styled.div`
   width: 100%;

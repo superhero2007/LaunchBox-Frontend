@@ -11,8 +11,8 @@ import { deleteUser } from 'services/api/actions';
 
 import Header from 'components/Header';
 import Password from 'components/Password';
-import ExitSetings from '../../images/exit-settings.svg';
-import DeleteAccountImg from '../../images/delete-account.svg';
+import ExitSetings from 'images/exit-settings.svg';
+import DeleteAccountImg from 'images/delete-account.svg';
 
 const FullScreen = styled.div`
   width: 100%;

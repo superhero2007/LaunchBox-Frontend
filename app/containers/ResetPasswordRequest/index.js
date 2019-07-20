@@ -16,9 +16,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { forgotPassword } from 'services/api/actions';
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
-import ResetPassword from '../../images/reset-password.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import ResetPassword from 'images/reset-password.svg';
 
 const Wrapper = styled.div`
   display: flex;

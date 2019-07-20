@@ -21,6 +21,10 @@ import {
   USER_SUBSCRIPTION_REQUEST,
   GET_COMPANY_REQUEST,
   UPDATE_COMPANY_REQUEST,
+  ADD_PAYMENT_REQUEST,
+  UPDATE_PAYMENT_REQUEST,
+  CREATE_SUBSCRIBE_REQUEST,
+  UPDATE_SUBSCRIBE_REQUEST,
 } from './constants';
 
 const {
@@ -43,6 +47,10 @@ const {
   userSubscribe,
   getCompany,
   updateCompany,
+  addPayment,
+  updatePayment,
+  createSubscribe,
+  updateSubscribe,
 } = apiActions;
 
 /**
@@ -356,6 +364,70 @@ export function* watchUpdateCompany() {
 }
 
 /**
+ * Add Payment request/response handler
+ */
+export function* AddPaymentRequest(action) {
+  const { response, error } = yield call(api.addPayment, action);
+  if (response) {
+    yield put(addPayment.success(response));
+  } else {
+    yield put(addPayment.failure(error));
+  }
+}
+
+export function* watchAddPayment() {
+  yield takeLatest(ADD_PAYMENT_REQUEST.REQUEST, AddPaymentRequest);
+}
+
+/**
+ * Update Payment request/response handler
+ */
+export function* UpdatePaymentRequest(action) {
+  const { response, error } = yield call(api.updatePayment, action);
+  if (response) {
+    yield put(updatePayment.success(response));
+  } else {
+    yield put(updatePayment.failure(error));
+  }
+}
+
+export function* watchUpdatePayment() {
+  yield takeLatest(UPDATE_PAYMENT_REQUEST.REQUEST, UpdatePaymentRequest);
+}
+
+/**
+ * Create Subscribe request/response handler
+ */
+export function* CreateSubscribeRequest(action) {
+  const { response, error } = yield call(api.createSubscribe, action);
+  if (response) {
+    yield put(createSubscribe.success(response));
+  } else {
+    yield put(createSubscribe.failure(error));
+  }
+}
+
+export function* watchCreateSubscribe() {
+  yield takeLatest(CREATE_SUBSCRIBE_REQUEST.REQUEST, CreateSubscribeRequest);
+}
+
+/**
+ * Update Subscribe request/response handler
+ */
+export function* UpdateSubscribeRequest(action) {
+  const { response, error } = yield call(api.updateSubscribe, action);
+  if (response) {
+    yield put(updateSubscribe.success(response));
+  } else {
+    yield put(updateSubscribe.failure(error));
+  }
+}
+
+export function* watchUpdateSubscribe() {
+  yield takeLatest(UPDATE_SUBSCRIBE_REQUEST.REQUEST, UpdateSubscribeRequest);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 
@@ -380,5 +452,9 @@ export default function* rootSaga() {
     watchSubscribe(),
     watchGetCompany(),
     watchUpdateCompany(),
+    watchAddPayment(),
+    watchUpdatePayment(),
+    watchCreateSubscribe(),
+    watchUpdateSubscribe(),
   ]);
 }

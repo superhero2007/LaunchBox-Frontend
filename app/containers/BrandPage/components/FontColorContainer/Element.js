@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import InputDuplicate from '../../../../images/input-duplicate.svg';
-import InputDuplicateHover from '../../../../images/input-duplicate__hover.svg';
+import InputDuplicate from 'images/input-duplicate.svg';
+import InputDuplicateHover from 'images/input-duplicate__hover.svg';
 
 const Wrapper = styled.div`
   position: relative;

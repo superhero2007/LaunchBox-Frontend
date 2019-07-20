@@ -21,6 +21,7 @@ import {
   deletePhoto,
   userSubscribe,
 } from 'services/api/actions';
+import CompanyAccount from 'images/company-account.svg';
 
 import Header from 'components/Header';
 import Photo from './components/Photo';
@@ -35,7 +36,6 @@ import ClearAccount from './components/ClearAccount';
 import DeleteAccount from './components/DeleteAccount';
 
 import './style.scss';
-import CompanyAccount from '../../images/company-account.svg';
 
 const publicKey = process.env.NUMMUSPAY_PUBLIC_KEY;
 

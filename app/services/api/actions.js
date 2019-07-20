@@ -19,6 +19,10 @@ import {
   USER_SUBSCRIPTION_REQUEST,
   GET_COMPANY_REQUEST,
   UPDATE_COMPANY_REQUEST,
+  ADD_PAYMENT_REQUEST,
+  UPDATE_PAYMENT_REQUEST,
+  CREATE_SUBSCRIBE_REQUEST,
+  UPDATE_SUBSCRIBE_REQUEST,
 } from './constants';
 
 function action(type, payload = {}) {
@@ -203,4 +207,40 @@ export const userSubscribe = {
   request: value => action(USER_SUBSCRIPTION_REQUEST.REQUEST, { value }),
   success: response => action(USER_SUBSCRIPTION_REQUEST.SUCCESS, { response }),
   failure: error => action(USER_SUBSCRIPTION_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to add payment
+ */
+export const addPayment = {
+  request: value => action(ADD_PAYMENT_REQUEST.REQUEST, { value }),
+  success: response => action(ADD_PAYMENT_REQUEST.SUCCESS, { response }),
+  failure: error => action(ADD_PAYMENT_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update payment
+ */
+export const updatePayment = {
+  request: value => action(UPDATE_PAYMENT_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_PAYMENT_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_PAYMENT_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to create subscribe
+ */
+export const createSubscribe = {
+  request: value => action(CREATE_SUBSCRIBE_REQUEST.REQUEST, { value }),
+  success: response => action(CREATE_SUBSCRIBE_REQUEST.SUCCESS, { response }),
+  failure: error => action(CREATE_SUBSCRIBE_REQUEST.FAILURE, { error }),
+};
+
+/*
+ * Action to update subscribe
+ */
+export const updateSubscribe = {
+  request: value => action(UPDATE_SUBSCRIBE_REQUEST.REQUEST, { value }),
+  success: response => action(UPDATE_SUBSCRIBE_REQUEST.SUCCESS, { response }),
+  failure: error => action(UPDATE_SUBSCRIBE_REQUEST.FAILURE, { error }),
 };

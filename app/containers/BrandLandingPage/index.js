@@ -13,13 +13,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import brandlogo from '../../images/brand_logo.svg';
-import brandfirst from '../../images/brand_first.svg';
-import brandsecond from '../../images/brand_second.svg';
-import brandthird from '../../images/brand_third.svg';
-import brandforth from '../../images/brand_forth.svg';
-import price from '../../images/price.svg';
-import brandguidelogo from '../../images/brandguide_logo.svg';
+import brandlogo from 'images/brand_logo.svg';
+import brandfirst from 'images/brand_first.svg';
+import brandsecond from 'images/brand_second.svg';
+import brandthird from 'images/brand_third.svg';
+import brandforth from 'images/brand_forth.svg';
+import price from 'images/price.svg';
+import brandguidelogo from 'images/brandguide_logo.svg';
 
 import './style.scss';
 

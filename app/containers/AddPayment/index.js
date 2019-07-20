@@ -17,23 +17,23 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { makeSelectCompany } from 'services/api/selectors';
-import { getCompany, deleteUser, updateCompany } from 'services/api/actions';
+import { deleteUser, addPayment, updatePayment } from 'services/api/actions';
 import Header from 'components/Header';
 
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
-import creditCard from '../../images/creditcard.svg';
-import paypal from '../../images/paypal.svg';
-import creditCardActive from '../../images/creditcard-active.svg';
-import paypalActive from '../../images/paypal-active.svg';
-import master from '../../images/master.svg';
-import visa from '../../images/visa.svg';
-import american from '../../images/american.svg';
-import diners from '../../images/diners.svg';
-import discover from '../../images/discover.svg';
-import jcb from '../../images/jcb.svg';
-import union from '../../images/union.svg';
-import ExitSetings from '../../images/exit-settings.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import creditImg from 'images/creditcard.svg';
+import paypalImg from 'images/paypal.svg';
+import creditCardActive from 'images/creditcard-active.svg';
+import paypalActive from 'images/paypal-active.svg';
+import master from 'images/master.svg';
+import visa from 'images/visa.svg';
+import american from 'images/american.svg';
+import diners from 'images/diners.svg';
+import discover from 'images/discover.svg';
+import jcb from 'images/jcb.svg';
+import union from 'images/union.svg';
+import ExitSetings from 'images/exit-settings.svg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -270,7 +270,8 @@ const FormRow = styled.div`
 const CardImage = styled.img`
   position: absolute;
   right: 17px;
-  top: 17px;
+  top: 10px;
+  height: 35px;
 `;
 
 const ModalWrapper = styled.div`
@@ -379,10 +380,6 @@ class AddPayment extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const token = localStorage.getItem('token');
-    if (token && !this.props.company) {
-      this.props.onGetCompany();
-    }
     this.updateState();
   };
 
@@ -393,7 +390,7 @@ class AddPayment extends React.PureComponent {
   updateState = newProps => {
     const props = newProps || this.props;
     const { company } = props;
-    if (company && company.method) {
+    if (company.method) {
       if (company.paypal && company.paypal.email) {
         this.setState({
           paypal: company.paypal,
@@ -493,16 +490,18 @@ class AddPayment extends React.PureComponent {
   };
 
   handleClick = type => {
-    const { company } = this.props;
-    if (type === 'cancel' && company && !company.method) {
+    const { company, onAddPayment, onUpdatePayment, history } = this.props;
+    const { method, paypal, creditCard } = this.state;
+    if (type === 'cancel' && !company.method) {
       this.setState({ dialog: true });
       return;
     }
 
     if (type === 'add') {
-      if (this.state.method) {
-        this.props.onUpdateCompany({
-          paypal: this.state.paypal,
+      const paymentMethod = company.method ? onUpdatePayment : onAddPayment;
+      if (method) {
+        paymentMethod({
+          paypal,
           creditCard: {
             cardNumber: '',
             holderName: '',
@@ -512,23 +511,23 @@ class AddPayment extends React.PureComponent {
           method: 'Paypal',
         });
       } else {
-        this.props.onUpdateCompany({
+        paymentMethod({
           paypal: {
             email: '',
             firstName: '',
             lastName: '',
           },
-          creditCard: this.state.creditCard,
+          creditCard,
           method: 'Credit Card',
         });
       }
       if (company.method) {
-        this.props.history.push('/settings');
+        history.push('/settings');
       } else {
-        this.props.history.push('/active-payment');
+        history.push('/active-payment');
       }
     } else {
-      this.props.history.goBack();
+      history.goBack();
     }
   };
 
@@ -605,35 +604,34 @@ class AddPayment extends React.PureComponent {
     this.props.onDeleteUser();
   };
 
-  render() {
-    const cardImage =
-      this.state.creditCard && this.state.creditCard.cardNumber
-        ? this.getCardType(this.state.creditCard.cardNumber)
-        : '';
-    const { company } = this.props;
+  modal = () => (
+    <ModalWrapper>
+      <ModalContent>
+        <ModalTitle>Cancel Signup</ModalTitle>
+        <ModalDescription>
+          Are you sure you want to cancel your signup for Brandguide?
+          <br />
+          <br />
+          Don’t worry, you can always come back later and finish setting up your
+          account.
+        </ModalDescription>
+        <FormAction>
+          <CancelButton onClick={this.handleCancelButton}>CANCEL</CancelButton>
+          <ConfirmButton onClick={this.handleConfirmButton}>
+            CONFIRM
+          </ConfirmButton>
+        </FormAction>
+      </ModalContent>
+    </ModalWrapper>
+  );
 
-    const modal = (
-      <ModalWrapper>
-        <ModalContent>
-          <ModalTitle>Cancel Signup</ModalTitle>
-          <ModalDescription>
-            Are you sure you want to cancel your signup for Brandguide?
-            <br />
-            <br />
-            Don’t worry, you can always come back later and finish setting up
-            your account.
-          </ModalDescription>
-          <FormAction>
-            <CancelButton onClick={this.handleCancelButton}>
-              CANCEL
-            </CancelButton>
-            <ConfirmButton onClick={this.handleConfirmButton}>
-              CONFIRM
-            </ConfirmButton>
-          </FormAction>
-        </ModalContent>
-      </ModalWrapper>
-    );
+  render() {
+    const { company } = this.props;
+    const { dialog, method, paypal, creditCard } = this.state;
+    const cardImage =
+      creditCard && creditCard.cardNumber
+        ? this.getCardType(creditCard.cardNumber)
+        : '';
 
     const formAction = (
       <FormAction>
@@ -641,23 +639,23 @@ class AddPayment extends React.PureComponent {
           Cancel
         </FormCancelButton>
         <FormAddButton onClick={() => this.handleClick('add')}>
-          {company && company.method ? 'Update' : 'Add'}
+          {company.method ? 'Update' : 'Add'}
         </FormAddButton>
       </FormAction>
     );
 
     let formContent;
-    if (this.state.method) {
+    if (method) {
       formContent = (
         <FormContent>
           <FormRow>
             <Input>
               <InputElement
                 type="text"
-                value={this.state.paypal.email}
+                value={paypal.email}
                 onChange={this.handlePaypalEmailChange}
                 id="paypalEmail"
-                className={this.state.paypal.email ? 'focus' : ''}
+                className={paypal.email ? 'focus' : ''}
               />
               <Label htmlFor="paypalEmail">Email</Label>
             </Input>
@@ -666,20 +664,20 @@ class AddPayment extends React.PureComponent {
             <Input>
               <InputElement
                 type="text"
-                value={this.state.paypal.firstName}
+                value={paypal.firstName}
                 onChange={this.handlePaypalFirstNameChange}
                 id="paypalFirstName"
-                className={this.state.paypal.firstName ? 'focus' : ''}
+                className={paypal.firstName ? 'focus' : ''}
               />
               <Label htmlFor="paypalFirstName">First Name</Label>
             </Input>
             <Input>
               <InputElement
                 type="text"
-                value={this.state.paypal.lastName}
+                value={paypal.lastName}
                 onChange={this.handlePaypalLastNameChange}
                 id="paypalLastName"
-                className={this.state.paypal.lastName ? 'focus' : ''}
+                className={paypal.lastName ? 'focus' : ''}
               />
               <Label htmlFor="paypalLastName">Last Name</Label>
             </Input>
@@ -694,10 +692,10 @@ class AddPayment extends React.PureComponent {
             <Input>
               <InputElement
                 type="text"
-                value={this.state.creditCard.cardNumber}
+                value={creditCard.cardNumber}
                 onChange={this.handleCreditCardNumberChange}
                 id="cardNumber"
-                className={this.state.creditCard.cardNumber ? 'focus' : ''}
+                className={creditCard.cardNumber ? 'focus' : ''}
               />
               <Label htmlFor="cardNumber">Card Number</Label>
               {cardImage && <CardImage src={cardImage} alt="Card" />}
@@ -705,10 +703,10 @@ class AddPayment extends React.PureComponent {
             <Input>
               <InputElement
                 type="text"
-                value={this.state.creditCard.holderName}
+                value={creditCard.holderName}
                 onChange={this.handleCreditCardHolderNameChange}
                 id="holderName"
-                className={this.state.creditCard.holderName ? 'focus' : ''}
+                className={creditCard.holderName ? 'focus' : ''}
               />
               <Label htmlFor="holderName">Holder Name</Label>
             </Input>
@@ -717,20 +715,20 @@ class AddPayment extends React.PureComponent {
             <Input>
               <InputElement
                 type="text"
-                value={this.state.creditCard.expiry}
+                value={creditCard.expiry}
                 onChange={this.handleCreditCardExpiryChange}
                 id="expiry"
-                className={this.state.creditCard.expiry ? 'focus' : ''}
+                className={creditCard.expiry ? 'focus' : ''}
               />
               <Label htmlFor="expiry">Expiry</Label>
             </Input>
             <Input>
               <InputElement
                 type="text"
-                value={this.state.creditCard.cvc}
+                value={creditCard.cvc}
                 onChange={this.handleCreditCardCVCChange}
                 id="cvc"
-                className={this.state.creditCard.cvc ? 'focus' : ''}
+                className={creditCard.cvc ? 'focus' : ''}
               />
               <Label htmlFor="cvc">CVC</Label>
             </Input>
@@ -739,29 +737,20 @@ class AddPayment extends React.PureComponent {
         </FormContent>
       );
     }
-    const creditCardButton = this.state.method ? (
-      <Button onClick={this.toggleMethod}>
-        <img src={creditCard} alt="Credit Card" />
-        <span>Credit card</span>
-      </Button>
-    ) : (
-      <Button className="active" onClick={this.toggleMethod}>
-        <img src={creditCardActive} alt="Credit Card" />
+    const creditCardButton = (
+      <Button className={method ? '' : 'active'} onClick={this.toggleMethod}>
+        <img src={method ? creditImg : creditCardActive} alt="Credit Card" />
         <span>Credit card</span>
       </Button>
     );
-    const paypalButton = this.state.method ? (
-      <Button className="active" onClick={this.toggleMethod}>
-        <img src={paypalActive} alt="Paypal Active" />
-      </Button>
-    ) : (
-      <Button onClick={this.toggleMethod}>
-        <img src={paypal} alt="Paypal" />
+    const paypalButton = (
+      <Button className={method ? 'active' : ''} onClick={this.toggleMethod}>
+        <img src={method ? paypalActive : paypalImg} alt="Paypal Active" />
       </Button>
     );
 
     let header;
-    if (company && company.method) {
+    if (company.method) {
       header = (
         <Fragment>
           <Header />
@@ -784,7 +773,7 @@ class AddPayment extends React.PureComponent {
 
     return (
       <Wrapper>
-        {this.state.dialog && modal}
+        {dialog ? this.modal() : ''}
         {header}
         <Title>Add Payment Method</Title>
         <SubHeader>
@@ -805,8 +794,8 @@ class AddPayment extends React.PureComponent {
 
 AddPayment.propTypes = {
   company: PropTypes.object,
-  onGetCompany: PropTypes.func,
-  onUpdateCompany: PropTypes.func,
+  onAddPayment: PropTypes.func,
+  onUpdatePayment: PropTypes.func,
   onDeleteUser: PropTypes.func,
   history: PropTypes.object,
 };
@@ -816,8 +805,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onGetCompany: () => dispatch(getCompany.request()),
-  onUpdateCompany: value => dispatch(updateCompany.request(value)),
+  onAddPayment: value => dispatch(addPayment.request(value)),
+  onUpdatePayment: value => dispatch(updatePayment.request(value)),
   onDeleteUser: () => dispatch(deleteUser.request()),
 });
 

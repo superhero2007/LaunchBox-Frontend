@@ -18,9 +18,9 @@ import { connect } from 'react-redux';
 
 import { makeSelectUser } from 'services/api/selectors';
 
-import BrandLogo from '../../images/brand_logo.svg';
-import HeaderMaskImg from '../../images/header_mask.svg';
-import ActiveImage from '../../images/active-image.svg';
+import BrandLogo from 'images/brand_logo.svg';
+import HeaderMaskImg from 'images/header_mask.svg';
+import ActiveImage from 'images/active-image.svg';
 
 const Wrapper = styled.div`
   display: flex;

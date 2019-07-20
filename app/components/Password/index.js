@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PasswordText from '../../images/password-text.svg';
-import PasswordTextHover from '../../images/password-text__hover.svg';
-import PasswordHash from '../../images/password-hash.svg';
-import PasswordHashHover from '../../images/password-hash__hover.svg';
-import PasswordHint from '../../images/password-hint.svg';
-import PasswordHintHover from '../../images/password-hint__hover.svg';
+import PasswordText from 'images/password-text.svg';
+import PasswordTextHover from 'images/password-text__hover.svg';
+import PasswordHash from 'images/password-hash.svg';
+import PasswordHashHover from 'images/password-hash__hover.svg';
+import PasswordHint from 'images/password-hint.svg';
+import PasswordHintHover from 'images/password-hint__hover.svg';
 
 const Input = styled.div`
   border: 2px solid rgba(66, 77, 107, 0.2);

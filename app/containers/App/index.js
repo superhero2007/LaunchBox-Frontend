@@ -62,7 +62,6 @@ class App extends React.Component {
     const token = localStorage.getItem('token');
     if (token && !this.props.user && !this.props.company) {
       this.props.onGetUser();
-      this.props.onGetCompany();
     }
     if (this.props.user) {
       // eslint-disable-next-line no-undef
@@ -216,7 +215,6 @@ App.propTypes = {
   location: PropTypes.object.isRequired,
   state: PropTypes.object,
   onGetUser: PropTypes.func,
-  onGetCompany: PropTypes.func,
   onClearError: PropTypes.func,
 };
 

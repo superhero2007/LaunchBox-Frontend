@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CheckImage from '../../images/check.png';
-import UncheckImage from '../../images/uncheck.png';
+import CheckImage from 'images/check.png';
+import UncheckImage from 'images/uncheck.png';
 import Wrapper from './Wrapper';
 import Hover from './Hover';
 

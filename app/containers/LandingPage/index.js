@@ -13,20 +13,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../../images/logo.svg';
-import finance from '../../images/fiance.svg';
-import branding from '../../images/branding.svg';
-import access from '../../images/access.svg';
-import documents from '../../images/documents.svg';
-import bookmarks from '../../images/bookmarks.svg';
-import grayLogo from '../../images/gray-logo.svg';
-import biz from '../../images/biz.svg';
-import brand from '../../images/brand.svg';
-import brandTop from '../../images/brand-top.svg';
-import price from '../../images/price.svg';
-import menuToggle from '../../images/menu-toggle.svg';
-import menuClose from '../../images/menu-close.svg';
-import idea from '../../images/idea.svg';
+import logo from 'images/logo.svg';
+import finance from 'images/fiance.svg';
+import branding from 'images/branding.svg';
+import access from 'images/access.svg';
+import documents from 'images/documents.svg';
+import bookmarks from 'images/bookmarks.svg';
+import grayLogo from 'images/gray-logo.svg';
+import biz from 'images/biz.svg';
+import brand from 'images/brand.svg';
+import brandTop from 'images/brand-top.svg';
+import price from 'images/price.svg';
+import menuToggle from 'images/menu-toggle.svg';
+import menuClose from 'images/menu-close.svg';
+import idea from 'images/idea.svg';
 
 import './style.scss';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ElementDownload from '../../../../images/element-download.svg';
-import ElementDownloadHover from '../../../../images/element-download__hover.svg';
+import ElementDownload from 'images/element-download.svg';
+import ElementDownloadHover from 'images/element-download__hover.svg';
 
 const Wrapper = styled.div`
   position: relative;

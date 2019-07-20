@@ -20,6 +20,10 @@ import {
   USER_SUBSCRIPTION_REQUEST,
   GET_COMPANY_REQUEST,
   UPDATE_COMPANY_REQUEST,
+  ADD_PAYMENT_REQUEST,
+  UPDATE_PAYMENT_REQUEST,
+  CREATE_SUBSCRIBE_REQUEST,
+  UPDATE_SUBSCRIBE_REQUEST,
 } from './constants';
 
 // The initial state of the App
@@ -99,7 +103,8 @@ function ServiceReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('error', false)
-        .set('user', action.response.user);
+        .set('user', action.response.user)
+        .set('company', action.response.company);
     case GET_USER_REQUEST.FAILURE:
       localStorage.removeItem('token');
       return state.set('loading', false).set('error', action.error);
@@ -217,6 +222,46 @@ function ServiceReducer(state = initialState, action) {
         .set('error', false)
         .set('company', action.response.company);
     case UPDATE_COMPANY_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case ADD_PAYMENT_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case ADD_PAYMENT_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case ADD_PAYMENT_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case UPDATE_PAYMENT_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case UPDATE_PAYMENT_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case UPDATE_PAYMENT_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case CREATE_SUBSCRIBE_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case CREATE_SUBSCRIBE_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case CREATE_SUBSCRIBE_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
+
+    case UPDATE_SUBSCRIBE_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
+    case UPDATE_SUBSCRIBE_REQUEST.SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('company', action.response.company);
+    case UPDATE_SUBSCRIBE_REQUEST.FAILURE:
       return state.set('loading', false).set('error', action.error);
     default:
       return state;
