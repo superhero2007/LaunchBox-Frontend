@@ -15,12 +15,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { makeSelectUser, makeSelectCompany } from 'services/api/selectors';
-import {
-  updateUser,
-  uploadPhoto,
-  deletePhoto,
-  userSubscribe,
-} from 'services/api/actions';
+import { updateUser, uploadPhoto, deletePhoto } from 'services/api/actions';
 import CompanyAccount from 'images/company-account.svg';
 
 import Header from 'components/Header';
@@ -37,44 +32,8 @@ import DeleteAccount from './components/DeleteAccount';
 
 import './style.scss';
 
-const publicKey = process.env.NUMMUSPAY_PUBLIC_KEY;
-
 /* eslint-disable react/prefer-stateless-function */
 class SettingsPage extends React.PureComponent {
-  handleSubscription = () => {
-    const { user } = this.props;
-    const data = {
-      email: user.email,
-      firstName: user.fullName
-        .split(' ')
-        .slice(0, -1)
-        .join(' '),
-      lastName: user.fullName
-        .split(' ')
-        .slice(-1)
-        .join(' '),
-      billingAddress: '1700-1712 Cadiz St',
-      zip: '16777',
-      number: '4242424242424242',
-      month: '10',
-      year: '2020',
-      cvv: '735',
-    };
-
-    // eslint-disable-next-line no-undef
-    const nummuspay = Nummuspay || {};
-    nummuspay.SetPublicKey(publicKey);
-    nummuspay
-      .CreateToken(data)
-      .done(token => {
-        this.props.onSubscription({
-          paymentToken: token,
-          amount: 12,
-        });
-      })
-      .fail(() => {});
-  };
-
   render() {
     const list = [
       {
@@ -211,7 +170,6 @@ SettingsPage.propTypes = {
   onUpdateUser: PropTypes.func,
   onUploadPhoto: PropTypes.func,
   onDeletePhoto: PropTypes.func,
-  onSubscription: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -223,7 +181,6 @@ const mapDispatchToProps = dispatch => ({
   onUpdateUser: value => dispatch(updateUser.request(value)),
   onUploadPhoto: value => dispatch(uploadPhoto.request(value)),
   onDeletePhoto: () => dispatch(deletePhoto.request()),
-  onSubscription: value => dispatch(userSubscribe.request(value)),
 });
 
 export default connect(
