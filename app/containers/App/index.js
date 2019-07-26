@@ -34,6 +34,7 @@ import RouteConfirm from 'routes/RouteConfirm';
 // import BizPage from 'containers/BizPage/Loadable';
 import BrandLandingPage from 'containers/BrandLandingPage/Loadable';
 import BrandPage from 'containers/BrandPage/Loadable';
+import NewPage from 'containers/NewPage/Loadable';
 import Login from 'containers/Login/Loadable';
 import Register from 'containers/Register/Loadable';
 import ResetPasswordRequest from 'containers/ResetPasswordRequest/Loadable';
@@ -63,12 +64,12 @@ class App extends React.Component {
     if (token && !this.props.user && !this.props.company) {
       this.props.onGetUser();
     }
-    if (this.props.user) {
-      // eslint-disable-next-line no-undef
-      gtag('set', { user_id: this.props.user._id });
-      // eslint-disable-next-line no-undef
-      ga('set', 'userId', this.props.user._id);
-    }
+    // if (this.props.user) {
+    //   // eslint-disable-next-line no-undef
+    //   gtag('set', { user_id: this.props.user._id });
+    //   // eslint-disable-next-line no-undef
+    //   ga('set', 'userId', this.props.user._id);
+    // }
   };
 
   componentDidUpdate = prevProps => {
@@ -193,6 +194,12 @@ class App extends React.Component {
             isConfirmed={isConfirmed}
             path="/home"
             component={BrandPage}
+          />
+          <RoutePrivate
+            isAuthenticated={isAuthenticated}
+            isConfirmed={isConfirmed}
+            path="/new"
+            component={NewPage}
           />
           <RoutePrivate
             isAuthenticated={isAuthenticated}

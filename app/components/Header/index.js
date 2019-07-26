@@ -9,6 +9,7 @@ import { makeSelectUser } from 'services/api/selectors';
 import { logOut } from 'services/api/actions';
 
 import LogoImage from 'images/brand_logo.svg';
+import SmallLogoImage from 'images/brandguide_logo.svg';
 import UserImage from 'images/user.svg';
 import MenuHover from 'images/menu-hover.svg';
 
@@ -128,7 +129,7 @@ const Header = props => (
   <Wrapper>
     <Menu>
       <Link to="/">
-        <img src={LogoImage} alt="Logo" />
+        <img src={props.isSmall ? SmallLogoImage : LogoImage} alt="Logo" />
       </Link>
     </Menu>
     {props.user && (
@@ -166,6 +167,7 @@ const Header = props => (
 Header.propTypes = {
   user: PropTypes.object,
   onLogOut: PropTypes.func,
+  isSmall: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
