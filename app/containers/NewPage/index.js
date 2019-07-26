@@ -77,7 +77,7 @@ class NewPage extends React.PureComponent {
       screen = <StartScreen onNext={this.onNext} />;
     } else if (step === 6) {
       screen = brands.length && (
-        <LastScreen onNext={this.onNext} brand={brands[0]} />
+        <LastScreen onNext={this.onNext} brand={brands[brands.length - 1]} />
       );
     } else {
       screen = (
