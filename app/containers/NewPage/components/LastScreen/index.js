@@ -268,7 +268,7 @@ const LastScreen = props => (
         <LeftTitle>Fonts</LeftTitle>
         <FontContainer>
           {props.brand.fonts.map(font => (
-            <FontElement key={font}>{font}</FontElement>
+            <FontElement key={font.value}>{font.name}</FontElement>
           ))}
         </FontContainer>
         <LeftTitle>Social networks</LeftTitle>
