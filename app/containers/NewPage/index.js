@@ -16,8 +16,8 @@ import PropTypes from 'prop-types';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import reducer from 'containers/NewPage/reducer';
-import saga from 'containers/NewPage/saga';
+import reducer from 'containers/BrandPage/reducer';
+import saga from 'containers/BrandPage/saga';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -54,7 +54,7 @@ class NewPage extends React.PureComponent {
     const { value, step } = this.state;
     const updatedValue = Object.assign({}, value, newValue);
     this.setState({
-      step: (step + 1) % 7,
+      step: step + 1,
       value: updatedValue,
     });
 
@@ -77,7 +77,7 @@ class NewPage extends React.PureComponent {
       screen = <StartScreen onNext={this.onNext} />;
     } else if (step === 6) {
       screen = brands.length && (
-        <LastScreen onNext={this.onNext} brand={brands[brands.length - 1]} />
+        <LastScreen brand={brands[brands.length - 1]} />
       );
     } else {
       screen = (
@@ -123,8 +123,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'new', reducer });
-const withSaga = injectSaga({ key: 'new', saga });
+const withReducer = injectReducer({ key: 'brand', reducer });
+const withSaga = injectSaga({ key: 'brand', saga });
 
 export default compose(
   withReducer,

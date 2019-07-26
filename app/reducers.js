@@ -8,7 +8,6 @@ import { connectRouter } from 'connected-react-router/immutable';
 import history from 'utils/history';
 import BizReducer from 'containers/BizPage/reducer';
 import BrandReducer from 'containers/BrandPage/reducer';
-import NewReducer from 'containers/NewPage/reducer';
 import ServiceReducer from 'services/api/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
@@ -20,7 +19,6 @@ export default function createReducer(injectedReducers = {}) {
     language: languageProviderReducer,
     biz: BizReducer,
     brand: BrandReducer,
-    new: NewReducer,
     service: ServiceReducer,
     ...injectedReducers,
   });

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
-  getBrands,
-  createBrand,
   deleteBrand,
   getMembers,
   deleteMember,
@@ -40,20 +38,12 @@ class BrandContainer extends React.PureComponent {
     this.state = {
       type: null,
       selected: null,
-      selectedBrand: -1,
     };
   }
 
   componentDidMount() {
-    this.props.onLoadBrands();
     this.props.onLoadMembers();
     this.props.onLoadInvitations();
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      selectedBrand: newProps.brands.length ? 0 : -1,
-    });
   }
 
   closeModal = () => {
@@ -61,9 +51,6 @@ class BrandContainer extends React.PureComponent {
   };
 
   onAdd = value => {
-    if (this.state.type === 'AddBrand') {
-      this.props.onCreateBrand(value);
-    }
     if (this.state.type === 'AddMembers') {
       this.props.onCreateInvitation(value);
     }
@@ -71,6 +58,9 @@ class BrandContainer extends React.PureComponent {
   };
 
   updateModal = element => {
+    if (element === 'AddBrand') {
+      this.props.history.push('/new');
+    }
     if (element === 'Brand' && !this.props.brands.length) {
       this.setState({ type: 'AddBrand' });
     } else {
@@ -93,11 +83,17 @@ class BrandContainer extends React.PureComponent {
     });
   };
 
+  handleSelect = _id => {
+    this.setState({ type: null });
+    this.props.onSelectBrand(_id);
+  };
+
   render() {
-    const { type, selected, selectedBrand } = this.state;
-    const { brands, invitations, user } = this.props;
+    const { type, selected } = this.state;
+    const { brands, invitations, user, selectedBrand } = this.props;
     let { members } = this.props;
     members = members.filter(member => member.role);
+    const selectBrand = brands.find(brand => brand._id === selectedBrand);
 
     let modal;
 
@@ -108,13 +104,11 @@ class BrandContainer extends React.PureComponent {
           onClose={this.closeModal}
           type={type}
         >
-          {brands.map((element, index) => (
+          {brands.map(element => (
             <ModalItem
               key={element._id}
-              className={selectedBrand === index && 'active'}
-              onClick={() =>
-                this.setState({ selectedBrand: index, type: null })
-              }
+              className={selectedBrand === element._id && 'active'}
+              onClick={() => this.handleSelect(element._id)}
             >
               <div>{element.value}</div>
               <div>
@@ -206,9 +200,7 @@ class BrandContainer extends React.PureComponent {
           <ElementWrapper>
             <Element
               label="Brand"
-              value={
-                brands.length ? brands[selectedBrand].value : user.companyName
-              }
+              value={brands.length ? selectBrand.value : user.companyName}
               onClick={this.updateModal}
             />
           </ElementWrapper>
@@ -226,17 +218,18 @@ class BrandContainer extends React.PureComponent {
 }
 
 BrandContainer.propTypes = {
+  history: PropTypes.object,
+  selectedBrand: PropTypes.string,
   user: PropTypes.object,
   brands: PropTypes.array,
   members: PropTypes.array,
   invitations: PropTypes.array,
-  onLoadBrands: PropTypes.func,
-  onCreateBrand: PropTypes.func,
   onLoadMembers: PropTypes.func,
   onDeleteMember: PropTypes.func,
   onLoadInvitations: PropTypes.func,
   onCreateInvitation: PropTypes.func,
   onDeleteInvitation: PropTypes.func,
+  onSelectBrand: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -248,8 +241,6 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onLoadBrands: () => dispatch(getBrands.request()),
-    onCreateBrand: value => dispatch(createBrand.request(value)),
     onDeleteBrand: value => dispatch(deleteBrand.request(value)),
     onLoadMembers: () => dispatch(getMembers.request()),
     onDeleteMember: value => dispatch(deleteMember.request(value)),

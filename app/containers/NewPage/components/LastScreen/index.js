@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Right from 'images/right.svg';
@@ -47,7 +48,7 @@ const SubTitle = styled.div`
   margin-top: 16px;
 `;
 
-const Button = styled.button`
+const Button = styled(Link)`
   width: 164px;
   height: 48px;
   margin-top: 24px;
@@ -59,6 +60,10 @@ const Button = styled.button`
   font-size: 16px;
   line-height: 20px;
   color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     margin-left: 10px;
@@ -250,7 +255,7 @@ const LastScreen = props => (
         <Logo>
           <LogoWrapper>
             <img
-              src={`${process.env.API_ENTRY_PREFIX}${props.brand.logo}`}
+              src={`${process.env.API_ENTRY_PREFIX}${props.brand.logo[0]}`}
               alt="logo"
             />
           </LogoWrapper>
@@ -287,7 +292,7 @@ const LastScreen = props => (
       <SubTitle>
         You have completed the first step in Brandguide Keep up the good work!
       </SubTitle>
-      <Button onClick={() => props.onNext({})}>
+      <Button to="/home">
         Let's go
         <img src={Right} alt="Right" className="origin" />
         <img src={RightDisable} alt="Right Disable" className="disable" />
@@ -297,7 +302,6 @@ const LastScreen = props => (
 );
 
 LastScreen.propTypes = {
-  onNext: PropTypes.func,
   brand: PropTypes.object,
 };
 

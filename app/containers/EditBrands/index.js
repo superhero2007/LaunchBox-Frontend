@@ -287,7 +287,7 @@ const ModalConfirm = styled.button`
   }
 `;
 
-const AddButton = styled.button`
+const AddButton = styled(Link)`
   width: 164px;
   height: 40px;
   background: #1b367c;
@@ -302,6 +302,11 @@ const AddButton = styled.button`
   text-transform: uppercase;
   color: #fff;
   border-radius: 7px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 
   &:hover:not(:disabled) {
     color: #1b367c;
@@ -524,7 +529,7 @@ class EditBrands extends React.PureComponent {
             </ContentCountItem>
           </ContentCount>
           {!!brands.length && <Table>{brandList}</Table>}
-          <AddButton onClick={this.handleClick} disabled={addDisabled}>
+          <AddButton to="/new" disabled={addDisabled}>
             ADD NEW
           </AddButton>
         </Content>

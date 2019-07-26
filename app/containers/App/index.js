@@ -64,12 +64,12 @@ class App extends React.Component {
     if (token && !this.props.user && !this.props.company) {
       this.props.onGetUser();
     }
-    if (this.props.user) {
-      // eslint-disable-next-line no-undef
-      gtag('set', { user_id: this.props.user._id });
-      // eslint-disable-next-line no-undef
-      ga('set', 'userId', this.props.user._id);
-    }
+    // if (this.props.user) {
+    //   // eslint-disable-next-line no-undef
+    //   gtag('set', { user_id: this.props.user._id });
+    //   // eslint-disable-next-line no-undef
+    //   ga('set', 'userId', this.props.user._id);
+    // }
   };
 
   componentDidUpdate = prevProps => {
@@ -192,13 +192,13 @@ class App extends React.Component {
           <RoutePrivate
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
-            path="/old"
+            path="/home"
             component={BrandPage}
           />
           <RoutePrivate
             isAuthenticated={isAuthenticated}
             isConfirmed={isConfirmed}
-            path="/home"
+            path="/new"
             component={NewPage}
           />
           <RoutePrivate

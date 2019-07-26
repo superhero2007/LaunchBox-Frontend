@@ -9,11 +9,28 @@ const createRequest = (endpoint, method, bodyJS, hasFile) => {
   if (bodyJS !== null) {
     if (hasFile) {
       body = new FormData();
-      if (Array.isArray(bodyJS.value)) {
-        bodyJS.value.map(file => body.append('file', file));
-      } else {
-        body.append('file', bodyJS.value);
-      }
+      Object.keys(bodyJS).forEach(key => {
+        if (typeof bodyJS[key] === 'string') {
+          body.append(key, bodyJS[key]);
+        } else if (Array.isArray(bodyJS[key])) {
+          bodyJS[key].map(file =>
+            body.append(
+              key,
+              typeof file.name === 'string' || typeof file === 'string'
+                ? file
+                : JSON.stringify(file),
+            ),
+          );
+        } else {
+          body.append(
+            key,
+            typeof bodyJS[key].name === 'string' ||
+            typeof bodyJS[key] === 'string'
+              ? bodyJS[key]
+              : JSON.stringify(bodyJS[key]),
+          );
+        }
+      });
       // Object.keys(bodyJS).forEach(key =>
       //   body.append(
       //     key,
@@ -79,7 +96,12 @@ export const getElementsService = type => {
 // API to create Input Elements
 export const createElementService = (type, body) => {
   const url = `api/${type}`;
-  if (type === 'logo' || type === 'icon') {
+  if (
+    type === 'logo' ||
+    type === 'font' ||
+    type === 'icon' ||
+    type === 'brand'
+  ) {
     return callApi(url, 'POST', body, true);
   }
   return callApi(url, 'POST', body);

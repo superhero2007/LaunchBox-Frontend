@@ -10,13 +10,18 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import reducer from 'containers/BrandPage/reducer';
 import saga from 'containers/BrandPage/saga';
+import { getBrands } from 'containers/BrandPage/actions';
+import { makeSelectBrands } from 'containers/BrandPage/selectors';
 
 import Header from 'components/Header';
 
@@ -33,12 +38,39 @@ import Containers from './components/Containers';
 
 /* eslint-disable react/prefer-stateless-function */
 class BrandPage extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedBrand: props.brands.length ? props.brands[0]._id : '',
+    };
+  }
+
+  componentDidMount() {
+    this.props.onLoadBrands();
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      selectedBrand: newProps.brands.length ? newProps.brands[0]._id : '',
+    });
+  }
+
+  onSelectBrand = selectedBrand => {
+    this.setState({ selectedBrand });
+  };
+
   render() {
+    const { selectedBrand } = this.state;
+    const { history } = this.props;
     return (
       <div>
         <Header />
         <Wrapper>
-          <BrandContainer />
+          <BrandContainer
+            history={history}
+            selectedBrand={selectedBrand}
+            onSelectBrand={this.onSelectBrand}
+          />
           <PresenceContainer />
 
           <Title>Design</Title>
@@ -54,10 +86,30 @@ class BrandPage extends React.PureComponent {
   }
 }
 
+BrandPage.propTypes = {
+  history: PropTypes.object,
+  brands: PropTypes.array,
+  onLoadBrands: PropTypes.func,
+};
+
+const mapStateToProps = createStructuredSelector({
+  brands: makeSelectBrands(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLoadBrands: () => dispatch(getBrands.request()),
+});
+
 const withReducer = injectReducer({ key: 'brand', reducer });
 const withSaga = injectSaga({ key: 'brand', saga });
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(
   withReducer,
   withSaga,
+  withConnect,
 )(BrandPage);
