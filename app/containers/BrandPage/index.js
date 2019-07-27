@@ -21,7 +21,10 @@ import injectSaga from 'utils/injectSaga';
 import reducer from 'containers/BrandPage/reducer';
 import saga from 'containers/BrandPage/saga';
 import { getBrands } from 'containers/BrandPage/actions';
-import { makeSelectBrands } from 'containers/BrandPage/selectors';
+import {
+  makeSelectBrands,
+  makeSelectLoading,
+} from 'containers/BrandPage/selectors';
 
 import Header from 'components/Header';
 
@@ -57,6 +60,9 @@ class BrandPage extends React.PureComponent {
       this.setState({
         selectedBrand: newProps.brands.length ? newProps.brands[0]._id : '',
       });
+    }
+    if (this.props.loading && !newProps.loading && !newProps.brands.length) {
+      this.props.history.push('/new');
     }
   }
 
@@ -109,12 +115,14 @@ class BrandPage extends React.PureComponent {
 
 BrandPage.propTypes = {
   history: PropTypes.object,
+  loading: PropTypes.bool,
   brands: PropTypes.array,
   onLoadBrands: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   brands: makeSelectBrands(),
+  loading: makeSelectLoading(),
 });
 
 const mapDispatchToProps = dispatch => ({

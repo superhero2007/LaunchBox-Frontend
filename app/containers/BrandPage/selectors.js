@@ -2,6 +2,12 @@ import { createSelector } from 'reselect';
 
 const selectBrand = state => state.get('brand');
 
+const makeSelectLoading = () =>
+  createSelector(selectBrand, brandState => brandState.get('loading'));
+
+const makeSelectError = () =>
+  createSelector(selectBrand, brandState => brandState.get('error'));
+
 const makeSelectBrands = () =>
   createSelector(selectBrand, brandState => brandState.get('brands').toJS());
 
@@ -37,6 +43,8 @@ const makeSelectInvitations = () =>
 
 export {
   selectBrand,
+  makeSelectLoading,
+  makeSelectError,
   makeSelectBrands,
   makeSelectPresences,
   makeSelectLogos,

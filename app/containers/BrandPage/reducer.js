@@ -49,12 +49,21 @@ export const initialState = fromJS({
   icons: [],
   members: [],
   invitations: [],
+  loading: false,
+  error: false,
 });
 
 function BrandReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_BRANDS_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
     case GET_BRANDS_REQUEST.SUCCESS:
-      return state.set('brands', fromJS(action.response.brands));
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .set('brands', fromJS(action.response.brands));
+    case GET_BRANDS_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
     case CREATE_BRAND_REQUEST.SUCCESS:
       return state.update('brands', brands =>
         brands.push(action.response.brand),
@@ -68,12 +77,19 @@ function BrandReducer(state = initialState, action) {
         elements[index] = action.response.brand;
         return fromJS(elements);
       });
+    case DELETE_BRAND_REQUEST.REQUEST:
+      return state.set('loading', true).set('error', false);
     case DELETE_BRAND_REQUEST.SUCCESS:
-      return state.update('brands', brands =>
-        fromJS(
-          brands.toJS().filter(brand => brand._id !== action.response._id),
-        ),
-      );
+      return state
+        .set('loading', false)
+        .set('error', false)
+        .update('brands', brands =>
+          fromJS(
+            brands.toJS().filter(brand => brand._id !== action.response._id),
+          ),
+        );
+    case DELETE_BRAND_REQUEST.FAILURE:
+      return state.set('loading', false).set('error', action.error);
     case GET_PRESENCES_REQUEST.SUCCESS:
       return state.set('presences', fromJS(action.response.presences));
     case CREATE_PRESENCE_REQUEST.SUCCESS:
