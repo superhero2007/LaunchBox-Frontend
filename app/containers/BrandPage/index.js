@@ -50,9 +50,14 @@ class BrandPage extends React.PureComponent {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({
-      selectedBrand: newProps.brands.length ? newProps.brands[0]._id : '',
-    });
+    const selectBrand = newProps.brands.find(
+      brand => brand._id === this.state.selectedBrand,
+    );
+    if (!selectBrand) {
+      this.setState({
+        selectedBrand: newProps.brands.length ? newProps.brands[0]._id : '',
+      });
+    }
   }
 
   onSelectBrand = selectedBrand => {
