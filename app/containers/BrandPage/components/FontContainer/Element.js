@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background: #fff;
-  padding: 20px;
+  padding: 12px 18px;
   border-radius: 7px;
   overflow: hidden;
 
@@ -81,112 +81,18 @@ const ButtonGroup = styled.div`
 
 const FontTitle = styled.div`
   font-family: ${props => props.font};
-  font-size: 21px;
-  line-height: 26px;
-  color: #465347;
-  font-weight: 900;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 23px;
+  color: #1b367c;
   margin-bottom: 2px;
-`;
-
-const FontRow = styled.div`
-  display: flex;
-  margin-top: 10px;
-`;
-
-const FontElement = styled.div`
-  width: 50%;
-  font-size: ${props => props.size}px;
-  font-family: ${props => props.family};
-  font-weight: ${props => props.weight};
-  line-height: normal;
-  font-style: ${props => (props.italic ? 'italic' : 'normal')};
 `;
 
 class Element extends React.PureComponent {
   render() {
     return (
       <Wrapper>
-        <div>
-          <FontTitle font={this.props.value}>{this.props.value}</FontTitle>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={100}>
-              Ultra Light
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={100}
-              italic
-            >
-              Ultra Light Italic
-            </FontElement>
-          </FontRow>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={200}>
-              Thin
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={200}
-              italic
-            >
-              Thin Italic
-            </FontElement>
-          </FontRow>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={300}>
-              Light
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={300}
-              italic
-            >
-              Light Italic
-            </FontElement>
-          </FontRow>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={400}>
-              Regular
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={400}
-              italic
-            >
-              Italic
-            </FontElement>
-          </FontRow>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={600}>
-              Medium
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={600}
-              italic
-            >
-              Medium Italic
-            </FontElement>
-          </FontRow>
-          <FontRow>
-            <FontElement size={13} family={this.props.value} weight={900}>
-              Bold
-            </FontElement>
-            <FontElement
-              size={13}
-              family={this.props.value}
-              weight={900}
-              italic
-            >
-              Bold Italic
-            </FontElement>
-          </FontRow>
-        </div>
+        <FontTitle font={this.props.value}>{this.props.value}</FontTitle>
         <ButtonGroup className="button_group">
           <DownloadButton href="#" download>
             <img className="origin" src={ElementDownload} alt="Input Edit" />

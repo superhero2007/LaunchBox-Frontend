@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
-  getBrandColors,
   createBrandColor,
   deleteBrandColor,
 } from 'containers/BrandPage/actions';
-import { makeSelectBrandColors } from 'containers/BrandPage/selectors';
 import Plus from 'images/plus.svg';
 import PlusHover from 'images/plus__hover.svg';
 
@@ -30,10 +27,6 @@ class BrandColorContainer extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadBrandColors();
-  }
-
   closeModal = () => {
     this.setState({ type: null });
   };
@@ -45,12 +38,14 @@ class BrandColorContainer extends React.PureComponent {
   };
 
   onAdd = value => {
-    this.props.onCreateBrandColor(value);
+    const { selectedBrand, onCreateBrandColor } = this.props;
+    onCreateBrandColor({ brandId: selectedBrand, value });
     this.setState({ type: null });
   };
 
   onDelete = _id => {
-    this.props.onDeleteBrandColor(_id);
+    const { selectedBrand, onDeleteBrandColor } = this.props;
+    onDeleteBrandColor({ brandId: selectedBrand, _id });
   };
 
   listElements = () =>
@@ -97,25 +92,18 @@ class BrandColorContainer extends React.PureComponent {
 }
 
 BrandColorContainer.propTypes = {
+  selectedBrand: PropTypes.string,
   brandColors: PropTypes.array,
-  onLoadBrandColors: PropTypes.func,
   onCreateBrandColor: PropTypes.func,
   onDeleteBrandColor: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  brandColors: makeSelectBrandColors(),
+const mapDispatchToProps = dispatch => ({
+  onCreateBrandColor: value => dispatch(createBrandColor.request(value)),
+  onDeleteBrandColor: value => dispatch(deleteBrandColor.request(value)),
 });
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onLoadBrandColors: () => dispatch(getBrandColors.request()),
-    onCreateBrandColor: value => dispatch(createBrandColor.request(value)),
-    onDeleteBrandColor: value => dispatch(deleteBrandColor.request(value)),
-  };
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(BrandColorContainer);

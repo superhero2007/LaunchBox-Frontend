@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
-  getPresences,
   createPresence,
   updatePresence,
   deletePresence,
 } from 'containers/BrandPage/actions';
-import { makeSelectPresences } from 'containers/BrandPage/selectors';
 import Plus from 'images/smaller-plus.svg';
 import PlusHover from 'images/smaller-plus__hover.svg';
 
@@ -31,10 +28,6 @@ class PresenceContainer extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadPresences();
-  }
-
   closeModal = () => {
     this.setState({ type: null });
   };
@@ -51,16 +44,18 @@ class PresenceContainer extends React.PureComponent {
   };
 
   onAdd = value => {
+    const { selectedBrand, onCreatePresence, onUpdatePresence } = this.props;
     if (this.state.type === 'Create') {
-      this.props.onCreatePresence(value);
+      onCreatePresence({ brandId: selectedBrand, value });
     } else {
-      this.props.onUpdatePresence({ value });
+      onUpdatePresence({ brandId: selectedBrand, value });
     }
     this.setState({ type: null });
   };
 
   onDelete = _id => {
-    this.props.onDeletePresence(_id);
+    const { selectedBrand, onDeletePresence } = this.props;
+    onDeletePresence({ brandId: selectedBrand, _id });
   };
 
   onDuplicate = element => {
@@ -115,20 +110,15 @@ class PresenceContainer extends React.PureComponent {
 }
 
 PresenceContainer.propTypes = {
+  selectedBrand: PropTypes.string,
   presences: PropTypes.array,
-  onLoadPresences: PropTypes.func,
   onUpdatePresence: PropTypes.func,
   onCreatePresence: PropTypes.func,
   onDeletePresence: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  presences: makeSelectPresences(),
-});
-
 export function mapDispatchToProps(dispatch) {
   return {
-    onLoadPresences: () => dispatch(getPresences.request()),
     onCreatePresence: value => dispatch(createPresence.request(value)),
     onUpdatePresence: value => dispatch(updatePresence.request(value)),
     onDeletePresence: value => dispatch(deletePresence.request(value)),
@@ -136,6 +126,6 @@ export function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(PresenceContainer);

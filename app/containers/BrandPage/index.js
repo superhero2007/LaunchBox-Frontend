@@ -61,7 +61,8 @@ class BrandPage extends React.PureComponent {
 
   render() {
     const { selectedBrand } = this.state;
-    const { history } = this.props;
+    const { history, brands } = this.props;
+    const selectBrand = brands.find(brand => brand._id === selectedBrand);
     return (
       <div>
         <Header />
@@ -71,14 +72,29 @@ class BrandPage extends React.PureComponent {
             selectedBrand={selectedBrand}
             onSelectBrand={this.onSelectBrand}
           />
-          <PresenceContainer />
+          <PresenceContainer
+            selectedBrand={selectedBrand}
+            presences={selectBrand ? selectBrand.social : []}
+          />
 
           <Title>Design</Title>
           <Containers>
-            <LogoContainer />
-            <FontContainer />
-            <BrandColorContainer />
-            <IconContainer />
+            <LogoContainer
+              selectedBrand={selectedBrand}
+              logos={selectBrand ? selectBrand.logo : []}
+            />
+            <FontContainer
+              selectedBrand={selectedBrand}
+              fonts={selectBrand ? selectBrand.fonts : []}
+            />
+            <BrandColorContainer
+              selectedBrand={selectedBrand}
+              brandColors={selectBrand ? selectBrand.colors : []}
+            />
+            <IconContainer
+              selectedBrand={selectedBrand}
+              icons={selectBrand ? selectBrand.icons : []}
+            />
           </Containers>
         </Wrapper>
       </div>

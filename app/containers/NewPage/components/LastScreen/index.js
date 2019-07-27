@@ -255,7 +255,9 @@ const LastScreen = props => (
         <Logo>
           <LogoWrapper>
             <img
-              src={`${process.env.API_ENTRY_PREFIX}${props.brand.logo[0]}`}
+              src={`${process.env.API_ENTRY_PREFIX}${
+                props.brand.logo[0].value
+              }`}
               alt="logo"
             />
           </LogoWrapper>
@@ -267,7 +269,7 @@ const LastScreen = props => (
         <LeftTitle>Colors</LeftTitle>
         <ColorContainer>
           {props.brand.colors.map(color => (
-            <Color key={color} color={color} />
+            <Color key={color._id} color={color.value} />
           ))}
         </ColorContainer>
         <LeftTitle>Fonts</LeftTitle>

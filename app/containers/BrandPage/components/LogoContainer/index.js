@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { getLogos, createLogo, deleteLogo } from 'containers/BrandPage/actions';
-import { makeSelectLogos } from 'containers/BrandPage/selectors';
+import { createLogo, deleteLogo } from 'containers/BrandPage/actions';
 import Plus from 'images/plus.svg';
 import PlusHover from 'images/plus__hover.svg';
 
@@ -26,10 +24,6 @@ class LogoContainer extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadLogos();
-  }
-
   closeModal = () => {
     this.setState({ type: null });
   };
@@ -41,12 +35,14 @@ class LogoContainer extends React.PureComponent {
   };
 
   onAdd = value => {
-    this.props.onCreateLogo(value);
+    const { selectedBrand, onCreateLogo } = this.props;
+    onCreateLogo({ brandId: selectedBrand, value });
     this.setState({ type: null });
   };
 
   onDelete = _id => {
-    this.props.onDeleteLogo(_id);
+    const { selectedBrand, onDeleteLogo } = this.props;
+    onDeleteLogo({ brandId: selectedBrand, _id });
   };
 
   listElements = () =>
@@ -93,25 +89,18 @@ class LogoContainer extends React.PureComponent {
 }
 
 LogoContainer.propTypes = {
+  selectedBrand: PropTypes.string,
   logos: PropTypes.array,
-  onLoadLogos: PropTypes.func,
   onCreateLogo: PropTypes.func,
   onDeleteLogo: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  logos: makeSelectLogos(),
+const mapDispatchToProps = dispatch => ({
+  onCreateLogo: value => dispatch(createLogo.request(value)),
+  onDeleteLogo: value => dispatch(deleteLogo.request(value)),
 });
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onLoadLogos: () => dispatch(getLogos.request()),
-    onCreateLogo: value => dispatch(createLogo.request(value)),
-    onDeleteLogo: value => dispatch(deleteLogo.request(value)),
-  };
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(LogoContainer);

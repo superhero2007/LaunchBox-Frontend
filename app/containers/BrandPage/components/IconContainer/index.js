@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { getIcons, createIcon, deleteIcon } from 'containers/BrandPage/actions';
-import { makeSelectIcons } from 'containers/BrandPage/selectors';
+import { createIcon, deleteIcon } from 'containers/BrandPage/actions';
 import Plus from 'images/small-plus.svg';
 import PlusHover from 'images/small-plus__hover.svg';
 
@@ -26,10 +24,6 @@ class IconContainer extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadIcons();
-  }
-
   closeModal = () => {
     this.setState({ type: null });
   };
@@ -41,12 +35,14 @@ class IconContainer extends React.PureComponent {
   };
 
   onAdd = value => {
-    this.props.onCreateIcon(value);
+    const { selectedBrand, onCreateIcon } = this.props;
+    onCreateIcon({ brandId: selectedBrand, value });
     this.setState({ type: null });
   };
 
   onDelete = _id => {
-    this.props.onDeleteIcon(_id);
+    const { selectedBrand, onDeleteIcon } = this.props;
+    onDeleteIcon({ brandId: selectedBrand, _id });
   };
 
   listElements = () =>
@@ -93,25 +89,18 @@ class IconContainer extends React.PureComponent {
 }
 
 IconContainer.propTypes = {
+  selectedBrand: PropTypes.string,
   icons: PropTypes.array,
-  onLoadIcons: PropTypes.func,
   onCreateIcon: PropTypes.func,
   onDeleteIcon: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  icons: makeSelectIcons(),
+const mapDispatchToProps = dispatch => ({
+  onCreateIcon: value => dispatch(createIcon.request(value)),
+  onDeleteIcon: value => dispatch(deleteIcon.request(value)),
 });
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onLoadIcons: () => dispatch(getIcons.request()),
-    onCreateIcon: value => dispatch(createIcon.request(value)),
-    onDeleteIcon: value => dispatch(deleteIcon.request(value)),
-  };
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(IconContainer);

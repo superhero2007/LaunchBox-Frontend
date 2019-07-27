@@ -7,6 +7,7 @@ const Content = styled.div`
   margin-bottom: -20px;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 `;
 
 export default Content;

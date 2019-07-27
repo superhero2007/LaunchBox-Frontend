@@ -1,47 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Dropzone from 'react-dropzone';
+import Remove from 'images/remove.svg';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const ModalHeader = styled.div`
-  position: relative;
-  display: inline-block;
-  width: 100%;
-`;
-
-const ModalText = styled.div`
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 17px;
-  line-height: normal;
-  text-align: center;
-  color: #1b367c;
-  margin-bottom: 28px;
-`;
-
-const ModalInput = styled.input`
+const ModalBody = styled.div`
+  flex-direction: column;
+  background: #f8f8f8;
+  margin-bottom: 16px;
+  width: 348px;
+  height: 348px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid #d6dbe9;
   border-radius: 7px;
-  box-sizing: border-box;
-  font-family: Muli;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: normal;
-  width: 344px;
-  height: 56px;
-  padding: 19px 17px 18px;
-  margin-bottom: 21px;
-  color: #1b367c;
-
-  &::placeholder {
-    color: rgba(27, 54, 114, 0.5);
-  }
 `;
 
 const ModalAction = styled.div`
@@ -64,6 +42,60 @@ const Button = styled.button`
   border-radius: 7px;
 `;
 
+const DropzoneWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #1b367c;
+`;
+
+const DropzoneIcon = styled.div`
+  width: 44px;
+  height: 44px;
+  margin-bottom: 23px;
+  border: 2px solid #1b367c;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DropzoneTitle = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: normal;
+  text-align: center;
+`;
+
+const DropzoneSubtitle = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: normal;
+  text-align: center;
+  margin-top: 6px;
+
+  span {
+    color: #1b367c;
+    cursor: pointer;
+  }
+`;
+
+const DropzoneDescription = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: normal;
+  text-align: center;
+  color: rgba(27, 54, 114, 0.3);
+  margin-top: 24px;
+`;
+
 const AddButton = styled(Button)`
   border: 2px solid #1b367c;
   background: #1b367c;
@@ -81,49 +113,115 @@ const CancelButton = styled(Button)`
   color: #1b367c;
 
   &:hover {
-    border: 0;
     color: #fff;
     background: #1b367c;
   }
+`;
+
+const DropzoneList = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+`;
+
+const DropzoneItem = styled.div`
+  background: #fff;
+  border-radius: 7px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & + & {
+    margin-top: 16px;
+  }
+`;
+
+const DropzoneItemValue = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 23px;
+  color: #1b367c;
+`;
+
+const DropzoneItemIcon = styled.img`
+  width: 12px;
+  height: 12px;
 `;
 
 class ModalDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.element.value,
+      value: [],
     };
   }
 
   handleClickAdd = () => {
     this.props.onAdd({
-      _id: this.props.element._id,
       value: this.state.value,
     });
   };
 
-  handleChangeInput = e => {
-    this.setState({ value: e.target.value });
+  onDrop = files => {
+    this.setState({ value: files });
+  };
+
+  onDelete = index => {
+    const { value } = this.state;
+    value.splice(index, 1);
+    this.setState({ value: value.slice(0) });
   };
 
   render() {
+    const { value } = this.state;
     return (
       <Wrapper>
-        <ModalHeader>
-          <ModalText>
-            {this.props.element._id ? 'Edit Font' : 'Add Font'}
-          </ModalText>
-          <ModalInput
-            placeholder="URL"
-            value={this.state.value}
-            onChange={this.handleChangeInput}
-          />
-        </ModalHeader>
+        <ModalBody>
+          {value.length ? (
+            <DropzoneList>
+              {value.map((element, index) => (
+                <DropzoneItem key={element.name}>
+                  <DropzoneItemValue>{element.name}</DropzoneItemValue>
+                  <DropzoneItemIcon
+                    src={Remove}
+                    alt="Delete"
+                    onClick={() => this.onDelete(index)}
+                  />
+                </DropzoneItem>
+              ))}
+            </DropzoneList>
+          ) : (
+            <Dropzone onDrop={this.onDrop}>
+              {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <DropzoneWrapper>
+                    <DropzoneIcon>
+                      <i className="fas fa-arrow-up" />
+                    </DropzoneIcon>
+                    <DropzoneTitle>
+                      Drag & Drop to upload your fonts
+                    </DropzoneTitle>
+                    <DropzoneSubtitle>
+                      or <span>browse</span> to choose a files
+                    </DropzoneSubtitle>
+                    <DropzoneDescription>
+                      (only .otf and .ttf file formats are supported)
+                    </DropzoneDescription>
+                  </DropzoneWrapper>
+                </div>
+              )}
+            </Dropzone>
+          )}
+        </ModalBody>
         <ModalAction>
           <CancelButton onClick={this.props.onClose}>Cancel</CancelButton>
-          <AddButton onClick={this.handleClickAdd}>
-            {this.props.element._id ? 'Update' : 'Add'}
-          </AddButton>
+          {this.state.value && (
+            <AddButton onClick={this.handleClickAdd}>Add</AddButton>
+          )}
         </ModalAction>
       </Wrapper>
     );
@@ -133,7 +231,6 @@ class ModalDialog extends React.Component {
 ModalDialog.propTypes = {
   onAdd: PropTypes.func,
   onClose: PropTypes.func,
-  element: PropTypes.object,
 };
 
 export default ModalDialog;

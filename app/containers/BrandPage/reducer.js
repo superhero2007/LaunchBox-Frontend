@@ -77,60 +77,42 @@ function BrandReducer(state = initialState, action) {
     case GET_PRESENCES_REQUEST.SUCCESS:
       return state.set('presences', fromJS(action.response.presences));
     case CREATE_PRESENCE_REQUEST.SUCCESS:
-      return state.update('presences', presences =>
-        presences.push(action.response.presence),
-      );
     case UPDATE_PRESENCE_REQUEST.SUCCESS:
-      return state.update('presences', presences => {
-        const elements = presences.toJS();
+    case DELETE_PRESENCE_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.presence._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.presence;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_PRESENCE_REQUEST.SUCCESS:
-      return state.update('presences', presences =>
-        fromJS(
-          presences
-            .toJS()
-            .filter(presence => presence._id !== action.response._id),
-        ),
-      );
     case GET_LOGOS_REQUEST.SUCCESS:
       return state.set('logos', fromJS(action.response.logos));
     case CREATE_LOGO_REQUEST.SUCCESS:
-      return state.update('logos', logos => logos.push(action.response.logo));
     case UPDATE_LOGO_REQUEST.SUCCESS:
-      return state.update('logos', logos => {
-        const elements = logos.toJS();
+    case DELETE_LOGO_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.logo._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.logo;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_LOGO_REQUEST.SUCCESS:
-      return state.update('logos', logos =>
-        fromJS(logos.toJS().filter(logo => logo._id !== action.response._id)),
-      );
     case GET_FONTS_REQUEST.SUCCESS:
       return state.set('fonts', fromJS(action.response.fonts));
     case CREATE_FONT_REQUEST.SUCCESS:
-      return state.update('fonts', fonts => fonts.push(action.response.font));
     case UPDATE_FONT_REQUEST.SUCCESS:
-      return state.update('fonts', fonts => {
-        const elements = fonts.toJS();
+    case DELETE_FONT_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.font._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.font;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_FONT_REQUEST.SUCCESS:
-      return state.update('fonts', fonts =>
-        fromJS(fonts.toJS().filter(font => font._id !== action.response._id)),
-      );
     case GET_FONT_COLORS_REQUEST.SUCCESS:
       return state.set('fontColors', fromJS(action.response.fontColors));
     case CREATE_FONT_COLOR_REQUEST.SUCCESS:
@@ -157,46 +139,30 @@ function BrandReducer(state = initialState, action) {
     case GET_BRAND_COLORS_REQUEST.SUCCESS:
       return state.set('brandColors', fromJS(action.response.brandColors));
     case CREATE_BRAND_COLOR_REQUEST.SUCCESS:
-      return state.update('brandColors', brandColors =>
-        brandColors.push(action.response.brandColor),
-      );
     case UPDATE_BRAND_COLOR_REQUEST.SUCCESS:
-      return state.update('brandColors', brandColors => {
-        const elements = brandColors.toJS();
+    case DELETE_BRAND_COLOR_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.brandColor._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.brandColor;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_BRAND_COLOR_REQUEST.SUCCESS:
-      return state.update('brandColors', brandColors =>
-        fromJS(
-          brandColors
-            .toJS()
-            .filter(brandColor => brandColor._id !== action.response._id),
-        ),
-      );
 
     case GET_ICONS_REQUEST.SUCCESS:
       return state.set('icons', fromJS(action.response.icons));
     case CREATE_ICON_REQUEST.SUCCESS:
-      return state.update('icons', icons =>
-        icons.concat(action.response.icons),
-      );
     case UPDATE_ICON_REQUEST.SUCCESS:
-      return state.update('icons', icons => {
-        const elements = icons.toJS();
+    case DELETE_ICON_REQUEST.SUCCESS:
+      return state.update('brands', brands => {
+        const elements = brands.toJS();
         const index = elements.findIndex(
-          element => element._id === action.response.icon._id,
+          element => element._id === action.response.brand._id,
         );
-        elements[index] = action.response.icon;
+        elements[index] = action.response.brand;
         return fromJS(elements);
       });
-    case DELETE_ICON_REQUEST.SUCCESS:
-      return state.update('icons', icons =>
-        fromJS(icons.toJS().filter(icon => icon._id !== action.response._id)),
-      );
 
     case GET_MEMBERS_REQUEST.SUCCESS:
       return state.set('members', fromJS(action.response.members));

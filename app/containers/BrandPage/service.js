@@ -95,26 +95,45 @@ export const getElementsService = type => {
 
 // API to create Input Elements
 export const createElementService = (type, body) => {
-  const url = `api/${type}`;
+  let url = `api/${type}`;
+  if (type !== 'brand') {
+    url = `api/brand/${body.brandId}/${type}`;
+  }
+  const value = type === 'brand' ? body : body.value;
   if (
     type === 'logo' ||
     type === 'font' ||
     type === 'icon' ||
     type === 'brand'
   ) {
-    return callApi(url, 'POST', body, true);
+    return callApi(url, 'POST', value, true);
   }
-  return callApi(url, 'POST', body);
+  return callApi(url, 'POST', value);
 };
 
 // API to update Input Elements
 export const updateElementService = (type, body) => {
-  const url = `api/${type}/${body._id}`;
-  return callApi(url, 'PUT', body);
+  let url = `api/${type}/${body._id}`;
+  if (type !== 'brand') {
+    url = `api/brand/${body.brandId}/${type}`;
+  }
+  const value = type === 'brand' ? body : body.value;
+  if (
+    type === 'logo' ||
+    type === 'font' ||
+    type === 'icon' ||
+    type === 'brand'
+  ) {
+    return callApi(url, 'PUT', value, true);
+  }
+  return callApi(url, 'PUT', value);
 };
 
 // API to delete Input Elements
-export const deleteElementService = (type, _id) => {
-  const url = `api/${type}/${_id}`;
+export const deleteElementService = (type, body) => {
+  let url = `api/${type}/${body._id}`;
+  if (type !== 'brand') {
+    url = `api/brand/${body.brandId}/${type}/${body._id}`;
+  }
   return callApi(url, 'DELETE');
 };

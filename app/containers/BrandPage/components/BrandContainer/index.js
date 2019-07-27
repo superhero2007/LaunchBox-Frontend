@@ -62,7 +62,7 @@ class BrandContainer extends React.PureComponent {
       this.props.history.push('/new');
     }
     if (element === 'Brand' && !this.props.brands.length) {
-      this.setState({ type: 'AddBrand' });
+      this.props.history.push('/new');
     } else {
       this.setState({
         type: element,

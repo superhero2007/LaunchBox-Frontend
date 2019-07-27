@@ -1,16 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import {
-  getFonts,
-  createFont,
-  updateFont,
-  deleteFont,
-} from 'containers/BrandPage/actions';
-import { makeSelectFonts } from 'containers/BrandPage/selectors';
-import Plus from 'images/plus.svg';
-import PlusHover from 'images/plus__hover.svg';
+import { createFont, deleteFont } from 'containers/BrandPage/actions';
+import Plus from 'images/smaller-plus.svg';
+import PlusHover from 'images/smaller-plus__hover.svg';
 
 import Modal from 'components/Modal';
 import Wrapper from './Wrapper';
@@ -31,41 +24,31 @@ class FontContainer extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.props.onLoadFonts();
-  }
-
   closeModal = () => {
     this.setState({ type: null });
   };
 
   createModal = () => {
     this.setState({
-      type: 'Create',
-      element: {
-        _id: '',
-        value: '',
-      },
+      type: true,
     });
   };
 
   onAdd = value => {
-    if (this.state.type === 'Create') {
-      this.props.onCreateFont(value);
-    } else {
-      this.props.onUpdateFont(value);
-    }
+    const { selectedBrand, onCreateFont } = this.props;
+    onCreateFont({ brandId: selectedBrand, value });
     this.setState({ type: null });
   };
 
   onDelete = _id => {
-    this.props.onDeleteFont(_id);
+    const { selectedBrand, onDeleteFont } = this.props;
+    onDeleteFont({ brandId: selectedBrand, _id });
   };
 
   listElements = () =>
     this.props.fonts.map(element => (
       <ElementWrapper key={element._id}>
-        <Element value={element.value} />
+        <Element value={element.name} />
         <ElementCloser
           onClick={() => this.onDelete(element._id)}
           className="element_delete"
@@ -80,11 +63,7 @@ class FontContainer extends React.PureComponent {
       <Wrapper>
         {this.state.type && (
           <Modal onClose={this.closeModal}>
-            <ModalDialog
-              element={this.state.element}
-              onAdd={this.onAdd}
-              onClose={this.closeModal}
-            />
+            <ModalDialog onAdd={this.onAdd} onClose={this.closeModal} />
           </Modal>
         )}
         <SubTitle>{this.state.title}</SubTitle>
@@ -92,11 +71,11 @@ class FontContainer extends React.PureComponent {
           {this.listElements()}
           <ElementWrapper>
             <InputAdd
-              width={221}
-              height={221}
-              size={90}
+              width={220}
+              height={48}
+              size={30}
               weight={100}
-              imgWidth={64}
+              imgWidth={21}
               onClick={this.createModal}
             >
               <img src={Plus} alt="Add" className="origin" />
@@ -110,27 +89,18 @@ class FontContainer extends React.PureComponent {
 }
 
 FontContainer.propTypes = {
+  selectedBrand: PropTypes.string,
   fonts: PropTypes.array,
-  onLoadFonts: PropTypes.func,
-  onUpdateFont: PropTypes.func,
   onCreateFont: PropTypes.func,
   onDeleteFont: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  fonts: makeSelectFonts(),
+const mapDispatchToProps = dispatch => ({
+  onCreateFont: value => dispatch(createFont.request(value)),
+  onDeleteFont: value => dispatch(deleteFont.request(value)),
 });
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onLoadFonts: () => dispatch(getFonts.request()),
-    onCreateFont: value => dispatch(createFont.request(value)),
-    onUpdateFont: value => dispatch(updateFont.request(value)),
-    onDeleteFont: value => dispatch(deleteFont.request(value)),
-  };
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(FontContainer);
