@@ -368,7 +368,7 @@ class EditBrands extends React.PureComponent {
     if (type === 'Add') {
       this.props.onCreateBrand({ value });
     } else if (type === 'Delete') {
-      this.props.onDeleteBrand(selected._id);
+      this.props.onDeleteBrand({ _id: selected._id });
     } else {
       this.props.onUpdateBrand({ role: type, _id: selected._id });
     }
