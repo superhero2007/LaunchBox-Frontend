@@ -18,7 +18,7 @@ import brandfirst from 'images/brand_first.svg';
 import brandsecond from 'images/brand_second.svg';
 import brandthird from 'images/brand_third.svg';
 import brandforth from 'images/brand_forth.svg';
-import price from 'images/price.svg';
+// import price from 'images/price.svg';
 import brandguidelogo from 'images/brandguide_logo.svg';
 
 import './style.scss';
@@ -307,6 +307,7 @@ class BrandLandingPage extends React.PureComponent {
                   </div>
                 </div>
               </div>
+              {/*
               <div className="section6__content__item">
                 <div className="section6__content__item__content">
                   <div className="section6__content__item__content__title">
@@ -374,6 +375,7 @@ class BrandLandingPage extends React.PureComponent {
                   </div>
                 </div>
               </div>
+              */}
             </div>
           </section>
 
