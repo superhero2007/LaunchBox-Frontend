@@ -61,3 +61,19 @@ export const ModalItem = styled.div`
     }
   }
 `;
+
+export const ModalContent = styled.div`
+  border-radius: 7px;
+  border: 1px solid #d6dbe9;
+  overflow: hidden;
+`;
+
+export const ModalText = styled.div`
+  font-family: Muli;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 19px;
+  color: #1b367c;
+  text-align: center;
+`;

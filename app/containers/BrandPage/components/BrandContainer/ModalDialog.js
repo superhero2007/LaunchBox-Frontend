@@ -24,12 +24,6 @@ const ModalText = styled.div`
   margin-bottom: 28px;
 `;
 
-const ModalContent = styled.div`
-  border-radius: 7px;
-  border: 1px solid #d6dbe9;
-  overflow: hidden;
-`;
-
 const ModalAction = styled.div`
   display: flex;
   justify-content: space-between;
@@ -79,18 +73,26 @@ class ModalDialog extends React.Component {
   };
 
   render() {
-    const { type, children } = this.props;
-    const title =
-      type === 'Brand' ? 'Select Brand' : 'Members of Ketchup Creative';
+    const {
+      type,
+      children,
+      addString,
+      cancelString,
+      onClose,
+      title,
+    } = this.props;
+    const modalTitle =
+      title ||
+      (type === 'Brand' ? 'Select Brand' : 'Members of Ketchup Creative');
     return (
       <Wrapper>
         <ModalHeader>
-          <ModalText>{title}</ModalText>
+          <ModalText>{modalTitle}</ModalText>
         </ModalHeader>
-        <ModalContent>{children}</ModalContent>
+        {children}
         <ModalAction>
-          <CancelButton onClick={this.props.onClose}>CANCEL</CancelButton>
-          <AddButton onClick={this.handleClickAdd}>ADD NEW</AddButton>
+          <CancelButton onClick={onClose}>{cancelString}</CancelButton>
+          <AddButton onClick={this.handleClickAdd}>{addString}</AddButton>
         </ModalAction>
       </Wrapper>
     );
@@ -102,6 +104,15 @@ ModalDialog.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func,
   onAdd: PropTypes.func,
+  title: PropTypes.string,
+  addString: PropTypes.string,
+  cancelString: PropTypes.string,
+};
+
+ModalDialog.defaultProps = {
+  title: '',
+  addString: 'ADD NEW',
+  cancelString: 'CANCEL',
 };
 
 export default ModalDialog;

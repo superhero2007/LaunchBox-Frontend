@@ -16,7 +16,8 @@ import {
   makeSelectMembers,
 } from 'containers/BrandPage/selectors';
 
-import { makeSelectUser } from 'services/api/selectors';
+import { makeSelectUser, makeSelectCompany } from 'services/api/selectors';
+import { createSubscribe, updateSubscribe } from 'services/api/actions';
 
 import RightArrow from 'images/right-arrow.svg';
 import RightArrowHover from 'images/right-arrow__hover.svg';
@@ -27,7 +28,13 @@ import Wrapper from './Wrapper';
 import Content from './Content';
 import ElementWrapper from './ElementWrapper';
 import Element from './Element';
-import { RightArrowWrapper, ItemClose, ModalItem } from './Component';
+import {
+  RightArrowWrapper,
+  ItemClose,
+  ModalItem,
+  ModalContent,
+  ModalText,
+} from './Component';
 import ModalDialog from './ModalDialog';
 import AddDialog from './AddDialog';
 import RemoveDialog from './RemoveDialog';
@@ -51,18 +58,55 @@ class BrandContainer extends React.PureComponent {
   };
 
   onAdd = value => {
-    if (this.state.type === 'AddMembers') {
-      this.props.onCreateInvitation(value);
+    const { type } = this.state;
+    const { onCreateInvitation, history } = this.props;
+    if (type === 'AddMembers') {
+      onCreateInvitation(value);
+    }
+    if (type === 'AddBrand') {
+      const { company, onCreateSubscribe, onUpdateSubscribe } = this.props;
+      if (company.subscription) {
+        const { users, brands, method } = company.subscription;
+        const amount = method
+          ? 9 + users * 4 + (brands + 1) * 6
+          : 12 + users * 6 + (brands + 1) * 9;
+        onUpdateSubscribe({
+          subscription: {
+            amount,
+            method,
+            users,
+            brands: brands + 1,
+            status: 1,
+            date: new Date(),
+          },
+        });
+      } else {
+        onCreateSubscribe({
+          subscription: {
+            amount: 21,
+            method: false,
+            users: 0,
+            brands: 1,
+            status: 1,
+            date: new Date(),
+          },
+        });
+      }
+      history.push('/new');
     }
     this.setState({ type: null });
   };
 
   updateModal = element => {
-    if (element === 'AddBrand') {
-      this.props.history.push('/new');
+    const { brands, history, company } = this.props;
+    const brandLength = company.subscription
+      ? company.subscription.brands + 1
+      : 1;
+    if (element === 'AddBrand' && brandLength !== brands.length) {
+      history.push('/new');
     }
-    if (element === 'Brand' && !this.props.brands.length) {
-      this.props.history.push('/new');
+    if (element === 'Brand' && !brands.length) {
+      history.push('/new');
     } else {
       this.setState({
         type: element,
@@ -104,25 +148,27 @@ class BrandContainer extends React.PureComponent {
           onClose={this.closeModal}
           type={type}
         >
-          {brands.map(element => (
-            <ModalItem
-              key={element._id}
-              className={selectedBrand === element._id && 'active'}
-              onClick={() => this.handleSelect(element._id)}
-            >
-              <div>{element.value}</div>
-              <div>
-                <RightArrowWrapper>
-                  <img className="origin" src={RightArrow} alt="Arrow" />
-                  <img
-                    className="hover"
-                    src={RightArrowHover}
-                    alt="Arrow Hover"
-                  />
-                </RightArrowWrapper>
-              </div>
-            </ModalItem>
-          ))}
+          <ModalContent>
+            {brands.map(element => (
+              <ModalItem
+                key={element._id}
+                className={selectedBrand === element._id && 'active'}
+                onClick={() => this.handleSelect(element._id)}
+              >
+                <div>{element.value}</div>
+                <div>
+                  <RightArrowWrapper>
+                    <img className="origin" src={RightArrow} alt="Arrow" />
+                    <img
+                      className="hover"
+                      src={RightArrowHover}
+                      alt="Arrow Hover"
+                    />
+                  </RightArrowWrapper>
+                </div>
+              </ModalItem>
+            ))}
+          </ModalContent>
         </ModalDialog>
       );
     }
@@ -134,36 +180,38 @@ class BrandContainer extends React.PureComponent {
           onClose={this.closeModal}
           type={type}
         >
-          {members.map(element => (
-            <ModalItem key={element._id} className="members">
-              <div>{element.fullName}</div>
-              <div>
-                <ItemClose
-                  onClick={() => {
-                    this.updateModal('deleteMember');
-                    this.setState({ selected: element });
-                  }}
-                >
-                  <img src={RemoveAccount} alt="Delete Member" />
-                </ItemClose>
-              </div>
-            </ModalItem>
-          ))}
-          {invitations.map(element => (
-            <ModalItem key={element._id} className="members">
-              <div>{element.value}</div>
-              <div>
-                <ItemClose
-                  onClick={() => {
-                    this.updateModal('deleteInvitation');
-                    this.setState({ selected: element });
-                  }}
-                >
-                  <img src={RemoveAccount} alt="Delete Invitation" />
-                </ItemClose>
-              </div>
-            </ModalItem>
-          ))}
+          <ModalContent>
+            {members.map(element => (
+              <ModalItem key={element._id} className="members">
+                <div>{element.fullName}</div>
+                <div>
+                  <ItemClose
+                    onClick={() => {
+                      this.updateModal('deleteMember');
+                      this.setState({ selected: element });
+                    }}
+                  >
+                    <img src={RemoveAccount} alt="Delete Member" />
+                  </ItemClose>
+                </div>
+              </ModalItem>
+            ))}
+            {invitations.map(element => (
+              <ModalItem key={element._id} className="members">
+                <div>{element.value}</div>
+                <div>
+                  <ItemClose
+                    onClick={() => {
+                      this.updateModal('deleteInvitation');
+                      this.setState({ selected: element });
+                    }}
+                  >
+                    <img src={RemoveAccount} alt="Delete Invitation" />
+                  </ItemClose>
+                </div>
+              </ModalItem>
+            ))}
+          </ModalContent>
         </ModalDialog>
       );
     }
@@ -178,9 +226,27 @@ class BrandContainer extends React.PureComponent {
       );
     }
 
-    if (type === 'AddBrand' || type === 'AddMembers') {
+    if (type === 'AddMembers') {
       modal = (
         <AddDialog onAdd={this.onAdd} onClose={this.closeModal} type={type} />
+      );
+    }
+
+    if (type === 'AddBrand') {
+      modal = (
+        <ModalDialog
+          onAdd={this.onAdd}
+          onClose={this.closeModal}
+          type={type}
+          title="Update Subscription"
+          addString="YES"
+          cancelString="NO"
+        >
+          <ModalText>
+            You currently have no additional brands available in your
+            subscription. Do you want to add one additional brand for $9?
+          </ModalText>
+        </ModalDialog>
       );
     }
 
@@ -221,6 +287,7 @@ BrandContainer.propTypes = {
   history: PropTypes.object,
   selectedBrand: PropTypes.string,
   user: PropTypes.object,
+  company: PropTypes.object,
   brands: PropTypes.array,
   members: PropTypes.array,
   invitations: PropTypes.array,
@@ -230,25 +297,28 @@ BrandContainer.propTypes = {
   onCreateInvitation: PropTypes.func,
   onDeleteInvitation: PropTypes.func,
   onSelectBrand: PropTypes.func,
+  onCreateSubscribe: PropTypes.func,
+  onUpdateSubscribe: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectUser(),
+  company: makeSelectCompany(),
   brands: makeSelectBrands(),
   members: makeSelectMembers(),
   invitations: makeSelectInvitations(),
 });
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    onDeleteBrand: value => dispatch(deleteBrand.request(value)),
-    onLoadMembers: () => dispatch(getMembers.request()),
-    onDeleteMember: value => dispatch(deleteMember.request(value)),
-    onLoadInvitations: () => dispatch(getInvitations.request()),
-    onCreateInvitation: value => dispatch(createInvitation.request(value)),
-    onDeleteInvitation: value => dispatch(deleteInvitation.request(value)),
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  onDeleteBrand: value => dispatch(deleteBrand.request(value)),
+  onLoadMembers: () => dispatch(getMembers.request()),
+  onDeleteMember: value => dispatch(deleteMember.request(value)),
+  onLoadInvitations: () => dispatch(getInvitations.request()),
+  onCreateInvitation: value => dispatch(createInvitation.request(value)),
+  onDeleteInvitation: value => dispatch(deleteInvitation.request(value)),
+  onCreateSubscribe: value => dispatch(createSubscribe.request(value)),
+  onUpdateSubscribe: value => dispatch(updateSubscribe.request(value)),
+});
 
 export default connect(
   mapStateToProps,
