@@ -48,7 +48,7 @@ class LogoContainer extends React.PureComponent {
   listElements = () =>
     this.props.logos.map(element => (
       <ElementWrapper key={element._id}>
-        <Element value={element.value} />
+        <Element value={element.value} name={element.name} />
         <ElementCloser
           onClick={() => this.onDelete(element._id)}
           className="element_delete"

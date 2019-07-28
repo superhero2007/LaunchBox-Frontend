@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import axios from 'axios';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ElementDownload from 'images/element-download.svg';
 import ElementDownloadHover from 'images/element-download__hover.svg';
@@ -118,6 +119,22 @@ const ButtonGroup = styled.div`
 `;
 
 class Element extends React.PureComponent {
+  handleDownload = () => {
+    const { value, name } = this.props;
+    axios({
+      url: `${process.env.API_ENTRY_PREFIX}${value}`,
+      method: 'GET',
+      responseType: 'blob',
+    }).then(response => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', name);
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
+
   render() {
     const { value } = this.props;
     return (
@@ -127,10 +144,7 @@ class Element extends React.PureComponent {
           alt="Logo Element"
         />
         <ButtonGroup className="button_group">
-          <DownloadButton
-            href={`${process.env.API_ENTRY_PREFIX}${value}`}
-            download
-          >
+          <DownloadButton onClick={this.handleDownload}>
             <img className="origin" src={ElementDownload} alt="Input Edit" />
             <img
               className="hover"
@@ -162,6 +176,7 @@ class Element extends React.PureComponent {
 
 Element.propTypes = {
   value: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default Element;
