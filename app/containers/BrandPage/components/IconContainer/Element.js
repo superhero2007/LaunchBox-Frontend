@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ElementDownload from 'images/element-download.svg';
 import ElementDownloadHover from 'images/element-download__hover.svg';
 import InputDuplicate from 'images/input-duplicate.svg';
@@ -105,15 +106,16 @@ const ButtonGroup = styled.div`
 
 class Element extends React.PureComponent {
   render() {
+    const { value } = this.props;
     return (
       <Wrapper>
         <Icon
-          src={`${process.env.API_ENTRY_PREFIX}${this.props.value}`}
+          src={`${process.env.API_ENTRY_PREFIX}${value}`}
           alt="Icon Element"
         />
         <ButtonGroup className="button_group">
           <DownloadButton
-            href={`${process.env.API_ENTRY_PREFIX}${this.props.value}`}
+            href={`${process.env.API_ENTRY_PREFIX}${value}`}
             download
           >
             <img className="origin" src={ElementDownload} alt="Input Edit" />
@@ -123,18 +125,20 @@ class Element extends React.PureComponent {
               alt="Input Edit Hover"
             />
           </DownloadButton>
-          <CopyButton>
-            <img
-              className="origin"
-              src={InputDuplicate}
-              alt="Input Duplicate"
-            />
-            <img
-              className="hover"
-              src={InputDuplicateHover}
-              alt="Input Duplicate Hover"
-            />
-          </CopyButton>
+          <CopyToClipboard text={`${process.env.API_ENTRY_PREFIX}${value}`}>
+            <CopyButton>
+              <img
+                className="origin"
+                src={InputDuplicate}
+                alt="Input Duplicate"
+              />
+              <img
+                className="hover"
+                src={InputDuplicateHover}
+                alt="Input Duplicate Hover"
+              />
+            </CopyButton>
+          </CopyToClipboard>
         </ButtonGroup>
       </Wrapper>
     );

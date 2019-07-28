@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import InputDuplicate from 'images/input-duplicate.svg';
 import InputDuplicateHover from 'images/input-duplicate__hover.svg';
 
@@ -98,23 +99,26 @@ const ButtonGroup = styled.div`
 
 class Element extends React.PureComponent {
   render() {
+    const { value } = this.props;
     return (
-      <Wrapper color={this.props.value}>
-        <Content>{this.props.value}</Content>
+      <Wrapper color={value}>
+        <Content>{value}</Content>
         <ButtonGroup className="button_group">
-          <CopyButton>
-            <img
-              className="origin"
-              src={InputDuplicate}
-              alt="Input Duplicate"
-            />
-            <img
-              className="hover"
-              src={InputDuplicateHover}
-              alt="Input Duplicate Hover"
-            />
-            <span>Copy HEX</span>
-          </CopyButton>
+          <CopyToClipboard text={value}>
+            <CopyButton>
+              <img
+                className="origin"
+                src={InputDuplicate}
+                alt="Input Duplicate"
+              />
+              <img
+                className="hover"
+                src={InputDuplicateHover}
+                alt="Input Duplicate Hover"
+              />
+              <span>Copy HEX</span>
+            </CopyButton>
+          </CopyToClipboard>
         </ButtonGroup>
       </Wrapper>
     );

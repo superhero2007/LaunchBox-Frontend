@@ -90,11 +90,15 @@ const FontTitle = styled.div`
 
 class Element extends React.PureComponent {
   render() {
+    const { value, name } = this.props;
     return (
       <Wrapper>
-        <FontTitle font={this.props.value}>{this.props.value}</FontTitle>
+        <FontTitle font={name}>{name}</FontTitle>
         <ButtonGroup className="button_group">
-          <DownloadButton href="#" download>
+          <DownloadButton
+            download={name}
+            href={`${process.env.API_ENTRY_PREFIX}${value}`}
+          >
             <img className="origin" src={ElementDownload} alt="Input Edit" />
             <img
               className="hover"
@@ -111,6 +115,7 @@ class Element extends React.PureComponent {
 
 Element.propTypes = {
   value: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default Element;

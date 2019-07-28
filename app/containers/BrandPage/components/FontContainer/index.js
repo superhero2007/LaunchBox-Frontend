@@ -48,7 +48,7 @@ class FontContainer extends React.PureComponent {
   listElements = () =>
     this.props.fonts.map(element => (
       <ElementWrapper key={element._id}>
-        <Element value={element.name} />
+        <Element value={element.value} name={element.name} />
         <ElementCloser
           onClick={() => this.onDelete(element._id)}
           className="element_delete"
